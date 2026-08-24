@@ -6,14 +6,17 @@
 
 - Oxc lint：通过，无警告
 - Vitest：4/4 测试通过
-- 英式语音：生成 89,814 bytes RIFF/WAVE
-- 美式语音：生成 91,362 bytes RIFF/WAVE
+- Kokoro 训练文本：58 条完整句子、315 个不重复句子/单词
+- Kokoro 静态音频：英式 315 个、美式 315 个，共 630 个
+- 静态音频格式：全部通过 RIFF/WAVE 校验，合计约 30.7 MiB
+- 后备英式语音：生成 89,814 bytes RIFF/WAVE
+- 后备美式语音：生成 91,362 bytes RIFF/WAVE
 - TypeScript 项目构建：通过
 - Vite 生产构建：通过
 
 ## 发布资源检查
 
-生产目录中的下列资源均通过本地 HTTP 请求并返回 200：
+生产目录包含下列核心资源：
 
 - `index.html`
 - `manifest.webmanifest`
@@ -25,8 +28,11 @@
 - `mespeak/voices/en/en-rp.json`
 - `mespeak/voices/en/en-us.json`
 - `mespeak/voices/zh.json`
+- `audio/manifest.json`
+- `audio/en-rp/*.wav`（315 个）
+- `audio/en-us/*.wav`（315 个）
 
-项目内未调用 `speechSynthesis`、妙搭音频接口或外部 TTS URL。
+网站运行时未调用 `speechSynthesis`、妙搭音频接口或外部 TTS URL。Kokoro 模型只在 GitHub Actions 构建阶段下载，不发送给浏览器。
 
 ## 发音入口覆盖
 
@@ -40,7 +46,7 @@
 
 所有入口复用 `src/components/AudioButton.tsx` 和 `src/lib/audioEngine.ts`。
 
-浏览器兼容修复：meSpeak 浏览器版本显式输出字节数组，再统一转换为当前页面作用域的 `ArrayBuffer`，兼容跨作用域、普通数组和 TypedArray 返回值。服务工作线程升级为 v2，页面导航改为网络优先，确保修复版本不会被旧首页缓存阻挡。
+可靠性修复：所有内置发音优先从同域静态清单加载 Kokoro PCM WAV，经 RIFF/WAVE 头检查和 Web Audio 解码后播放；语速通过本地 `playbackRate` 调节，重复播放复用已解码音频。服务工作线程升级为 v4，页面导航使用网络优先，并清除旧版本缓存。
 
 ## 响应式断点
 

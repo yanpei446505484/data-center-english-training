@@ -14,7 +14,9 @@
 
 ## 语音方案
 
-发音使用随站点一起部署的 meSpeak/eSpeak 资源，在浏览器内生成 WAV 并通过 Web Audio 播放。不请求妙搭接口，也不依赖任何跨区域在线 TTS 服务。构建脚本会从锁定的 npm 依赖中复制语音资源到生产包；首次点击由用户手势解锁浏览器音频，之后可连续播放。
+内置课程的所有整句和单词发音，都由 `kokoro-multi-lang-v1_0` 在 GitHub Actions 构建阶段预先生成 24kHz、16 位、单声道 PCM WAV。网站只下载并播放同域静态音频，不让手机运行大模型，不请求妙搭接口，也不依赖任何跨区域在线 TTS 服务。
+
+英式发音使用 Kokoro 的 `bf_emma`（speaker 21），美式发音使用 `af_sarah`（speaker 9）。生成脚本会验证课程覆盖数量、模型完整性以及每一个 WAV 的 RIFF/WAVE 文件头。meSpeak/eSpeak 仅作为用户自行导入新句子后的本地后备引擎。
 
 ## 本地开发
 
@@ -26,14 +28,16 @@ npm run dev
 完整检查：
 
 ```bash
+python3 -m pip install -r scripts/requirements-audio.txt
+KOKORO_MODEL_DIR=/path/to/kokoro-multi-lang-v1_0 npm run prepare:audio
 npm run check
 ```
 
-检查包括代码规范、单元测试、英式和美式 WAV 冒烟测试，以及生产构建。
+检查包括代码规范、单元测试、630 个 Kokoro WAV 的完整性检查、后备引擎冒烟测试，以及生产构建。模型文件不进入网站或 Git 仓库。
 
 ## GitHub Pages
 
-仓库包含 `.github/workflows/deploy.yml`。推送 `main` 分支后，在仓库 **Settings → Pages → Source** 选择 **GitHub Actions**，工作流会构建并发布 `dist`。
+仓库包含 `.github/workflows/deploy.yml`。推送 `main` 分支后，在仓库 **Settings → Pages → Source** 选择 **GitHub Actions**，工作流会下载并缓存官方 Kokoro 模型、生成全部音频、完成检查，然后发布 `dist`。
 
 免费地址通常是：
 

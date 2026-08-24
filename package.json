@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "prepare:assets": "node scripts/copy-mespeak-assets.cjs",
+    "prepare:audio": "python3 scripts/generate-kokoro-audio.py",
     "predev": "npm run prepare:assets",
     "dev": "vite",
     "prebuild": "npm run prepare:assets",
@@ -12,8 +13,9 @@
     "lint": "oxlint src",
     "test": "vitest run",
     "test:audio": "node scripts/audio-smoke.cjs",
+    "test:static-audio": "node scripts/validate-static-audio.cjs",
     "test:watch": "vitest",
-    "check": "npm run lint && npm run test && npm run test:audio && npm run build",
+    "check": "npm run lint && npm run test && npm run test:audio && npm run test:static-audio && npm run build",
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {

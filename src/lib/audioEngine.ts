@@ -35,6 +35,12 @@ export interface AudioSelfTestResult {
   decodable: boolean
 }
 
+interface StaticAudioManifest {
+  version: number
+  baseSpeed: number
+  items: Record<string, string>
+}
+
 const loadedScripts = new Map<string, Promise<void>>()
 
 function assetUrl(path: string): string {
@@ -91,9 +97,38 @@ class OfflineAudioEngine {
   private finish: SpeakOptions['onFinish'] | null = null
   private stopped = false
   private generation = 0
+  private manifest: StaticAudioManifest | null = null
+  private manifestPromise: Promise<StaticAudioManifest> | null = null
 
   preload(): Promise<void> {
-    return this.initialize()
+    return this.loadManifest().then(() => undefined)
+  }
+
+  private loadManifest(): Promise<StaticAudioManifest> {
+    if (this.manifest) return Promise.resolve(this.manifest)
+    if (this.manifestPromise) return this.manifestPromise
+    this.manifestPromise = fetch(assetUrl('audio/manifest.json'), { cache: 'no-cache' }).then(async (response) => {
+      if (!response.ok) throw new Error(`静态语音清单加载失败：HTTP ${response.status}`)
+      const manifest = await response.json() as StaticAudioManifest
+      if (!manifest.items || !manifest.baseSpeed) throw new Error('静态语音清单格式无效')
+      this.manifest = manifest
+      return manifest
+    }).catch((error) => {
+      this.manifestPromise = null
+      throw error
+    })
+    return this.manifestPromise
+  }
+
+  private async loadStaticWav(text: string, voice: string): Promise<{ wav: ArrayBuffer; baseSpeed: number } | null> {
+    const manifest = await this.loadManifest().catch(() => null)
+    const path = manifest?.items[`${voice}\0${text}`]
+    if (!manifest || !path) return null
+    const response = await fetch(assetUrl(path))
+    if (!response.ok) throw new Error(`预生成语音加载失败：HTTP ${response.status}`)
+    const wav = await response.arrayBuffer()
+    if (!isWavBuffer(wav)) throw new Error('预生成语音文件不是有效WAV音频')
+    return { wav, baseSpeed: manifest.baseSpeed }
   }
 
   private initialize(): Promise<void> {
@@ -136,17 +171,21 @@ class OfflineAudioEngine {
     this.finish = options.onFinish || null
     try {
       await this.unlock()
-      await this.initialize()
       if (runId !== this.generation || this.stopped) return
       const voice = options.language === 'zh' ? 'zh' : options.accent === 'american' ? 'en/en-us' : 'en/en-rp'
-      const raw = this.engine?.speak(normalized, {
-        voice,
-        speed: options.speed ?? 145,
-        amplitude: 100,
-        wordgap: 1,
-        rawdata: 'array',
-      })
-      const wav = normalizeAudioBuffer(raw)
+      const staticAudio = options.language === 'zh' ? null : await this.loadStaticWav(normalized, voice)
+      let wav = staticAudio?.wav || null
+      if (!wav) {
+        await this.initialize()
+        const raw = this.engine?.speak(normalized, {
+          voice,
+          speed: options.speed ?? 145,
+          amplitude: 100,
+          wordgap: 1,
+          rawdata: 'array',
+        })
+        wav = normalizeAudioBuffer(raw)
+      }
       if (!wav || !isWavBuffer(wav)) throw new Error('离线语音没有生成有效WAV音频')
       const decoded = await this.context!.decodeAudioData(wav.slice(0))
       if (runId !== this.generation || this.stopped) return
@@ -156,6 +195,7 @@ class OfflineAudioEngine {
         if (runId !== this.generation || this.stopped || !this.context) return
         const source = this.context.createBufferSource()
         source.buffer = decoded
+        if (staticAudio) source.playbackRate.value = Math.max(.65, Math.min(1.45, (options.speed ?? staticAudio.baseSpeed) / staticAudio.baseSpeed))
         source.connect(this.context.destination)
         this.source = source
         source.onended = () => {
@@ -200,12 +240,10 @@ class OfflineAudioEngine {
 
   async selfTest(): Promise<AudioSelfTestResult[]> {
     await this.unlock()
-    await this.initialize()
     const results: AudioSelfTestResult[] = []
     for (const accent of ['british', 'american'] as const) {
       const voice = accent === 'british' ? 'en/en-rp' : 'en/en-us'
-      const raw = this.engine!.speak('Good morning, everyone.', { voice, speed: 145, rawdata: 'array' })
-      const wav = normalizeAudioBuffer(raw)
+      const wav = (await this.loadStaticWav('Good morning, everyone.', voice))?.wav || null
       const valid = Boolean(wav && isWavBuffer(wav))
       let decodable = false
       if (valid) {

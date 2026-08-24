@@ -18,6 +18,9 @@ public/mespeak/mespeak.js
 public/mespeak/mespeak_config.json
 public/mespeak/LICENSE-README.md
 public/mespeak/voices/
+public/audio/
+.cache/
+.python-deps/
 
 # Editor directories and files
 .vscode/*
