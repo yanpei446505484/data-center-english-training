@@ -1,8 +1,11 @@
 export type Accent = 'british' | 'american'
 
-interface MeSpeak {
-  loadConfig: (url: string, callback: (ok: boolean, detail?: string) => void) => void
-  loadVoice: (url: string, callback: (ok: boolean, detail?: string) => void) => void
+export interface MeSpeak {
+  loadConfig: (data: unknown) => void
+  loadVoice: (data: unknown) => void
+  isConfigLoaded: () => boolean
+  isVoiceLoaded: (voice: string) => boolean
+  setDefaultVoice: (voice: string) => void
   speak: (text: string, options: Record<string, unknown>) => unknown
 }
 
@@ -63,10 +66,44 @@ function loadScript(path: string): Promise<void> {
   return pending
 }
 
-function loadData(loader: (url: string, callback: (ok: boolean, detail?: string) => void) => void, path: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    loader(assetUrl(path), (ok, detail) => ok ? resolve() : reject(new Error(detail || `语音数据加载失败：${path}`)))
-  })
+async function fetchJsonAsset(path: string): Promise<unknown> {
+  const response = await fetch(assetUrl(path), { cache: 'force-cache' })
+  if (!response.ok) throw new Error(`语音数据加载失败：${path}（HTTP ${response.status}）`)
+  return response.json()
+}
+
+const VOICE_ASSETS = [
+  ['en/en-rp', 'mespeak/voices/en/en-rp.json'],
+  ['en/en-us', 'mespeak/voices/en/en-us.json'],
+  ['zh', 'mespeak/voices/zh.json'],
+] as const
+
+/**
+ * Configure meSpeak from parsed same-origin JSON.
+ *
+ * meSpeak's loadConfig(url) API has no completion callback. Waiting for one
+ * leaves initialization pending forever, while a second click can observe a
+ * half-initialized engine with no active voice. Loading the JSON ourselves and
+ * passing objects makes configuration synchronous and verifiable.
+ */
+export async function configureMeSpeak(
+  engine: MeSpeak,
+  loadJson: (path: string) => Promise<unknown> = fetchJsonAsset,
+): Promise<void> {
+  const [config, ...voices] = await Promise.all([
+    loadJson('mespeak/mespeak_config.json'),
+    ...VOICE_ASSETS.map(([, path]) => loadJson(path)),
+  ])
+
+  engine.loadConfig(config)
+  voices.forEach(voice => engine.loadVoice(voice))
+  engine.setDefaultVoice('en/en-rp')
+
+  if (!engine.isConfigLoaded()) throw new Error('离线语音配置未能加载')
+  const missing = VOICE_ASSETS
+    .map(([voice]) => voice)
+    .filter(voice => !engine.isVoiceLoaded(voice))
+  if (missing.length > 0) throw new Error(`离线语音声库未能加载：${missing.join(', ')}`)
 }
 
 export function normalizeAudioBuffer(value: unknown): ArrayBuffer | null {
@@ -141,12 +178,11 @@ class OfflineAudioEngine {
       await loadScript('mespeak/mespeak.js')
       window.__captureCommonJs?.('__meSpeak')
       if (!window.__meSpeak) throw new Error('离线语音引擎初始化失败')
-      this.engine = window.__meSpeak
-      await loadData(this.engine.loadConfig.bind(this.engine), 'mespeak/mespeak_config.json')
-      await loadData(this.engine.loadVoice.bind(this.engine), 'mespeak/voices/en/en-rp.json')
-      await loadData(this.engine.loadVoice.bind(this.engine), 'mespeak/voices/en/en-us.json')
-      await loadData(this.engine.loadVoice.bind(this.engine), 'mespeak/voices/zh.json')
+      const engine = window.__meSpeak
+      await configureMeSpeak(engine)
+      this.engine = engine
     })().catch((error) => {
+      this.engine = null
       this.initPromise = null
       throw error
     })
