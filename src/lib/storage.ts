@@ -1,40 +1,103 @@
-import type { AppProgress, Scenario, UserSettings } from '../types'
+const DB_NAME = 'dc_training_db';
+const DB_VERSION = 1;
+const STORE = 'kv';
 
-export const STORAGE_KEYS = {
-  favorites: 'dc-english-favorites',
-  progress: 'dc-english-progress',
-  settings: 'dc-english-settings',
-  scenarios: 'dc-english-custom-scenarios',
-} as const
-
-export const defaultProgress: AppProgress = {
-  completedSentenceIds: [],
-  practicedSentenceIds: [],
-  scenarioPositions: {},
-  quizCorrect: 0,
-  quizTotal: 0,
-  streakDays: 1,
+function openDB(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = () => {
+      const idb = req.result;
+      if (!idb.objectStoreNames.contains(STORE)) {
+        idb.createObjectStore(STORE);
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
 }
 
-export const defaultSettings: UserSettings = {
-  accent: 'british',
-  speed: 145,
-  nickname: '学习者',
+let dbPromise: Promise<IDBDatabase> | null = null;
+
+function getDB(): Promise<IDBDatabase> {
+  if (!dbPromise) dbPromise = openDB();
+  return dbPromise;
 }
 
-export function readStored<T>(key: string, fallback: T): T {
+async function idbPut(key: string, value: unknown): Promise<void> {
+  const db = await getDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).put(value, key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function idbDelete(key: string): Promise<void> {
+  const db = await getDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).delete(key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function idbGet<T>(key: string): Promise<T | null> {
+  const db = await getDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readonly');
+    const req = tx.objectStore(STORE).get(key);
+    req.onsuccess = () => resolve(req.result ?? null);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function lsGet(key: string): string | null {
   try {
-    const raw = localStorage.getItem(key)
-    return raw ? (JSON.parse(raw) as T) : fallback
+    return localStorage.getItem(key);
   } catch {
-    return fallback
+    return null;
   }
 }
 
-export function writeStored<T>(key: string, value: T): void {
-  localStorage.setItem(key, JSON.stringify(value))
+function lsSet(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch { /* quota exceeded or private mode */ }
 }
 
-export function exportUserData(favorites: string[], progress: AppProgress, settings: UserSettings, scenarios: Scenario[]): string {
-  return JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), favorites, progress, settings, scenarios }, null, 2)
+function lsRemove(key: string): void {
+  try {
+    localStorage.removeItem(key);
+  } catch { /* ignore */ }
 }
+
+export const storage = {
+  getItem(key: string): string | null {
+    return lsGet(key);
+  },
+
+  setItem(key: string, value: string): void {
+    lsSet(key, value);
+    idbPut(key, value).catch(() => {});
+  },
+
+  removeItem(key: string): void {
+    lsRemove(key);
+    idbDelete(key).catch(() => {});
+  },
+
+  async getItemAsync(key: string): Promise<string | null> {
+    const ls = lsGet(key);
+    if (ls) return ls;
+    try {
+      const dbVal = await idbGet<string>(key);
+      if (dbVal) {
+        lsSet(key, dbVal);
+        return dbVal;
+      }
+    } catch { /* IndexedDB not available */ }
+    return null;
+  },
+};

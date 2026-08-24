@@ -1,4 +1,4 @@
-const CACHE = 'dc-english-v4'
+const CACHE = 'dc-english-full-v2'
 const CORE = ['./', './index.html', './logo.svg', './manifest.webmanifest']
 
 self.addEventListener('install', (event) => {

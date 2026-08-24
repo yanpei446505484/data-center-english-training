@@ -19,6 +19,8 @@ import sherpa_onnx
 
 ROOT = Path(__file__).resolve().parents[1]
 SEED = ROOT / "src" / "data" / "seed.ts"
+COURSE_PART_GLOB = "original-course-part-*.json"
+AUDIO_EXTRAS = ROOT / "src" / "data" / "audio-extra.json"
 TARGET = ROOT / "public" / "audio"
 BUILD_TARGET = ROOT / "public" / ".audio-build"
 MODEL_DIR = Path(os.environ.get("KOKORO_MODEL_DIR", ""))
@@ -71,11 +73,21 @@ def extract_texts() -> list[str]:
         match.group(1).replace(r"\'", "'").replace(r"\\", "\\")
         for match in SENTENCE_PATTERN.finditer(source)
     ]
+    for course_path in sorted((ROOT / "src" / "data").glob(COURSE_PART_GLOB)):
+        course_scenes = json.loads(course_path.read_text(encoding="utf-8"))
+        sentences.extend(
+            sentence["en"]
+            for scene in course_scenes
+            for sentence in scene.get("sentences", [])
+            if sentence.get("en")
+        )
+    sentences.extend(json.loads(AUDIO_EXTRAS.read_text(encoding="utf-8")))
+    sentences = list(dict.fromkeys(sentences))
     if "Good morning, everyone." not in sentences:
         sentences.append("Good morning, everyone.")
     words = [word for sentence in sentences for word in WORD_PATTERN.findall(sentence)]
     texts = list(dict.fromkeys((*sentences, *words)))
-    if len(sentences) < 50 or len(texts) < 150:
+    if len(sentences) < 350 or len(texts) < 700:
         fail(f"unexpected training corpus size: {len(sentences)} sentences, {len(texts)} total texts")
     return texts
 

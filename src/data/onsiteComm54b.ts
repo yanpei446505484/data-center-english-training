@@ -1,0 +1,636 @@
+// EXPORTS: MOCK_SENTENCES_ONSITECOMM54B
+
+import type { ISentence } from './sentenceLearning';
+
+export const MOCK_SENTENCES_ONSITECOMM54B: ISentence[] = [
+  {
+    id: 2821,
+    speaker: 'Engineer',
+    en: 'Who is responsible for this task?',
+    cn: '这项工作由谁负责？',
+    ipa: '/huː ɪz rɪˈspɒnsəbl fɔːr ðɪs tæsk/',
+    tags: ['第2821句', '工作安排', '★★★'],
+    when: '在数据中心现场需要明确某项工作的责任人时使用。',
+    words: [
+      { w: 'responsible', ipa: '/rɪˈspɒnsəbl/', pos: '形容词', cn: '负责的', memory: 'response(回应)+ible(能够)→能够回应事务的→负责的。', phonics: 're 读 /rɪ/，spon 读 /spɒn/，si 读 /sə/，ble 读 /bl/，重音在第二音节。', collocations: [['responsible for', '对……负责'], ['be responsible', '负责任'], ['responsible person', '负责人']], examples: [['Who is responsible for this area?', '谁负责这个区域？'], ['She is responsible for the UPS system.', '她负责UPS系统。']] },
+      { w: 'task', ipa: '/tæsk/', pos: '名词', cn: '任务；工作', memory: 'task 指具体的工作任务。', phonics: 't 读 /t/，ask 读 /æsk/，单音节。', collocations: [['complete a task', '完成任务'], ['assign a task', '分配任务'], ['task list', '任务清单']], examples: [['This task takes two hours.', '这项工作需要两小时。'], ['Please finish your tasks.', '请完成你的任务。']] },
+    ],
+    phrases: [
+      { p: 'responsible for', ipa: '/rɪˈspɒnsəbl fɔːr/', cn: '对……负责', why: 'be responsible for 是明确责任归属的标准搭配。' },
+      { p: 'this task', ipa: '/ðɪs tæsk/', cn: '这项工作', why: 'this 指向当前具体的工作任务。' },
+    ],
+    grammar: [
+      { q: 'Who is responsible 和 Who takes charge 有什么区别？', a: 'Who is responsible 更正式，强调责任归属。\nWho takes charge 更口语化，强调主导权。\n✅ Who is responsible for this task?（这项工作谁负责？）—— 正式询问责任\n✅ Who is taking charge today?（今天谁主导？）—— 询问现场指挥' },
+    ],
+    pattern: 'Who is responsible for + 工作/区域?',
+    patternExamples: [
+      { en: 'Who is responsible for the cooling system?', cn: '冷却系统由谁负责？', words: [] },
+      { en: 'Who is responsible for this zone?', cn: '这个区域由谁负责？', words: [] },
+      { en: 'Who is responsible for the night shift?', cn: '夜班由谁负责？', words: [] },
+    ],
+    thinking: "在数据中心，明确责任人是保障运维效率的前提。\nWho is responsible for this task 是最直接的责任确认用语。\n中文说「这项工作由谁负责」，英语用 Who is responsible for this task?",
+    pronunciation: "responsible 重音在第二音节：re-SPON-si-ble。\ntask 短促读 /tæsk/。\n节奏：WHO is re-SPON-si-ble ｜ for this TASK?",
+    quiz: [
+      { q: '把「这项工作由谁负责？」用英语说出来。', a: 'Who is responsible for this task?' },
+      { q: '「对……负责」用英语怎么说？', a: 'responsible for (/rɪˈspɒnsəbl fɔːr/)' },
+    ],
+  },
+  {
+    id: 2822,
+    speaker: 'Engineer',
+    en: "Who is leading today's maintenance?",
+    cn: '今天的维护由谁负责？',
+    ipa: '/huː ɪz ˈliːdɪŋ təˈdeɪz ˈmeɪntənəns/',
+    tags: ['第2822句', '工作安排', '★★★'],
+    when: '现场维护作业开始前确认负责人。',
+    words: [
+      { w: 'leading', ipa: '/ˈliːdɪŋ/', pos: '动词（现在分词）', cn: '领导；主导', memory: 'lead 的现在分词，表示正在领导。', phonics: 'lead 读 /liːd/，ing 读 /ɪŋ/，重音在第一音节。', collocations: [['leading a team', '带领团队'], ['leading the work', '主导工作'], ['leading engineer', '主导工程师']], examples: [['Who is leading the project?', '谁在领导这个项目？'], ['She is leading the inspection.', '她在主导巡检。']] },
+      { w: 'maintenance', ipa: '/ˈmeɪntənəns/', pos: '名词', cn: '维护；保养', memory: 'maintain(维护)+ance(名词后缀)→维护。', phonics: 'main 读 /meɪn/，te 读 /tə/，nance 读 /nəns/，重音在第一音节。', collocations: [['preventive maintenance', '预防性维护'], ['maintenance schedule', '维护计划'], ['maintenance work', '维护工作']], examples: [['Maintenance is scheduled for Friday.', '维护安排在周五。'], ['The UPS needs maintenance.', 'UPS需要维护。']] },
+    ],
+    phrases: [
+      { p: "today's maintenance", ipa: '/təˈdeɪz ˈmeɪntənəns/', cn: '今天的维护', why: "today's 作定语修饰 maintenance，说明是当天计划的维护工作。" },
+    ],
+    grammar: [
+      { q: "leading 和 responsible for 有什么区别？", a: "leading 强调主动带领、指挥角色。\nresponsible for 强调承担最终责任。\n✅ Who is leading the maintenance?（谁在主导维护？）—— 现场指挥\n✅ Who is responsible for this?（谁对此负责？）—— 最终责任\n同一个人可能既 leading 又 responsible，也可能不同。" },
+    ],
+    pattern: "Who is leading + 活动/工作?",
+    patternExamples: [
+      { en: "Who is leading the inspection?", cn: '谁在主导巡检？', words: [] },
+      { en: "Who is leading the shutdown?", cn: '谁在主导停机操作？', words: [] },
+      { en: "Who is leading today's shift?", cn: "今天的班由谁带？", words: [] },
+    ],
+    thinking: "维护作业前确认主导人是安全操作的基本要求。\nWho is leading today's maintenance 明确现场指挥角色。\n中文说「今天的维护由谁负责」，英语用 Who is leading today's maintenance?",
+    pronunciation: "leading 重音在第一音节：LEAD-ing。\nmaintenance 重音在第一音节：MAIN-te-nance。\n节奏：WHO is LEAD-ing ｜ to-DAY's MAIN-te-nance?",
+    quiz: [
+      { q: '把「今天的维护由谁负责？」用英语说出来。', a: "Who is leading today's maintenance?" },
+      { q: '「维护」用英语怎么说？', a: 'maintenance (/ˈmeɪntənəns/)' },
+    ],
+  },
+  {
+    id: 2823,
+    speaker: 'Engineer',
+    en: 'Please assign another engineer to assist.',
+    cn: '请再安排一名工程师协助。',
+    ipa: '/pliːz əˈsaɪn əˈnʌðər ˌɛndʒɪˈnɪr tuː əˈsɪst/',
+    tags: ['第2823句', '工作安排', '★★★★'],
+    when: '现场工作量超出当前人手时，请求增派工程师。',
+    words: [
+      { w: 'assign', ipa: '/əˈsaɪn/', pos: '动词', cn: '分配；指派', memory: 'as(朝向)+sign(标记)→标记某人去做某事→指派。', phonics: 'as 读 /ə/，sign 读 /saɪn/，重音在第二音节。', collocations: [['assign a task', '分配任务'], ['assign an engineer', '指派工程师'], ['assign to', '指派给']], examples: [['Please assign someone to this.', '请指派一个人来处理。'], ['He was assigned to Zone B.', '他被分配到B区。']] },
+      { w: 'assist', ipa: '/əˈsɪst/', pos: '动词', cn: '协助；帮助', memory: 'as(朝向)+sist(站立)→站在一旁帮忙→协助。', phonics: 'as 读 /ə/，sist 读 /sɪst/，重音在第二音节。', collocations: [['assist with', '协助做'], ['assist an engineer', '协助工程师'], ['technical assist', '技术协助']], examples: [['Can you assist me?', '你能协助我吗？'], ['I need someone to assist.', '我需要人协助。']] },
+    ],
+    phrases: [
+      { p: 'assign another engineer', ipa: '/əˈsaɪn əˈnʌðər ˌɛndʒɪˈnɪr/', cn: '安排另一名工程师', why: 'assign 强调正式指派，another 表示在现有人手基础上增加。' },
+      { p: 'to assist', ipa: '/tuː əˈsɪst/', cn: '来协助', why: '不定式 to assist 说明指派的目的。' },
+    ],
+    grammar: [
+      { q: 'assign 和 arrange 有什么区别？', a: 'assign 指正式指派某人做某事，强调上下级关系。\narrange 指安排、协调，语气更平等。\n✅ Please assign an engineer.（请指派一名工程师。）—— 主管对下属\n✅ Let me arrange someone to help.（让我安排一个人帮忙。）—— 协调语气' },
+    ],
+    pattern: 'Please assign + 人员 + to + 动词.',
+    patternExamples: [
+      { en: 'Please assign a technician to check the UPS.', cn: '请安排一名技术员检查UPS。', words: [] },
+      { en: 'Please assign two engineers to this task.', cn: '请安排两名工程师处理这项工作。', words: [] },
+      { en: 'Please assign someone to monitor the alarm.', cn: '请安排一个人监控告警。', words: [] },
+    ],
+    thinking: "数据中心现场工作量大时，及时请求增派人手是保障安全和效率的关键。\nPlease assign another engineer to assist 是标准的人力请求用语。\n中文说「请再安排一名工程师协助」，英语用 Please assign another engineer to assist.",
+    pronunciation: "assign 重音在第二音节：a-SIGN。\nassist 重音在第二音节：a-SIST。\n节奏：PLEASE a-SIGN ｜ a-NOTH-er en-gi-NEER ｜ to a-SIST.",
+    quiz: [
+      { q: '把「请再安排一名工程师协助。」用英语说出来。', a: 'Please assign another engineer to assist.' },
+      { q: '「指派」用英语怎么说？', a: 'assign (/əˈsaɪn/)' },
+    ],
+  },
+  {
+    id: 2824,
+    speaker: 'Engineer',
+    en: "Let's divide the work into two groups.",
+    cn: '我们分成两组开展工作。',
+    ipa: '/lɛts dɪˈvaɪd ðə wɜːrk ˈɪntuː tuː ɡruːps/',
+    tags: ['第2824句', '工作安排', '★★★'],
+    when: '大型维护作业需要分组并行推进时使用。',
+    words: [
+      { w: 'divide', ipa: '/dɪˈvaɪd/', pos: '动词', cn: '分开；划分', memory: 'di(分开)+vide(看)→分开看→划分。', phonics: 'di 读 /dɪ/，vide 读 /vaɪd/，重音在第二音节。', collocations: [['divide into', '分成'], ['divide the work', '分工'], ['divide equally', '平均分配']], examples: [['Let me divide the tasks.', '让我分配任务。'], ['We divided into three teams.', '我们分成了三组。']] },
+      { w: 'groups', ipa: '/ɡruːps/', pos: '名词（复数）', cn: '组；小组', memory: 'group 的复数形式。', phonics: 'gr 读 /ɡr/，oup 读 /uːp/，s 读 /s/，单音节。', collocations: [['two groups', '两组'], ['work in groups', '分组工作'], ['group leader', '组长']], examples: [['We have two groups.', '我们有两组。'], ['Each group has three members.', '每组有三人。']] },
+    ],
+    phrases: [
+      { p: 'divide into', ipa: '/dɪˈvaɪd ˈɪntuː/', cn: '分成', why: 'divide...into 是将整体划分为若干部分的标准搭配。' },
+      { p: 'two groups', ipa: '/tuː ɡruːps/', cn: '两组', why: '明确分组数量，便于现场执行。' },
+    ],
+    grammar: [
+      { q: "Let's divide 和 We should divide 有什么区别？", a: "Let's divide 是提议立即行动，语气积极。\nWe should divide 是建议应该这样做，语气更审慎。\n✅ Let's divide the work into two groups.（我们分两组干吧。）—— 立即执行\n✅ We should divide the work.（我们应该分工。）—— 建议讨论" },
+    ],
+    pattern: "Let's divide + 事物 + into + 数量 + groups/teams.",
+    patternExamples: [
+      { en: "Let's divide into three teams.", cn: '我们分成三组。', words: [] },
+      { en: "Let's divide the zones into two areas.", cn: '我们把区域分成两部分。', words: [] },
+      { en: "Let's divide the checklist into sections.", cn: '我们把检查清单分成几个部分。', words: [] },
+    ],
+    thinking: "数据中心大型维护时分两组并行作业能大幅提高效率。\nLet's divide the work into two groups 是现场分工的常用表达。\n中文说「我们分成两组开展工作」，英语用 Let's divide the work into two groups.",
+    pronunciation: "divide 重音在第二音节：di-VIDE。\ngroups 短促读 /ɡruːps/。\n节奏：Let's di-VIDE the WORK ｜ IN-to TWO GROUPS.",
+    quiz: [
+      { q: '把「我们分成两组开展工作。」用英语说出来。', a: "Let's divide the work into two groups." },
+      { q: '「分成」用英语怎么说？', a: 'divide into (/dɪˈvaɪd ˈɪntuː/)' },
+    ],
+  },
+  {
+    id: 2825,
+    speaker: 'Engineer',
+    en: "I'll coordinate with the customer.",
+    cn: '我来和客户协调。',
+    ipa: '/aɪl kəʊˈɔːrdɪneɪt wɪð ðə ˈkʌstəmər/',
+    tags: ['第2825句', '工作安排', '★★★★'],
+    when: '主动承担与客户沟通的协调角色。',
+    words: [
+      { w: 'coordinate', ipa: '/kəʊˈɔːrdɪneɪt/', pos: '动词', cn: '协调；统筹', memory: 'co(共同)+ordinate(排列)→共同排列→协调。', phonics: 'co 读 /kəʊ/，or 读 /ɔːr/，di 读 /dɪ/，nate 读 /neɪt/，重音在第二音节。', collocations: [['coordinate with', '与……协调'], ['coordinate the work', '协调工作'], ['coordinate a meeting', '协调会议']], examples: [['I will coordinate the schedule.', '我来协调时间安排。'], ['Please coordinate with the vendor.', '请和供应商协调。']] },
+      { w: 'customer', ipa: '/ˈkʌstəmər/', pos: '名词', cn: '客户', memory: 'custom(习惯)+er(人)→习惯来买服务的人→客户。', phonics: 'cus 读 /kʌs/，to 读 /tə/，mer 读 /mər/，重音在第一音节。', collocations: [['customer request', '客户需求'], ['customer notification', '客户通知'], ['key customer', '重要客户']], examples: [['The customer needs an update.', '客户需要更新。'], ['We informed the customer.', '我们通知了客户。']] },
+    ],
+    phrases: [
+      { p: 'coordinate with', ipa: '/kəʊˈɔːrdɪneɪt wɪð/', cn: '与……协调', why: 'coordinate with 表示与某方进行多方协调沟通。' },
+    ],
+    grammar: [
+      { q: "coordinate 和 communicate 有什么区别？", a: "coordinate 强调协调多方行动达成一致。\ncommunicate 强调信息传递。\n✅ I'll coordinate with the customer.（我和客户协调。）—— 协调行动\n✅ I'll communicate the status to the customer.（我向客户通报状态。）—— 传递信息" },
+    ],
+    pattern: "I'll coordinate with + 对象.",
+    patternExamples: [
+      { en: "I'll coordinate with the vendor.", cn: '我来和供应商协调。', words: [] },
+      { en: "I'll coordinate with the facilities team.", cn: '我来和设施团队协调。', words: [] },
+      { en: "I'll coordinate with the shift manager.", cn: '我来和值班经理协调。', words: [] },
+    ],
+    thinking: "在数据中心，客户协调是运维工程师的重要职责之一。\nI'll coordinate with the customer 表明主动承担沟通角色。\n中文说「我来和客户协调」，英语用 I'll coordinate with the customer.",
+    pronunciation: "coordinate 重音在第二音节：co-OR-di-nate。\ncustomer 重音在第一音节：CUS-to-mer。\n节奏：I'll co-OR-di-nate ｜ with the CUS-to-mer.",
+    quiz: [
+      { q: '把「我来和客户协调。」用英语说出来。', a: "I'll coordinate with the customer." },
+      { q: '「协调」用英语怎么说？', a: 'coordinate (/kəʊˈɔːrdɪneɪt/)' },
+    ],
+  },
+  {
+    id: 2826,
+    speaker: 'Engineer',
+    en: 'Please keep me informed of any changes.',
+    cn: '如果有变化，请及时告诉我。',
+    ipa: '/pliːz kiːp miː ɪnˈfɔːrmd ɒv ˈɛni ˈtʃeɪndʒɪz/',
+    tags: ['第2826句', '工作安排', '★★★★'],
+    when: '要求同事在情况有变时及时通报。',
+    words: [
+      { w: 'informed', ipa: '/ɪnˈfɔːrmd/', pos: '形容词（过去分词）', cn: '知情的；被告知', memory: 'in(进入)+form(形态)+ed→进入了解状态→知情的。', phonics: 'in 读 /ɪn/，formed 读 /fɔːrmd/，重音在第二音节。', collocations: [['keep informed', '保持知情'], ['stay informed', '保持了解'], ['well informed', '充分了解']], examples: [['Keep me informed.', '随时通知我。'], ['I want to stay informed.', '我想保持了解。']] },
+      { w: 'changes', ipa: '/ˈtʃeɪndʒɪz/', pos: '名词（复数）', cn: '变化；变更', memory: 'change 的复数形式。', phonics: 'chang 读 /tʃeɪndʒ/，es 读 /ɪz/，重音在第一音节。', collocations: [['any changes', '任何变化'], ['schedule changes', '时间变更'], ['status changes', '状态变化']], examples: [['Any changes will be reported.', '任何变化都会被报告。'], ['No changes so far.', '目前没有变化。']] },
+    ],
+    phrases: [
+      { p: 'keep me informed', ipa: '/kiːp miː ɪnˈfɔːrmd/', cn: '让我保持知情', why: 'keep + 人 + informed 是要求持续通报的标准表达。' },
+      { p: 'of any changes', ipa: '/ɒv ˈɛni ˈtʃeɪndʒɪz/', cn: '关于任何变化', why: 'of 引出通报的内容范围。' },
+    ],
+    grammar: [
+      { q: 'keep me informed 和 let me know 有什么区别？', a: 'keep me informed 强调持续、实时的信息更新。\nlet me know 更随意，一次性告知即可。\n✅ Keep me informed of any changes.（有变化随时告诉我。）—— 持续通报\n✅ Let me know when it is done.（完成了告诉我。）—— 一次性通知' },
+    ],
+    pattern: 'Please keep me informed of + 事项.',
+    patternExamples: [
+      { en: 'Please keep me informed of the progress.', cn: '请随时告诉我进展情况。', words: [] },
+      { en: 'Please keep me informed of the alarm status.', cn: '请随时告知告警状态。', words: [] },
+      { en: 'Please keep me informed of any issues.', cn: '有问题请及时告诉我。', words: [] },
+    ],
+    thinking: "在数据中心运维中，信息同步是团队协作的基石。\nPlease keep me informed of any changes 确保信息不断流。\n中文说「如果有变化请及时告诉我」，英语用 Please keep me informed of any changes.",
+    pronunciation: "informed 重音在第二音节：in-FORMED。\nchanges 重音在第一音节：CHAN-ges。\n节奏：Please KEEP me in-FORMED ｜ of A-ny CHAN-ges.",
+    quiz: [
+      { q: '把「如果有变化，请及时告诉我。」用英语说出来。', a: 'Please keep me informed of any changes.' },
+      { q: '「让我保持知情」用英语怎么说？', a: 'keep me informed (/kiːp miː ɪnˈfɔːrmd/)' },
+    ],
+  },
+  {
+    id: 2827,
+    speaker: 'Engineer',
+    en: 'Call me immediately if anything unexpected happens.',
+    cn: '如果发生意外情况，马上给我打电话。',
+    ipa: '/kɔːl miː ɪˈmiːdiətli ɪf ˈɛniθɪŋ ˌʌnɪkˈspɛktɪd ˈhæpənz/',
+    tags: ['第2827句', '工作安排', '★★★★'],
+    when: '交代同事在出现意外情况时立即联系自己。',
+    words: [
+      { w: 'immediately', ipa: '/ɪˈmiːdiətli/', pos: '副词', cn: '立即；马上', memory: 'im(不)+mediate(中间)+ly→没有中间环节→立即。', phonics: 'im 读 /ɪ/，me 读 /miː/，di 读 /di/，ate 读 /ət/，ly 读 /li/，重音在第二音节。', collocations: [['call immediately', '立即打电话'], ['respond immediately', '立即响应'], ['leave immediately', '立即离开']], examples: [['Please respond immediately.', '请立即响应。'], ['I left immediately.', '我立即离开了。']] },
+      { w: 'unexpected', ipa: '/ˌʌnɪkˈspɛktɪd/', pos: '形容词', cn: '意外的；出乎意料的', memory: 'un(不)+expected(预料到的)→没有预料到的→意外的。', phonics: 'un 读 /ʌn/，ex 读 /ɪk/，pect 读 /spɛkt/，ed 读 /ɪd/，重音在第三音节。', collocations: [['unexpected event', '意外事件'], ['unexpected alarm', '意外告警'], ['unexpected downtime', '意外停机']], examples: [['Something unexpected happened.', '发生了意外情况。'], ['An unexpected alarm triggered.', '触发了一个意外告警。']] },
+    ],
+    phrases: [
+      { p: 'call me immediately', ipa: '/kɔːl miː ɪˈmiːdiətli/', cn: '立即给我打电话', why: 'immediately 强调零延迟，比 right away 更正式。' },
+      { p: 'anything unexpected', ipa: '/ˈɛniθɪŋ ˌʌnɪkˈspɛktɪd/', cn: '意外情况', why: '形容词放在 anything 后面是英语特殊语序。' },
+    ],
+    grammar: [
+      { q: 'immediately 和 right away 有什么区别？', a: 'immediately 更正式，常用于工作指令。\nright away 更口语化。\n✅ Call me immediately.（立即给我打电话。）—— 正式指令\n✅ Call me right away.（马上给我打。）—— 口语化' },
+    ],
+    pattern: 'Call me immediately if + 条件.',
+    patternExamples: [
+      { en: 'Call me immediately if the alarm triggers again.', cn: '如果告警再次触发，立即给我打电话。', words: [] },
+      { en: 'Call me immediately if the temperature rises.', cn: '如果温度上升，立即给我打电话。', words: [] },
+      { en: 'Call me immediately if you need help.', cn: '如果需要帮助，立即给我打电话。', words: [] },
+    ],
+    thinking: "数据中心现场可能出现突发状况，确保通讯畅通至关重要。\nCall me immediately if anything unexpected happens 是标准的应急通讯指令。\n中文说「如果发生意外情况马上给我打电话」，英语用 Call me immediately if anything unexpected happens.",
+    pronunciation: "immediately 重音在第二音节：im-ME-di-ate-ly。\nunexpected 重音在第三音节：un-ex-PEC-ted。\n节奏：CALL me im-ME-di-ate-ly ｜ if AN-y-thing un-ex-PEC-ted HAP-pens.",
+    quiz: [
+      { q: '把「如果发生意外情况，马上给我打电话。」用英语说出来。', a: 'Call me immediately if anything unexpected happens.' },
+      { q: '「立即」用英语怎么说？', a: 'immediately (/ɪˈmiːdiətli/)' },
+    ],
+  },
+  {
+    id: 2828,
+    speaker: 'Engineer',
+    en: "Don't leave the site until the work is completed.",
+    cn: '工作完成前不要离开现场。',
+    ipa: '/doʊnt liːv ðə saɪt ənˈtɪl ðə wɜːrk ɪz kəmˈpliːtɪd/',
+    tags: ['第2828句', '工作安排', '★★★★'],
+    when: '要求团队成员在作业完成前坚守岗位。',
+    words: [
+      { w: 'site', ipa: '/saɪt/', pos: '名词', cn: '现场；场地', memory: 'site 指具体的工作地点。', phonics: 's 读 /s/，ite 读 /aɪt/，单音节。', collocations: [['on site', '在现场'], ['leave the site', '离开现场'], ['site inspection', '现场检查']], examples: [['I am on site now.', '我现在在现场。'], ['Please stay on site.', '请留在现场。']] },
+      { w: 'completed', ipa: '/kəmˈpliːtɪd/', pos: '动词（过去分词）', cn: '完成的', memory: 'complete(完成)+ed→已完成的。', phonics: 'com 读 /kəm/，plete 读 /pliːt/，ed 读 /ɪd/，重音在第二音节。', collocations: [['work completed', '工作完成'], ['task completed', '任务完成'], ['fully completed', '完全完成']], examples: [['The work is completed.', '工作已完成。'], ['Is the task completed?', '任务完成了吗？']] },
+    ],
+    phrases: [
+      { p: "don't leave the site", ipa: '/doʊnt liːv ðə saɪt/', cn: '不要离开现场', why: "don't + 动词原形 构成否定祈使句，表示禁止。" },
+      { p: 'until the work is completed', ipa: '/ənˈtɪl ðə wɜːrk ɪz kəmˈpliːtɪd/', cn: '直到工作完成', why: 'until 引导时间状语从句，设定禁止离开的时间界限。' },
+    ],
+    grammar: [
+      { q: 'until 和 before 在这里有什么区别？', a: 'until 强调持续到某个时间点为止。\nbefore 强调在某个时间点之前。\n✅ Don\'t leave until the work is completed.（工作完成前不要走。）—— 强调坚守到完成\n✅ Finish before 5 PM.（5点前完成。）—— 强调截止时间' },
+    ],
+    pattern: "Don't leave + 地点 + until + 条件.",
+    patternExamples: [
+      { en: "Don't leave the data hall until the inspection is done.", cn: '巡检完成前不要离开机房。', words: [] },
+      { en: "Don't leave the building until you are cleared.", cn: '没有得到许可前不要离开大楼。', words: [] },
+      { en: "Don't leave until the handover is complete.", cn: '交接完成前不要离开。', words: [] },
+    ],
+    thinking: "数据中心现场作业需要全程有人监护，确保安全和质量。\nDon't leave the site until the work is completed 是标准的现场纪律要求。\n中文说「工作完成前不要离开现场」，英语用 Don't leave the site until the work is completed.",
+    pronunciation: "site 短促读 /saɪt/。\nuntil 重音在第二音节：un-TIL。\ncompleted 重音在第二音节：com-PLE-ted。\n节奏：DON'T LEAVE the SITE ｜ un-TIL the WORK is com-PLE-ted.",
+    quiz: [
+      { q: '把「工作完成前不要离开现场。」用英语说出来。', a: "Don't leave the site until the work is completed." },
+      { q: '「现场」用英语怎么说？', a: 'site (/saɪt/)' },
+    ],
+  },
+  {
+    id: 2829,
+    speaker: 'Engineer',
+    en: "Let's perform a final inspection together.",
+    cn: '我们一起做最后检查。',
+    ipa: '/lɛts pərˈfɔːrm ə ˈfaɪnl ɪnˈspɛkʃən təˈɡɛðər/',
+    tags: ['第2829句', '工作安排', '★★★'],
+    when: '工作收尾阶段，提议团队共同进行最终检查。',
+    words: [
+      { w: 'perform', ipa: '/pərˈfɔːrm/', pos: '动词', cn: '执行；进行', memory: 'per(完全)+form(形态)→完整执行→进行。', phonics: 'per 读 /pər/，form 读 /fɔːrm/，重音在第二音节。', collocations: [['perform an inspection', '执行检查'], ['perform a test', '执行测试'], ['perform maintenance', '执行维护']], examples: [['We need to perform a check.', '我们需要执行一次检查。'], ['The team performed well.', '团队表现很好。']] },
+      { w: 'final', ipa: '/ˈfaɪnl/', pos: '形容词', cn: '最终的；最后的', memory: 'fin(结束)+al(形容词后缀)→最后的。', phonics: 'fi 读 /faɪ/，nal 读 /nl/，重音在第一音节。', collocations: [['final inspection', '最终检查'], ['final check', '最终确认'], ['final approval', '最终批准']], examples: [['This is the final step.', '这是最后一步。'], ['Final inspection passed.', '最终检查通过了。']] },
+    ],
+    phrases: [
+      { p: 'perform a final inspection', ipa: '/pərˈfɔːrm ə ˈfaɪnl ɪnˈspɛkʃən/', cn: '执行最终检查', why: 'perform 比 do 更正式，适合工作场景。final inspection 是收尾阶段的标准术语。' },
+    ],
+    grammar: [
+      { q: 'perform 和 do 有什么区别？', a: 'perform 更正式，常用于正式的工作执行场景。\ndo 更口语化。\n✅ Let\'s perform a final inspection.（我们执行最终检查。）—— 正式\n✅ Let\'s do a final check.（我们做个最后检查。）—— 口语化' },
+    ],
+    pattern: "Let's perform a + 形容词 + inspection/check.",
+    patternExamples: [
+      { en: "Let's perform a thorough inspection.", cn: '我们做一次全面检查。', words: [] },
+      { en: "Let's perform a safety check.", cn: '我们做一次安全检查。', words: [] },
+      { en: "Let's perform a visual inspection.", cn: '我们做一次目视检查。', words: [] },
+    ],
+    thinking: "工作收尾时的最终检查是保障质量的关键环节。\nLet's perform a final inspection together 体现团队协作精神。\n中文说「我们一起做最后检查」，英语用 Let's perform a final inspection together.",
+    pronunciation: "perform 重音在第二音节：per-FORM。\nfinal 重音在第一音节：FI-nal。\ninspection 重音在第二音节：in-SPEC-tion。\n节奏：Let's per-FORM ｜ a FI-nal in-SPEC-tion ｜ to-GETH-er.",
+    quiz: [
+      { q: '把「我们一起做最后检查。」用英语说出来。', a: "Let's perform a final inspection together." },
+      { q: '「执行检查」用英语怎么说？', a: 'perform an inspection (/pərˈfɔːrm ən ɪnˈspɛkʃən/)' },
+    ],
+  },
+  {
+    id: 2830,
+    speaker: 'Engineer',
+    en: 'Please clean up the work area before leaving.',
+    cn: '离开前请把工作区域整理干净。',
+    ipa: '/pliːz kliːn ʌp ðə wɜːrk ˈɛriə bɪˈfɔːr ˈliːvɪŋ/',
+    tags: ['第2830句', '工作安排', '★★★'],
+    when: '工作结束后提醒团队清理现场，保持环境整洁。',
+    words: [
+      { w: 'clean up', ipa: '/kliːn ʌp/', pos: '动词短语', cn: '清理；整理', memory: 'clean(清洁)+up(完全)→彻底清洁→清理。', phonics: 'clean 读 /kliːn/，up 读 /ʌp/。', collocations: [['clean up the area', '清理区域'], ['clean up after work', '工作后清理'], ['clean up tools', '收拾工具']], examples: [['Please clean up after yourself.', '请自己收拾干净。'], ['We cleaned up the site.', '我们清理了现场。']] },
+      { w: 'area', ipa: '/ˈɛriə/', pos: '名词', cn: '区域；面积', memory: 'area 指特定的空间区域。', phonics: 'a 读 /ɛ/，re 读 /ri/，a 读 /ə/，重音在第一音节。', collocations: [['work area', '工作区域'], ['restricted area', '限制区域'], ['common area', '公共区域']], examples: [['This area is restricted.', '这个区域受限。'], ['The work area is clean.', '工作区域很干净。']] },
+    ],
+    phrases: [
+      { p: 'clean up', ipa: '/kliːn ʌp/', cn: '清理', why: '动词短语，比单独的 clean 更强调彻底整理的动作。' },
+      { p: 'before leaving', ipa: '/bɪˈfɔːr ˈliːvɪŋ/', cn: '离开之前', why: 'before + 动名词 leaving，设定清理的时间节点。' },
+    ],
+    grammar: [
+      { q: 'clean up 和 clean 有什么区别？', a: 'clean up 强调彻底整理，包含收拾和清洁。\nclean 更侧重清洁本身。\n✅ Clean up the work area.（整理工作区域。）—— 收拾+清洁\n✅ Clean the floor.（清洁地板。）—— 仅清洁' },
+    ],
+    pattern: 'Please clean up + 区域 + before + 动作.',
+    patternExamples: [
+      { en: 'Please clean up the data hall before leaving.', cn: '离开前请清理机房。', words: [] },
+      { en: 'Please clean up the tools before the shift ends.', cn: '下班前请收拾工具。', words: [] },
+      { en: 'Please clean up the workspace before handover.', cn: '交接前请整理工作区。', words: [] },
+    ],
+    thinking: "数据中心对环境整洁要求极高，离开前清理现场是基本规范。\nPlease clean up the work area before leaving 是标准的收尾提醒。\n中文说「离开前请把工作区域整理干净」，英语用 Please clean up the work area before leaving.",
+    pronunciation: "clean up 连读：CLEAN-UP。\narea 重音在第一音节：A-re-a。\n节奏：Please CLEAN UP ｜ the WORK A-re-a ｜ be-FORE LEAV-ing.",
+    quiz: [
+      { q: '把「离开前请把工作区域整理干净。」用英语说出来。', a: 'Please clean up the work area before leaving.' },
+      { q: '「清理」用英语怎么说？', a: 'clean up (/kliːn ʌp/)' },
+    ],
+  },
+  {
+    id: 2831,
+    speaker: 'Engineer',
+    en: 'Has every item on the checklist been completed?',
+    cn: '检查清单上的内容都完成了吗？',
+    ipa: '/hæz ˈɛvri ˈaɪtəm ɒn ðə ˈtʃɛklɪst biːn kəmˈpliːtɪd/',
+    tags: ['第2831句', '工作完成', '★★★★'],
+    when: '工作收尾时逐项确认检查清单是否全部完成。',
+    words: [
+      { w: 'item', ipa: '/ˈaɪtəm/', pos: '名词', cn: '项目；条目', memory: 'item 指清单中的单个条目。', phonics: 'i 读 /aɪ/，tem 读 /təm/，重音在第一音节。', collocations: [['checklist item', '清单项目'], ['action item', '行动项'], ['line item', '明细项']], examples: [['Check each item carefully.', '仔细检查每一项。'], ['This item is done.', '这项已完成。']] },
+      { w: 'checklist', ipa: '/ˈtʃɛklɪst/', pos: '名词', cn: '检查清单', memory: 'check(检查)+list(列表)→检查清单。', phonics: 'check 读 /tʃɛk/，list 读 /lɪst/，重音在第一音节。', collocations: [['complete the checklist', '完成清单'], ['safety checklist', '安全清单'], ['daily checklist', '日常清单']], examples: [['Please follow the checklist.', '请按照清单操作。'], ['The checklist is complete.', '清单已完成。']] },
+    ],
+    phrases: [
+      { p: 'every item on the checklist', ipa: '/ˈɛvri ˈaɪtəm ɒn ðə ˈtʃɛklɪst/', cn: '清单上的每一项', why: 'every 强调逐一确认，不遗漏任何一项。' },
+      { p: 'has been completed', ipa: '/hæz biːn kəmˈpliːtɪd/', cn: '是否已完成', why: '现在完成时被动语态，询问到目前为止的完成状态。' },
+    ],
+    grammar: [
+      { q: 'Has every item been completed 和 Are all items done 有什么区别？', a: 'Has every item been completed 更正式，逐项确认。\nAre all items done 更口语化。\n✅ Has every item been completed?（每一项都完成了吗？）—— 正式确认\n✅ Are all items done?（都做完了吗？）—— 口语化' },
+    ],
+    pattern: 'Has every item on + 清单/文件 + been completed?',
+    patternExamples: [
+      { en: 'Has every item on the form been filled out?', cn: '表格上每一项都填好了吗？', words: [] },
+      { en: 'Has every item on the work order been checked?', cn: '工单上每一项都检查过了吗？', words: [] },
+      { en: 'Has every item on the SOP been followed?', cn: 'SOP上每一项都执行了吗？', words: [] },
+    ],
+    thinking: "数据中心运维强调标准化流程，检查清单是确保不遗漏的关键工具。\nHas every item on the checklist been completed 是收尾确认的标准用语。\n中文说「检查清单上的内容都完成了吗」，英语用 Has every item on the checklist been completed?",
+    pronunciation: "every 重音在第一音节：EV-ery。\nchecklist 重音在第一音节：CHECK-list。\ncompleted 重音在第二音节：com-PLE-ted。\n节奏：HAS EV-ery I-tem ｜ on the CHECK-list ｜ been com-PLE-ted?",
+    quiz: [
+      { q: '把「检查清单上的内容都完成了吗？」用英语说出来。', a: 'Has every item on the checklist been completed?' },
+      { q: '「检查清单」用英语怎么说？', a: 'checklist (/ˈtʃɛklɪst/)' },
+    ],
+  },
+  {
+    id: 2832,
+    speaker: 'Engineer',
+    en: 'Please verify the equipment is back in normal operation.',
+    cn: '请确认设备已经恢复正常运行。',
+    ipa: '/pliːz ˈvɛrɪfaɪ ðə ɪˈkwɪpmənt ɪz bæk ɪn ˈnɔːrməl ˌɒpəˈreɪʃən/',
+    tags: ['第2832句', '工作完成', '★★★★'],
+    when: '维护或维修完成后确认设备运行状态正常。',
+    words: [
+      { w: 'verify', ipa: '/ˈvɛrɪfaɪ/', pos: '动词', cn: '验证；确认', memory: 'veri(真实)+fy(使)→使确认真实→验证。', phonics: 'ver 读 /vɛr/，i 读 /ɪ/，fy 读 /faɪ/，重音在第一音节。', collocations: [['verify the status', '确认状态'], ['verify operation', '确认运行'], ['verify completion', '确认完成']], examples: [['Please verify the alarm is cleared.', '请确认告警已清除。'], ['I verified the readings.', '我核实了读数。']] },
+      { w: 'operation', ipa: '/ˌɒpəˈreɪʃən/', pos: '名词', cn: '运行；操作', memory: 'operate(运行)+ion(名词后缀)→运行。', phonics: 'op 读 /ɒp/，er 读 /ə/，a 读 /eɪ/，tion 读 /ʃən/，重音在第三音节。', collocations: [['normal operation', '正常运行'], ['back in operation', '恢复运行'], ['out of operation', '停止运行']], examples: [['The system is in normal operation.', '系统正常运行。'], ['The equipment is back in operation.', '设备恢复运行了。']] },
+    ],
+    phrases: [
+      { p: 'back in normal operation', ipa: '/bæk ɪn ˈnɔːrməl ˌɒpəˈreɪʃən/', cn: '恢复正常运行', why: 'back in 表示回到某种状态，normal operation 是数据中心的标准术语。' },
+    ],
+    grammar: [
+      { q: 'verify 和 check 有什么区别？', a: 'verify 更正式，强调通过证据确认事实。\ncheck 更通用，可以指简单查看。\n✅ Verify the equipment is running.（验证设备在运行。）—— 正式确认\n✅ Check the equipment.（检查一下设备。）—— 一般查看' },
+    ],
+    pattern: 'Please verify + 对象 + is + 状态.',
+    patternExamples: [
+      { en: 'Please verify the UPS is in bypass mode.', cn: '请确认UPS处于旁路模式。', words: [] },
+      { en: 'Please verify the cooling system is stable.', cn: '请确认冷却系统稳定。', words: [] },
+      { en: 'Please verify all alarms are cleared.', cn: '请确认所有告警已清除。', words: [] },
+    ],
+    thinking: "设备恢复后的验证是确保工作质量的关键步骤。\nPlease verify the equipment is back in normal operation 是标准的恢复确认用语。\n中文说「请确认设备已经恢复正常运行」，英语用 Please verify the equipment is back in normal operation.",
+    pronunciation: "verify 重音在第一音节：VER-i-fy。\noperation 重音在第三音节：op-er-A-tion。\n节奏：Please VER-i-fy ｜ the E-quip-ment is BACK ｜ in NOR-mal op-er-A-tion.",
+    quiz: [
+      { q: '把「请确认设备已经恢复正常运行。」用英语说出来。', a: 'Please verify the equipment is back in normal operation.' },
+      { q: '「验证」用英语怎么说？', a: 'verify (/ˈvɛrɪfaɪ/)' },
+    ],
+  },
+  {
+    id: 2833,
+    speaker: 'Engineer',
+    en: 'Has the customer been informed?',
+    cn: '已经通知客户了吗？',
+    ipa: '/hæz ðə ˈkʌstəmər biːn ɪnˈfɔːrmd/',
+    tags: ['第2833句', '工作完成', '★★★'],
+    when: '工作完成后确认是否已向客户通报。',
+    words: [
+      { w: 'informed', ipa: '/ɪnˈfɔːrmd/', pos: '形容词（过去分词）', cn: '被告知；已通知', memory: 'inform(通知)+ed→已被通知。', phonics: 'in 读 /ɪn/，formed 读 /fɔːrmd/，重音在第二音节。', collocations: [['been informed', '已被告知'], ['fully informed', '充分告知'], ['keep informed', '保持知情']], examples: [['The customer has been informed.', '客户已被通知。'], ['Has everyone been informed?', '所有人都通知了吗？']] },
+    ],
+    phrases: [
+      { p: 'has been informed', ipa: '/hæz biːn ɪnˈfɔːrmd/', cn: '是否已被通知', why: '现在完成时被动语态，询问到目前为止是否已通知。' },
+    ],
+    grammar: [
+      { q: 'Has the customer been informed 和 Did you inform the customer 有什么区别？', a: 'Has the customer been informed 用被动语态，关注客户是否被通知，不指定谁通知的。\nDid you inform the customer 用主动语态，直接问对方是否通知了。\n✅ Has the customer been informed?（客户被通知了吗？）—— 关注结果\n✅ Did you inform the customer?（你通知客户了吗？）—— 关注行为' },
+    ],
+    pattern: 'Has + 对象 + been informed/notified?',
+    patternExamples: [
+      { en: 'Has the manager been informed?', cn: '经理被通知了吗？', words: [] },
+      { en: 'Has the vendor been notified?', cn: '供应商被通知了吗？', words: [] },
+      { en: 'Has the team been updated?', cn: '团队被更新了吗？', words: [] },
+    ],
+    thinking: "客户沟通是数据中心运维的标准流程，工作完成后必须确认客户已被告知。\nHas the customer been informed 是简洁的结果确认用语。\n中文说「已经通知客户了吗」，英语用 Has the customer been informed?",
+    pronunciation: "informed 重音在第二音节：in-FORMED。\n节奏：HAS the CUS-to-mer ｜ been in-FORMED?",
+    quiz: [
+      { q: '把「已经通知客户了吗？」用英语说出来。', a: 'Has the customer been informed?' },
+      { q: '「已被告知」用英语怎么说？', a: 'been informed (/biːn ɪnˈfɔːrmd/)' },
+    ],
+  },
+  {
+    id: 2834,
+    speaker: 'Engineer',
+    en: 'Have all tools been removed from the work area?',
+    cn: '所有工具都已经撤离现场了吗？',
+    ipa: '/hæv ɔːl tuːlz biːn rɪˈmuːvd frɒm ðə wɜːrk ˈɛriə/',
+    tags: ['第2834句', '工作完成', '★★★'],
+    when: '工作收尾时确认所有工具已撤离，防止遗留在设备区域。',
+    words: [
+      { w: 'removed', ipa: '/rɪˈmuːvd/', pos: '动词（过去分词）', cn: '移除；撤离', memory: 're(再次)+move(移动)+d→再次移走→移除。', phonics: 're 读 /rɪ/，moved 读 /muːvd/，重音在第二音节。', collocations: [['tools removed', '工具撤离'], ['removed from', '从……移除'], ['safely removed', '安全移除']], examples: [['All tools have been removed.', '所有工具已撤离。'], ['Please remove the ladder.', '请把梯子移走。']] },
+    ],
+    phrases: [
+      { p: 'been removed from', ipa: '/biːn rɪˈmuːvd frɒm/', cn: '已从……撤离', why: '被动语态 + from，说明工具已从指定区域移走。' },
+    ],
+    grammar: [
+      { q: 'removed 和 taken away 有什么区别？', a: 'removed 更正式，常用于工作场景。\ntaken away 更口语化。\n✅ Have all tools been removed?（所有工具撤离了吗？）—— 正式\n✅ Have you taken away the tools?（你把工具拿走了吗？）—— 口语化' },
+    ],
+    pattern: 'Have all + 物品 + been removed from + 区域?',
+    patternExamples: [
+      { en: 'Have all cables been removed from the rack?', cn: '所有线缆已从机柜撤离了吗？', words: [] },
+      { en: 'Have all materials been removed from the site?', cn: '所有材料已从现场撤离了吗？', words: [] },
+      { en: 'Have all warning signs been removed?', cn: '所有警示标识已撤掉了吗？', words: [] },
+    ],
+    thinking: "工具遗留是数据中心的安全隐患，工作完成后必须逐一清点撤离。\nHave all tools been removed from the work area 是标准的收尾确认。\n中文说「所有工具都已经撤离现场了吗」，英语用 Have all tools been removed from the work area?",
+    pronunciation: "removed 重音在第二音节：re-MOVED。\narea 重音在第一音节：A-re-a。\n节奏：HAVE ALL TOOLS ｜ been re-MOVED ｜ from the WORK A-re-a?",
+    quiz: [
+      { q: '把「所有工具都已经撤离现场了吗？」用英语说出来。', a: 'Have all tools been removed from the work area?' },
+      { q: '「撤离」用英语怎么说？', a: 'removed (/rɪˈmuːvd/)' },
+    ],
+  },
+  {
+    id: 2835,
+    speaker: 'Engineer',
+    en: 'Please remove all warning signs after the work is completed.',
+    cn: '工作完成后请撤掉所有警示标识。',
+    ipa: '/pliːz rɪˈmuːv ɔːl ˈwɔːrnɪŋ saɪnz ˈæftər ðə wɜːrk ɪz kəmˈpliːtɪd/',
+    tags: ['第2835句', '工作完成', '★★★'],
+    when: '工作完成后撤除临时设置的警示标识。',
+    words: [
+      { w: 'warning', ipa: '/ˈwɔːrnɪŋ/', pos: '名词/形容词', cn: '警告的；警示', memory: 'warn(警告)+ing→警告性质的。', phonics: 'warn 读 /wɔːrn/，ing 读 /ɪŋ/，重音在第一音节。', collocations: [['warning sign', '警示标识'], ['warning tape', '警示带'], ['warning label', '警告标签']], examples: [['Put up a warning sign.', '放置警示标识。'], ['Remove the warning tape.', '撤掉警示带。']] },
+      { w: 'signs', ipa: '/saɪnz/', pos: '名词（复数）', cn: '标识；标牌', memory: 'sign 的复数形式。', phonics: 'sign 读 /saɪn/，s 读 /z/，单音节。', collocations: [['warning signs', '警示标识'], ['safety signs', '安全标识'], ['directional signs', '指示标识']], examples: [['The signs are in place.', '标识已放置。'], ['All signs have been removed.', '所有标识已撤除。']] },
+    ],
+    phrases: [
+      { p: 'warning signs', ipa: '/ˈwɔːrnɪŋ saɪnz/', cn: '警示标识', why: '数据中心作业期间设置的临时警告标牌，工作完成后必须撤除。' },
+      { p: 'after the work is completed', ipa: '/ˈæftər ðə wɜːrk ɪz kəmˈpliːtɪd/', cn: '工作完成后', why: 'after 引导时间状语从句，说明撤除标识的时间节点。' },
+    ],
+    grammar: [
+      { q: 'remove 和 take down 有什么区别？', a: 'remove 更正式，指完全移除。\ntake down 更口语化，常指标识类物品的撤除。\n✅ Remove the warning signs.（撤掉警示标识。）—— 正式\n✅ Take down the signs.（把标识拿下来。）—— 口语化' },
+    ],
+    pattern: 'Please remove all + 物品 + after + 条件.',
+    patternExamples: [
+      { en: 'Please remove all barriers after the work is done.', cn: '工作完成后请撤掉所有围栏。', words: [] },
+      { en: 'Please remove all tape after the maintenance.', cn: '维护完成后请撤掉所有胶带。', words: [] },
+      { en: 'Please remove all temporary signs before handover.', cn: '交接前请撤掉所有临时标识。', words: [] },
+    ],
+    thinking: "警示标识是临时安全措施，工作完成后不撤除会误导其他人员。\nPlease remove all warning signs after the work is completed 是标准的收尾指令。\n中文说「工作完成后请撤掉所有警示标识」，英语用 Please remove all warning signs after the work is completed.",
+    pronunciation: "warning 重音在第一音节：WARN-ing。\nsigns 短促读 /saɪnz/。\ncompleted 重音在第二音节：com-PLE-ted。\n节奏：Please re-MOVE ｜ ALL WARN-ing SIGNS ｜ AF-ter the WORK is com-PLE-ted.",
+    quiz: [
+      { q: '把「工作完成后请撤掉所有警示标识。」用英语说出来。', a: 'Please remove all warning signs after the work is completed.' },
+      { q: '「警示标识」用英语怎么说？', a: 'warning signs (/ˈwɔːrnɪŋ saɪnz/)' },
+    ],
+  },
+  {
+    id: 2836,
+    speaker: 'Engineer',
+    en: 'The work area is clean and safe now.',
+    cn: '现场已经恢复整洁和安全。',
+    ipa: '/ðə wɜːrk ˈɛriə ɪz kliːn ənd seɪf naʊ/',
+    tags: ['第2836句', '工作完成', '★★★'],
+    when: '向主管或下一班确认现场已恢复安全整洁状态。',
+    words: [
+      { w: 'clean', ipa: '/kliːn/', pos: '形容词', cn: '整洁的；干净的', memory: 'clean 指没有杂物和污垢。', phonics: 'cl 读 /kl/，ean 读 /iːn/，单音节。', collocations: [['clean and tidy', '整洁'], ['clean environment', '干净环境'], ['keep clean', '保持整洁']], examples: [['The area is clean.', '区域干净整洁。'], ['Keep the workspace clean.', '保持工作区整洁。']] },
+      { w: 'safe', ipa: '/seɪf/', pos: '形容词', cn: '安全的', memory: 'safe 指没有安全隐患。', phonics: 's 读 /s/，afe 读 /eɪf/，单音节。', collocations: [['safe to enter', '可以安全进入'], ['safe condition', '安全状态'], ['safe and clean', '安全整洁']], examples: [['The site is safe now.', '现场现在安全了。'], ['Is it safe to proceed?', '可以安全继续吗？']] },
+    ],
+    phrases: [
+      { p: 'clean and safe', ipa: '/kliːn ənd seɪf/', cn: '整洁且安全', why: '两个形容词并列，描述现场的双重状态——既干净又安全。' },
+    ],
+    grammar: [
+      { q: 'clean and safe 的 and 能省略吗？', a: '不能省略。and 连接两个并列形容词。\n✅ The area is clean and safe.（区域整洁且安全。）\n❌ The area is clean safe.（语法错误）\n但可以用逗号：The area is clean, safe, and ready.（三个以上用逗号+and）' },
+    ],
+    pattern: 'The + 区域 + is + 状态形容词 + now.',
+    patternExamples: [
+      { en: 'The data hall is clean and organized now.', cn: '机房现在整洁有序。', words: [] },
+      { en: 'The site is safe and secure now.', cn: '现场现在安全有保障。', words: [] },
+      { en: 'The area is tidy and clear now.', cn: '区域现在整洁通畅。', words: [] },
+    ],
+    thinking: "工作完成后向接班人员确认现场状态是交接的基本要求。\nThe work area is clean and safe now 是标准的现场状态汇报。\n中文说「现场已经恢复整洁和安全」，英语用 The work area is clean and safe now.",
+    pronunciation: "clean 短促读 /kliːn/。\nsafe 短促读 /seɪf/。\n节奏：The WORK A-re-a ｜ is CLEAN and SAFE NOW.",
+    quiz: [
+      { q: '把「现场已经恢复整洁和安全。」用英语说出来。', a: 'The work area is clean and safe now.' },
+      { q: '「安全的」用英语怎么说？', a: 'safe (/seɪf/)' },
+    ],
+  },
+  {
+    id: 2837,
+    speaker: 'Engineer',
+    en: 'Please upload the photos to the maintenance record.',
+    cn: '请把现场照片上传到维护记录。',
+    ipa: '/pliːz ˈʌploʊd ðə ˈfoʊtoʊz tuː ðə ˈmeɪntənəns ˈrɛkərd/',
+    tags: ['第2837句', '工作完成', '★★★'],
+    when: '工作完成后要求将现场照片上传至维护记录系统。',
+    words: [
+      { w: 'upload', ipa: '/ˈʌploʊd/', pos: '动词', cn: '上传', memory: 'up(向上)+load(装载)→向上装载→上传到系统。', phonics: 'up 读 /ʌp/，load 读 /loʊd/，重音在第一音节。', collocations: [['upload photos', '上传照片'], ['upload a file', '上传文件'], ['upload to the system', '上传到系统']], examples: [['Please upload the report.', '请上传报告。'], ['I uploaded the photos.', '我已上传了照片。']] },
+      { w: 'record', ipa: '/ˈrɛkərd/', pos: '名词', cn: '记录；档案', memory: 'record 作名词指保存的信息记录。', phonics: 're 读 /rɛ/，cord 读 /kərd/，重音在第一音节。', collocations: [['maintenance record', '维护记录'], ['alarm record', '告警记录'], ['inspection record', '巡检记录']], examples: [['Check the maintenance record.', '查看维护记录。'], ['The record has been updated.', '记录已更新。']] },
+    ],
+    phrases: [
+      { p: 'upload to', ipa: '/ˈʌploʊd tuː/', cn: '上传到', why: 'upload + to + 目标位置，说明上传的目的地。' },
+      { p: 'maintenance record', ipa: '/ˈmeɪntənəns ˈrɛkərd/', cn: '维护记录', why: '数据中心的标准化文档系统，记录每次维护的详细信息。' },
+    ],
+    grammar: [
+      { q: 'upload 和 submit 有什么区别？', a: 'upload 指将文件/图片传到系统。\nsubmit 指提交、呈交，更强调正式递交。\n✅ Upload the photos to the record.（把照片上传到记录。）—— 传输文件\n✅ Submit the report.（提交报告。）—— 正式呈交' },
+    ],
+    pattern: 'Please upload + 文件类型 + to + 目标系统.',
+    patternExamples: [
+      { en: 'Please upload the video to the incident report.', cn: '请把视频上传到事故报告。', words: [] },
+      { en: 'Please upload the checklist to the system.', cn: '请把检查清单上传到系统。', words: [] },
+      { en: 'Please upload the inspection photos to the database.', cn: '请把巡检照片上传到数据库。', words: [] },
+    ],
+    thinking: "现场照片是维护记录的重要组成部分，提供可追溯的视觉证据。\nPlease upload the photos to the maintenance record 是标准的文档归档指令。\n中文说「请把现场照片上传到维护记录」，英语用 Please upload the photos to the maintenance record.",
+    pronunciation: "upload 重音在第一音节：UP-load。\nmaintenance 重音在第一音节：MAIN-te-nance。\nrecord 重音在第一音节：RE-cord。\n节奏：Please UP-load the PHO-tos ｜ to the MAIN-te-nance RE-cord.",
+    quiz: [
+      { q: '把「请把现场照片上传到维护记录。」用英语说出来。', a: 'Please upload the photos to the maintenance record.' },
+      { q: '「上传」用英语怎么说？', a: 'upload (/ˈʌploʊd/)' },
+    ],
+  },
+  {
+    id: 2838,
+    speaker: 'Engineer',
+    en: "Let's close the work permit.",
+    cn: '我们关闭作业许可证吧。',
+    ipa: '/lɛts kloʊz ðə wɜːrk ˈpɜːrmɪt/',
+    tags: ['第2838句', '工作完成', '★★★★'],
+    when: '所有工作完成后，正式关闭作业许可证。',
+    words: [
+      { w: 'close', ipa: '/kloʊz/', pos: '动词', cn: '关闭；结束', memory: 'close 在工作流程中指正式关闭、完结。', phonics: 'cl 读 /kl/，ose 读 /oʊz/，单音节。', collocations: [['close a permit', '关闭许可证'], ['close a ticket', '关闭工单'], ['close the task', '关闭任务']], examples: [['Please close the work order.', '请关闭工单。'], ['The permit has been closed.', '许可证已关闭。']] },
+      { w: 'permit', ipa: '/ˈpɜːrmɪt/', pos: '名词', cn: '许可证；许可', memory: 'per(通过)+mit(发送)→允许通过的文书→许可证。', phonics: 'per 读 /pɜːr/，mit 读 /mɪt/，重音在第一音节。', collocations: [['work permit', '作业许可证'], ['hot work permit', '动火许可证'], ['permit to work', '工作许可']], examples: [['The work permit is valid.', '作业许可证有效。'], ['We need a permit for this.', '我们需要许可证。']] },
+    ],
+    phrases: [
+      { p: 'close the work permit', ipa: '/kloʊz ðə wɜːrk ˈpɜːrmɪt/', cn: '关闭作业许可证', why: 'work permit 是数据中心安全管理的核心文件，close 表示正式结束授权。' },
+    ],
+    grammar: [
+      { q: "Let's close 和 We need to close 有什么区别？", a: "Let's close 是提议立即行动。\nWe need to close 是说明必要性。\n✅ Let's close the work permit.（我们关闭许可证吧。）—— 立即执行\n✅ We need to close the permit before leaving.（离开前需要关闭许可证。）—— 强调必要" },
+    ],
+    pattern: "Let's close + 文件/流程.",
+    patternExamples: [
+      { en: "Let's close the work order.", cn: '我们关闭工单吧。', words: [] },
+      { en: "Let's close the incident report.", cn: '我们关闭事故报告吧。', words: [] },
+      { en: "Let's close the change request.", cn: '我们关闭变更请求吧。', words: [] },
+    ],
+    thinking: "作业许可证的关闭是数据中心安全管理的必要流程，标志着工作授权正式结束。\nLet's close the work permit 是标准的收尾操作。\n中文说「我们关闭作业许可证吧」，英语用 Let's close the work permit.",
+    pronunciation: "close 短促读 /kloʊz/。\npermit 重音在第一音节：PER-mit（名词），区别于 per-MIT（动词）。\n节奏：Let's CLOSE ｜ the WORK PER-mit.",
+    quiz: [
+      { q: '把「我们关闭作业许可证吧。」用英语说出来。', a: "Let's close the work permit." },
+      { q: '「作业许可证」用英语怎么说？', a: 'work permit (/wɜːrk ˈpɜːrmɪt/)' },
+    ],
+  },
+  {
+    id: 2839,
+    speaker: 'Engineer',
+    en: 'Thank you, everyone. Excellent teamwork today.',
+    cn: '谢谢大家，今天团队配合得很好。',
+    ipa: '/θæŋk juː ˈɛvriwʌn ˈɛksələnt ˈtiːmwɜːrk təˈdeɪ/',
+    tags: ['第2839句', '工作完成', '★★★'],
+    when: '工作结束后向团队表达感谢和肯定。',
+    words: [
+      { w: 'excellent', ipa: '/ˈɛksələnt/', pos: '形容词', cn: '优秀的；出色的', memory: 'excel(超越)+lent(形容词后缀)→超越一般的→出色的。', phonics: 'ex 读 /ɛks/，cel 读 /sə/，lent 读 /lənt/，重音在第一音节。', collocations: [['excellent work', '出色的工作'], ['excellent performance', '优秀表现'], ['excellent result', '优秀结果']], examples: [['Excellent job!', '做得好！'], ['The result is excellent.', '结果非常好。']] },
+      { w: 'teamwork', ipa: '/ˈtiːmwɜːrk/', pos: '名词', cn: '团队合作', memory: 'team(团队)+work(工作)→团队协作。', phonics: 'team 读 /tiːm/，work 读 /wɜːrk/，重音在第一音节。', collocations: [['great teamwork', '很好的团队合作'], ['teamwork spirit', '团队精神'], ['good teamwork', '好的团队配合']], examples: [['Great teamwork today.', '今天团队合作很好。'], ['Teamwork makes it possible.', '团队合作使之成为可能。']] },
+    ],
+    phrases: [
+      { p: 'thank you, everyone', ipa: '/θæŋk juː ˈɛvriwʌn/', cn: '谢谢大家', why: '对团队全体的感谢表达，everyone 强调每个人。' },
+      { p: 'excellent teamwork', ipa: '/ˈɛksələnt ˈtiːmwɜːrk/', cn: '出色的团队合作', why: '对团队协作质量的正面肯定。' },
+    ],
+    grammar: [
+      { q: 'teamwork 是可数还是不可数名词？', a: 'teamwork 是不可数名词，不能加 s 或 a。\n✅ Excellent teamwork today.（今天团队合作很好。）\n❌ An excellent teamwork.（语法错误）\n✅ The teamwork was excellent.（团队合作很出色。）' },
+    ],
+    pattern: 'Thank you, everyone. + 评价 + today.',
+    patternExamples: [
+      { en: 'Thank you, everyone. Great effort today.', cn: '谢谢大家，今天很努力。', words: [] },
+      { en: 'Thank you, everyone. Well done today.', cn: '谢谢大家，今天做得好。', words: [] },
+      { en: 'Thank you, everyone. Outstanding work today.', cn: '谢谢大家，今天工作出色。', words: [] },
+    ],
+    thinking: "工作结束后对团队表达感谢是良好领导力的体现。\nThank you, everyone. Excellent teamwork today 简洁有力地肯定团队贡献。\n中文说「谢谢大家，今天团队配合得很好」，英语用 Thank you, everyone. Excellent teamwork today.",
+    pronunciation: "everyone 重音在第一音节：EV-ery-one。\nexcellent 重音在第一音节：EX-cel-lent。\nteamwork 重音在第一音节：TEAM-work。\n节奏：THANK YOU EV-ery-one. ｜ EX-cel-lent TEAM-work to-DAY.",
+    quiz: [
+      { q: '把「谢谢大家，今天团队配合得很好。」用英语说出来。', a: 'Thank you, everyone. Excellent teamwork today.' },
+      { q: '「团队合作」用英语怎么说？', a: 'teamwork (/ˈtiːmwɜːrk/)' },
+    ],
+  },
+  {
+    id: 2840,
+    speaker: 'Engineer',
+    en: 'We are ready for the next task.',
+    cn: '我们已经准备好进行下一项工作。',
+    ipa: '/wiː ɑːr ˈrɛdi fɔːr ðə nɛkst tæsk/',
+    tags: ['第2840句', '工作完成', '★★★'],
+    when: '当前工作完成后向主管报告团队已准备好接受新任务。',
+    words: [
+      { w: 'ready', ipa: '/ˈrɛdi/', pos: '形容词', cn: '准备好的', memory: 'ready 表示已完成准备，可以开始。', phonics: 'read 读 /rɛd/，y 读 /i/，重音在第一音节。', collocations: [['ready for', '准备好做'], ['ready to go', '准备出发'], ['all ready', '全部准备好']], examples: [['We are ready.', '我们准备好了。'], ['Is the team ready?', '团队准备好了吗？']] },
+      { w: 'next', ipa: '/nɛkst/', pos: '形容词', cn: '下一个的', memory: 'next 表示紧接着的下一个。', phonics: 'n 读 /n/，ext 读 /ɛkst/，单音节。', collocations: [['next task', '下一项任务'], ['next step', '下一步'], ['next shift', '下一个班']], examples: [["What's the next task?", '下一项任务是什么？'], ['Ready for the next step.', '准备好下一步了。']] },
+    ],
+    phrases: [
+      { p: 'ready for', ipa: '/ˈrɛdi fɔːr/', cn: '准备好做……', why: 'be ready for + 名词，表示已为某事做好准备。' },
+      { p: 'the next task', ipa: '/ðə nɛkst tæsk/', cn: '下一项工作', why: 'next 表示紧随其后的下一个任务。' },
+    ],
+    grammar: [
+      { q: 'We are ready for 和 We are ready to 有什么区别？', a: 'We are ready for + 名词，后接事物。\nWe are ready to + 动词，后接动作。\n✅ We are ready for the next task.（我们准备好下一项工作了。）—— for + 名词\n✅ We are ready to start.（我们准备好开始了。）—— to + 动词' },
+    ],
+    pattern: 'We are ready for + 下一项工作.',
+    patternExamples: [
+      { en: 'We are ready for the next inspection.', cn: '我们准备好下一次巡检了。', words: [] },
+      { en: 'We are ready for the next maintenance window.', cn: '我们准备好下一个维护窗口了。', words: [] },
+      { en: 'We are ready for the next assignment.', cn: '我们准备好下一个任务了。', words: [] },
+    ],
+    thinking: "一项工作完成后及时报告准备就绪状态，体现团队的高效和专业。\nWe are ready for the next task 是简洁有力的状态报告。\n中文说「我们已经准备好进行下一项工作」，英语用 We are ready for the next task.",
+    pronunciation: "ready 重音在第一音节：READ-y。\nnext 短促读 /nɛkst/。\n节奏：We are READ-y ｜ for the NEXT TASK.",
+    quiz: [
+      { q: '把「我们已经准备好进行下一项工作。」用英语说出来。', a: 'We are ready for the next task.' },
+      { q: '「准备好做……」用英语怎么说？', a: 'ready for (/ˈrɛdi fɔːr/)' },
+    ],
+  },
+];

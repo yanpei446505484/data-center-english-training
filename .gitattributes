@@ -1,0 +1,4 @@
+public/audio/** -diff
+public/data/** -diff
+public/mespeak/** -diff
+public/preset-scenarios.txt -diff

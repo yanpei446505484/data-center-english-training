@@ -1,4 +1,4 @@
-import type { Accent } from '../types'
+export type Accent = 'british' | 'american'
 
 interface MeSpeak {
   loadConfig: (url: string, callback: (ok: boolean, detail?: string) => void) => void

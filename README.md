@@ -1,24 +1,41 @@
-# 数据中心英语培训
+# 数据中心英语培训（完整复刻版）
 
-独立、响应式的数据中心英语学习网站。可部署到 GitHub Pages，使用免费的 `github.io` 地址在手机和电脑访问。
+这是从妙搭导出的原项目源码迁移而来的独立 Web 版，保留原来的深色界面、课程页面和本地学习数据，并可直接部署到 GitHub Pages 的免费 `github.io` 地址，在手机和电脑浏览器访问。
 
-## 主要功能
+## 已迁移内容
 
-- 工作与生活场景逐句学习
-- 整句、重点单词、听力测验统一使用本地离线发音
-- 英式 `en-rp` / 美式 `en-us` 切换与语速调节
-- 1、5、10、15 遍重复播放和立即停止
-- 收藏、进度、测验记录保存在浏览器本地
-- XLSX、XLS、CSV 课程表导入和 JSON 数据备份
-- PWA 清单与离线缓存，适配桌面端和手机端
+- 原版登录/注册、学习首页、场景练习、句子浏览、句子详情
+- 81 个场景、2600 条原课程记录及逐词/短语/语法/句型数据
+- 闪卡、8 类自测、错题本、学习进度、练习报告和分类收藏
+- 场景跟读、语音识别评分、文本分析、专业词典和英语助手
+- 原版桌面侧栏与移动端抽屉导航
+- 浏览器本地账号、收藏、进度和测试记录
 
-## 语音方案
+妙搭原数据中有 400 个重复 ID（2001–2400 被两组课程重复使用）。独立版保留原编号为 `sourceId`，同时生成 1–2600 的唯一内部 ID，避免进度、收藏和错题相互覆盖。
 
-内置课程的所有整句和单词发音，都由 `kokoro-multi-lang-v1_0` 在 GitHub Actions 构建阶段预先生成 24kHz、16 位、单声道 PCM WAV。网站只下载并播放同域静态音频，不让手机运行大模型，不请求妙搭接口，也不依赖任何跨区域在线 TTS 服务。
+## 发音方案
 
-英式发音使用 Kokoro 的 `bf_emma`（speaker 21），美式发音使用 `af_sarah`（speaker 9）。生成脚本会验证课程覆盖数量、模型完整性以及每一个 WAV 的 RIFF/WAVE 文件头。meSpeak/eSpeak 仅作为用户自行导入新句子后的本地后备引擎。
+所有发音按钮都统一调用同一个同源播放器，不再请求妙搭、第三方 TTS 或跨区域音频地址：
 
-## 本地开发
+1. 清单中已有的内容优先播放 Kokoro `kokoro-multi-lang-v1_0` 预生成 WAV；仓库内有英式和美式共 630 个文件。
+2. 其余任意单词、句子和用户文本由随站点打包的 meSpeak/eSpeak 在浏览器本地生成 WAV。
+3. 播放前校验 RIFF/WAVE 文件头，再由 Web Audio 解码；支持重复播放和立即停止。
+
+因此网络只要能打开本站，发音就不依赖浏览器自带语音包，也不会再出现原站的跨区域 TTS 获取失败。
+
+## 英语助手和文本分析
+
+GitHub Pages 没有后端。未配置服务端时，系统自动使用本地专业词典和规则引擎完成术语解释、例句、课程检索、文本拆词及练习生成，不会向不存在的 `/api` 接口发送请求。
+
+如以后需要在线大模型、图片 OCR 或音频文件转写，可另外部署兼容后端，并在构建时设置：
+
+```text
+VITE_AI_API_BASE=https://你的后端地址
+```
+
+API 密钥只能放在后端，不能提交到本仓库或写进前端环境变量。
+
+## 本地运行
 
 ```bash
 npm install
@@ -28,27 +45,27 @@ npm run dev
 完整检查：
 
 ```bash
-python3 -m pip install -r scripts/requirements-audio.txt
-KOKORO_MODEL_DIR=/path/to/kokoro-multi-lang-v1_0 npm run prepare:audio
 npm run check
 ```
 
-检查包括代码规范、单元测试、630 个 Kokoro WAV 的完整性检查、后备引擎冒烟测试，以及生产构建。模型文件不进入网站或 Git 仓库。
+检查内容包括 TypeScript/生产构建、课程数量和唯一 ID、音频引擎单元测试、两种后备语音的真实 WAV 生成、630 个 Kokoro 文件逐个校验。
 
-## GitHub Pages
+## GitHub Pages 免费部署
 
-仓库包含 `.github/workflows/deploy.yml`。推送 `main` 分支后，在仓库 **Settings → Pages → Source** 选择 **GitHub Actions**，工作流会下载并缓存官方 Kokoro 模型、生成全部音频、完成检查，然后发布 `dist`。
-
-免费地址通常是：
+仓库内的 `.github/workflows/deploy.yml` 会在 `main` 更新后自动构建并发布。仓库设置中选择：
 
 ```text
-https://你的GitHub用户名.github.io/data-center-english-training/
+Settings → Pages → Source → GitHub Actions
 ```
 
-## 课程数据说明
+本站地址：
 
-当前内置的是根据已确认界面重建的首批种子课程。其中截图明确显示的第一句为原样录入，其余内容属于用于验证完整功能的重建课程，不冒充妙搭中的完整原始课程。可在“导入”页把原课程表导入，词典和训练场景会自动扩展。
+```text
+https://yanpei446505484.github.io/data-center-english-training/
+```
+
+账号和学习记录保存在当前浏览器本地，因此手机与电脑都能访问，但两台设备的数据默认不会自动同步。
 
 ## 许可证
 
-应用代码可按仓库许可证使用。离线语音组件的许可证说明保留在 `public/mespeak/LICENSE-README.md`。
+应用代码沿用仓库许可；meSpeak/eSpeak 的许可说明保留在 `public/mespeak/LICENSE-README.md`。

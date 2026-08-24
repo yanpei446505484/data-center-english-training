@@ -13,12 +13,6 @@ dist-ssr
 *.local
 .npm-cache
 audio-smoke-*.wav
-public/mespeak/ESpeak.js
-public/mespeak/mespeak.js
-public/mespeak/mespeak_config.json
-public/mespeak/LICENSE-README.md
-public/mespeak/voices/
-public/audio/
 .cache/
 .python-deps/
 

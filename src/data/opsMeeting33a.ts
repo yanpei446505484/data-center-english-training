@@ -1,0 +1,638 @@
+// EXPORTS: MOCK_SENTENCES_OPSMEETING33A
+
+import type { ISentence } from './sentenceLearning';
+
+export const MOCK_SENTENCES_OPSMEETING33A: ISentence[] = [
+  {
+    id: 1961,
+    speaker: 'Manager',
+    en: "Good morning, everyone. Let's begin today's operations meeting.",
+    cn: '大家早上好，现在开始今天的运维会议。',
+    ipa: "/ɡʊd ˈmɔːrnɪŋ ˈɛvriwʌn lɛts bɪˈɡɪn təˈdeɪz ˌɑpəˈreɪʃənz ˈmiːtɪŋ/",
+    tags: ['第1961句', '会议开场', '★★★★★'],
+    when: '值班经理在每日运维例会开始时，向全体运维人员发出开场信号。',
+    words: [
+      { w: 'operations meeting', ipa: '/ˌɑpəˈreɪʃənz ˈmiːtɪŋ/', pos: '名词', cn: '运维会议', memory: 'operations(运营/运维) + meeting(会议) → 数据中心每日运维团队例会的正式名称。', phonics: 'op 读 /ɑp/，er 读 /ər/，ations 读 /ˈeɪʃənz/', collocations: [['operations meeting', '运维会议'], ['morning meeting', '晨会'], ['daily stand-up', '每日站会']], examples: [['The operations meeting starts at 8 AM.', '运维会议早上8点开始。'], ["Let's begin today's meeting.", '让我们开始今天的会议。']] },
+      { w: "Let's begin", ipa: '/lɛts bɪˈɡɪn/', pos: '短语', cn: '让我们开始', memory: "Let's(Let us) + begin(开始) → 主持人发出集体行动信号的标准用语。", phonics: "Let's 读 /lɛts/，begin 读 /bɪˈɡɪn/", collocations: [["Let's begin the meeting", '让我们开始会议'], ["Let's get started", '让我们开始吧'], ["Let's kick off", '让我们启动']], examples: [["Let's begin the review.", '让我们开始回顾。'], ["Let's begin with the alarm report.", '让我们从告警报告开始。']] },
+    ],
+    phrases: [
+      { p: "today's operations meeting", ipa: "/təˈdeɪz ˌɑpəˈreɪʃənz ˈmiːtɪŋ/", cn: '今天的运维会议', why: "today's 所有格修饰 operations meeting，明确是当天的例会。" },
+      { p: "Let's begin", ipa: '/lɛts bɪˈɡɪn/', cn: '让我们开始', why: "Let's + 动词原形是会议主持最常用的开场句式，包含说话人自己。" },
+    ],
+    grammar: [
+      { q: "为什么用 Let's begin 而不是 Please start？", a: "Let's begin 包含说话人自己，表示「我们一起开始」，适合会议主持。\nPlease start 是对对方发出指令，语气上像「你来开始」，不适合主持人角色。\n✅ Let's begin today's operations meeting.（我们一起开始今天的运维会议。）\n❌ Please start today's operations meeting.（你来开始今天的运维会议。）" },
+    ],
+    pattern: "Good morning, everyone. Let's begin + 活动名称",
+    patternExamples: [
+      { en: "Good morning, everyone. Let's begin the shift handover.", cn: '大家早上好，让我们开始交接班。', words: [] },
+      { en: "Good morning, everyone. Let's begin the safety briefing.", cn: '大家早上好，让我们开始安全简报。', words: [] },
+      { en: "Good morning, everyone. Let's begin the weekly review.", cn: '大家早上好，让我们开始每周回顾。', words: [] },
+    ],
+    thinking: "英语会议开场遵循「问候→行动信号→议题」的三段式。\nGood morning, everyone 是标准问候，Let's begin 是行动信号。\n中文说「大家早上好，现在开始…」，英语结构完全一致。",
+    pronunciation: "morning 的 r 在美式英语中发音，英式可省略。\noperations 重音在第三音节：op-er-A-tions。\n节奏：Good MOR-ning ｜ EV-ry-one ｜ LET'S be-GIN ｜ to-DAY'S ｜ OP-er-A-tions MEE-ting.",
+    quiz: [
+      { q: '把「大家早上好，现在开始今天的运维会议。」用英语说出来。', a: "Good morning, everyone. Let's begin today's operations meeting." },
+      { q: '「运维会议」用英语怎么说？', a: 'operations meeting (/ˌɑpəˈreɪʃənz ˈmiːtɪŋ/)' },
+    ],
+  },
+  {
+    id: 1962,
+    speaker: 'Manager',
+    en: "Thank you for attending today's meeting.",
+    cn: '感谢大家参加今天的会议。',
+    ipa: "/θæŋk juː fər əˈtɛndɪŋ təˈdeɪz ˈmiːtɪŋ/",
+    tags: ['第1962句', '会议开场', '★★★★★'],
+    when: '开场问候后，值班经理对团队成员的出席表示感谢，体现尊重。',
+    words: [
+      { w: 'attending', ipa: '/əˈtɛndɪŋ/', pos: '动词（现在分词）', cn: '参加；出席', memory: 'at(朝向) + tend(延伸/注意) → 把注意力朝向某处 → 出席。', phonics: 'at 读 /ə/，tend 读 /tɛnd/，ing 读 /ɪŋ/', collocations: [['attend a meeting', '参加会议'], ['attend training', '参加培训'], ['attend the review', '参加评审']], examples: [['Thank you for attending.', '感谢您的出席。'], ['All engineers attended the meeting.', '所有工程师都参加了会议。']] },
+    ],
+    phrases: [
+      { p: 'Thank you for', ipa: '/θæŋk juː fər/', cn: '感谢…', why: 'Thank you for + 动名词是英语中感谢某人做某事的标准句式。' },
+      { p: "today's meeting", ipa: "/təˈdeɪz ˈmiːtɪŋ/", cn: '今天的会议', why: "today's 所有格修饰 meeting，明确是当天的会议。" },
+    ],
+    grammar: [
+      { q: '为什么用 attending 而不是 attend？', a: 'for 是介词，后面必须接动名词（-ing 形式）或名词，不能接动词原形。\n✅ Thank you for attending.（感谢您参加。）\n❌ Thank you for attend.（语法错误。）' },
+    ],
+    pattern: 'Thank you for + 动名词 + 名词',
+    patternExamples: [
+      { en: 'Thank you for joining the call.', cn: '感谢您参加电话会议。', words: [] },
+      { en: 'Thank you for completing the report.', cn: '感谢您完成报告。', words: [] },
+      { en: 'Thank you for your support.', cn: '感谢您的支持。', words: [] },
+    ],
+    thinking: '在会议开场表达感谢是英语商务文化的标准礼仪。\nThank you for + 动名词 结构简洁直接，适合正式场合。\n中文说「感谢大家参加」，英语用 Thank you for attending 完全对应。',
+    pronunciation: "attending 重音在第二音节：at-TEND-ing。\nThank 的 th 读 /θ/（咬舌送气），不要读成 /s/ 或 /f/。\n节奏：THANK you ｜ for at-TEND-ing ｜ to-DAY'S MEE-ting.",
+    quiz: [
+      { q: '把「感谢大家参加今天的会议。」用英语说出来。', a: "Thank you for attending today's meeting." },
+      { q: '「参加会议」用英语怎么说？', a: 'attend a meeting (/əˈtɛnd ə ˈmiːtɪŋ/)' },
+    ],
+  },
+  {
+    id: 1963,
+    speaker: 'Manager',
+    en: "Let's review yesterday's operations first.",
+    cn: '我们先回顾昨天的运行情况。',
+    ipa: "/lɛts rɪˈvjuː ˈjɛstərdeɪz ˌɑpəˈreɪʃənz fɜːrst/",
+    tags: ['第1963句', '会议开场', '★★★★★'],
+    when: '值班经理在正式议题前，提出先回顾昨日运行情况，建立讨论基础。',
+    words: [
+      { w: 'review', ipa: '/rɪˈvjuː/', pos: '动词', cn: '回顾；审查', memory: 're(再次) + view(看) → 再看一遍 → 回顾审查。', phonics: 're 读 /rɪ/，view 读 /vjuː/，重音在第二音节。', collocations: [['review the report', '审查报告'], ['review operations', '回顾运行情况'], ['review the checklist', '审查检查清单']], examples: [["Let's review the alarm log.", '让我们回顾告警日志。'], ['Please review the maintenance records.', '请审查维护记录。']] },
+      { w: "yesterday's", ipa: '/ˈjɛstərdeɪz/', pos: '名词（所有格）', cn: '昨天的', memory: 'yesterday(昨天) + 所有格 -s → 昨天的。', phonics: 'yes 读 /jɛs/，ter 读 /tər/，day 读 /deɪ/', collocations: [["yesterday's report", '昨天的报告'], ["yesterday's shift", '昨天的班次'], ["yesterday's alarms", '昨天的告警']], examples: [["Yesterday's operations were stable.", '昨天运行稳定。'], ["Review yesterday's ticket log.", '审查昨天的工单日志。']] },
+    ],
+    phrases: [
+      { p: "yesterday's operations", ipa: "/ˈjɛstərdeɪz ˌɑpəˈreɪʃənz/", cn: '昨天的运行情况', why: "yesterday's 所有格修饰 operations，特指前一天的运营状况。" },
+      { p: 'first', ipa: '/fɜːrst/', cn: '首先', why: '放在句末表示「先做这件事」，暗示后面还有其他议题。' },
+    ],
+    grammar: [
+      { q: '为什么 first 放在句末？', a: '英语中 first 可以放在句首或句末，位置不同但意思相同。\n放在句末更自然，暗示「先做这个，然后做下一个」。\n✅ Let\'s review yesterday\'s operations first.（我们先回顾昨天的运行情况。）\n✅ First, let\'s review yesterday\'s operations.（首先，让我们回顾昨天的运行情况。）' },
+    ],
+    pattern: "Let's review + 时间 + 主题 + first",
+    patternExamples: [
+      { en: "Let's review last week's incidents first.", cn: '我们先回顾上周的事件。', words: [] },
+      { en: "Let's review the alarm status first.", cn: '我们先回顾告警状态。', words: [] },
+      { en: "Let's review the ticket summary first.", cn: '我们先回顾工单摘要。', words: [] },
+    ],
+    thinking: "会议回顾昨日情况是建立讨论基础的标准做法。\nLet's review + 主题 是主持人的标准指令句式。\n中文说「我们先回顾…」，英语用 Let's review... first 完全对应。",
+    pronunciation: "review 重音在第二音节：re-VIEW。\nyesterday 的 -day 读 /deɪ/，不要读成 /di/。\n节奏：LET'S re-VIEW ｜ YES-ter-day's ｜ OP-er-A-tions FIRST.",
+    quiz: [
+      { q: '把「我们先回顾昨天的运行情况。」用英语说出来。', a: "Let's review yesterday's operations first." },
+      { q: '「回顾」用英语怎么说？', a: 'review (/rɪˈvjuː/)' },
+    ],
+  },
+  {
+    id: 1964,
+    speaker: 'Manager',
+    en: 'Overall operations were stable yesterday.',
+    cn: '昨天整体运行稳定。',
+    ipa: '/ˈoʊvərɔːl ˌɑpəˈreɪʃənz wər ˈsteɪbəl ˈjɛstərdeɪ/',
+    tags: ['第1964句', '昨日回顾', '★★★★★'],
+    when: '值班经理在回顾环节中，对昨日整体运营状况给出正面定调。',
+    words: [
+      { w: 'overall', ipa: '/ˈoʊvərɔːl/', pos: '副词/形容词', cn: '整体而言；总体的', memory: 'over(全部) + all(所有) → 涵盖全部 → 整体的。', phonics: 'over 读 /ˈoʊvər/，all 读 /ɔːl/', collocations: [['overall status', '整体状态'], ['overall performance', '整体表现'], ['overall summary', '整体总结']], examples: [['Overall, the shift was normal.', '整体而言，本班次正常。'], ['Give me the overall status.', '给我整体状态。']] },
+      { w: 'stable', ipa: '/ˈsteɪbəl/', pos: '形容词', cn: '稳定的', memory: '词根 stab = stand(站立)；stable = 站得稳的 → 稳定的。反义词 unstable。', phonics: 'sta 读 /steɪ/，ble 读 /bəl/', collocations: [['stable operation', '稳定运行'], ['stable temperature', '温度稳定'], ['stable environment', '环境稳定']], examples: [['The system is stable.', '系统稳定。'], ['Temperature has been stable.', '温度一直稳定。']] },
+    ],
+    phrases: [
+      { p: 'overall operations', ipa: '/ˈoʊvərɔːl ˌɑpəˈreɪʃənz/', cn: '整体运营', why: 'overall 修饰 operations，从全局角度概括运营状况。' },
+      { p: 'were stable', ipa: '/wər ˈsteɪbəl/', cn: '是稳定的', why: 'were 是过去时，因为描述的是昨天的状况。' },
+    ],
+    grammar: [
+      { q: '为什么用 were 而不是 are？', a: '描述昨天的状况，必须用过去时 were。\n✅ Overall operations were stable yesterday.（昨天整体运行稳定。）—— 过去时\n✅ Overall operations are stable today.（今天整体运行稳定。）—— 现在时' },
+    ],
+    pattern: 'Overall + 名词 + were/was + 形容词 + 时间',
+    patternExamples: [
+      { en: 'Overall operations were normal yesterday.', cn: '昨天整体运行正常。', words: [] },
+      { en: 'Overall performance was good last week.', cn: '上周整体表现良好。', words: [] },
+      { en: 'Overall conditions were satisfactory.', cn: '整体状况令人满意。', words: [] },
+    ],
+    thinking: "回顾昨日情况时，用 Overall 开头给出全局判断，是英语汇报的标准做法。\n过去时 were 明确表示这是昨天的状态，不是现在。\n中文说「昨天整体运行稳定」，英语用 Overall operations were stable yesterday 完全对应。",
+    pronunciation: "overall 重音在第一音节：O-ver-all。\nstable 读 /ˈsteɪbəl/，不要读成 /steɪbl/。\n节奏：O-ver-ALL ｜ OP-er-A-tions ｜ were STA-ble ｜ YES-ter-day.",
+    quiz: [
+      { q: '把「昨天整体运行稳定。」用英语说出来。', a: 'Overall operations were stable yesterday.' },
+      { q: '「稳定的」用英语怎么说？', a: 'stable (/ˈsteɪbəl/)' },
+    ],
+  },
+  {
+    id: 1965,
+    speaker: 'Manager',
+    en: 'No major incidents occurred yesterday.',
+    cn: '昨天没有发生重大事件。',
+    ipa: '/noʊ ˈmeɪdʒər ˈɪnsɪdənts əˈkɜːrd ˈjɛstərdeɪ/',
+    tags: ['第1965句', '昨日回顾', '★★★★★'],
+    when: '在给出整体定调后，补充说明昨日无重大事件，进一步确认运营平稳。',
+    words: [
+      { w: 'major', ipa: '/ˈmeɪdʒər/', pos: '形容词', cn: '重大的；主要的', memory: 'maj(大) + or(形容词后缀) → 重大的。反义词 minor(轻微的)。', phonics: 'ma 读 /meɪ/，jor 读 /dʒər/', collocations: [['major incident', '重大事件'], ['major alarm', '严重告警'], ['major issue', '重大问题']], examples: [['No major incidents were reported.', '没有报告重大事件。'], ['This is a major concern.', '这是一个重大关切。']] },
+      { w: 'incidents', ipa: '/ˈɪnsɪdənts/', pos: '名词（复数）', cn: '事件；事故', memory: 'in(进入) + cid(落下) + ent → 突然发生的事 → 事件。', phonics: 'in 读 /ɪn/，ci 读 /sɪ/，dents 读 /dənts/', collocations: [['security incident', '安全事件'], ['critical incident', '严重事件'], ['incident report', '事件报告']], examples: [['No incidents were reported.', '没有报告事件。'], ['Please file an incident report.', '请提交事件报告。']] },
+      { w: 'occurred', ipa: '/əˈkɜːrd/', pos: '动词（过去式）', cn: '发生', memory: 'oc(朝向) + cur(跑) → 跑过来 → 发生。与 happen 同义，但更正式。', phonics: 'oc 读 /ə/，cur 读 /kɜːr/，重音在第二音节。', collocations: [['occurred yesterday', '昨天发生'], ['occurred during the shift', '班次期间发生'], ['occurred unexpectedly', '意外发生']], examples: [['The alarm occurred at 3 PM.', '告警在下午3点发生。'], ['No incidents occurred.', '没有事件发生。']] },
+    ],
+    phrases: [
+      { p: 'No major incidents', ipa: '/noʊ ˈmeɪdʒər ˈɪnsɪdənts/', cn: '没有重大事件', why: 'No + 形容词 + 名词 是否定句的简洁表达，比 There were no... 更直接。' },
+      { p: 'occurred yesterday', ipa: '/əˈkɜːrd ˈjɛstərdeɪ/', cn: '昨天发生', why: 'occurred 过去式搭配 yesterday，明确时间范围。' },
+    ],
+    grammar: [
+      { q: '为什么用 No major incidents occurred 而不是 There were no major incidents？', a: "两种说法都正确，No...occurred 更简洁有力，适合会议口头汇报。\n✅ No major incidents occurred yesterday.（昨天没有重大事件发生。）—— 简洁\n✅ There were no major incidents yesterday.（昨天没有重大事件。）—— 稍长\n两者含义完全相同，选择取决于个人习惯。" },
+    ],
+    pattern: 'No + 形容词 + 名词 + occurred + 时间',
+    patternExamples: [
+      { en: 'No critical alarms occurred last night.', cn: '昨晚没有严重告警发生。', words: [] },
+      { en: 'No safety incidents occurred this week.', cn: '本周没有安全事件发生。', words: [] },
+      { en: 'No power outages occurred yesterday.', cn: '昨天没有发生停电。', words: [] },
+    ],
+    thinking: '汇报「没有发生什么」和「发生了什么」同样重要——它确认了运营的平稳状态。\noccurred 比 happened 更正式，适合运维专业语境。\n中文说「没有发生」，英语用 No...occurred 简洁直接。',
+    pronunciation: "occurred 重音在第二音节：oc-CURRED，注意双写 r 不发双音。\nmajor 读 /ˈmeɪdʒər/，不要读成 /meɪdʒɔːr/。\n节奏：No MA-jor ｜ IN-ci-dents ｜ oc-CURRED ｜ YES-ter-day.",
+    quiz: [
+      { q: '把「昨天没有发生重大事件。」用英语说出来。', a: 'No major incidents occurred yesterday.' },
+      { q: '「重大事件」用英语怎么说？', a: 'major incident (/ˈmeɪdʒər ˈɪnsɪdənt/)' },
+    ],
+  },
+  {
+    id: 1966,
+    speaker: 'Manager',
+    en: 'One critical alarm was reported yesterday afternoon.',
+    cn: '昨天下午发生了一条严重告警。',
+    ipa: '/wʌn ˈkrɪtɪkəl əˈlɑːrm wəz rɪˈpɔːrtɪd ˈjɛstərdeɪ ˌæftərˈnuːn/',
+    tags: ['第1966句', '昨日回顾', '★★★★★'],
+    when: '在确认无重大事件后，补充说明有一条严重告警需要关注。',
+    words: [
+      { w: 'critical', ipa: '/ˈkrɪtɪkəl/', pos: '形容词', cn: '严重的；关键的', memory: 'crit(判断) + ical → 需要立即判断的 → 严重关键的。', phonics: 'cri 读 /krɪ/，ti 读 /tɪ/，cal 读 /kəl/', collocations: [['critical alarm', '严重告警'], ['critical system', '关键系统'], ['critical infrastructure', '关键基础设施']], examples: [['A critical alarm was triggered.', '触发了一条严重告警。'], ['This is a critical issue.', '这是一个严重问题。']] },
+      { w: 'reported', ipa: '/rɪˈpɔːrtɪd/', pos: '动词（过去分词）', cn: '报告；上报', memory: 're(回) + port(携带) → 带回来 → 报告。', phonics: 're 读 /rɪ/，port 读 /pɔːr/，ed 读 /ɪd/', collocations: [['was reported', '被报告'], ['reported immediately', '立即报告'], ['reported to management', '上报管理层']], examples: [['The alarm was reported at 3 PM.', '告警在下午3点被报告。'], ['All incidents must be reported.', '所有事件必须上报。']] },
+    ],
+    phrases: [
+      { p: 'critical alarm', ipa: '/ˈkrɪtɪkəl əˈlɑːrm/', cn: '严重告警', why: 'critical 修饰 alarm，表示最高严重级别的告警。' },
+      { p: 'was reported', ipa: '/wəz rɪˈpɔːrtɪd/', cn: '被报告', why: '被动语态，强调告警被上报这个事实，不关注是谁报告的。' },
+    ],
+    grammar: [
+      { q: '为什么用被动语态 was reported？', a: '被动语态强调事件本身，不关注执行者。\n✅ One critical alarm was reported yesterday afternoon.（昨天下午报告了一条严重告警。）—— 强调事件\n✅ The night shift reported one critical alarm yesterday afternoon.（夜班昨天下午报告了一条严重告警。）—— 强调谁报告的\n会议中用被动语态更简洁高效。' },
+    ],
+    pattern: '数量 + 形容词 + 名词 + was/were reported + 时间',
+    patternExamples: [
+      { en: 'Two warning alarms were reported last night.', cn: '昨晚报告了两条警告告警。', words: [] },
+      { en: 'One power failure was reported this morning.', cn: '今天上午报告了一次电源故障。', words: [] },
+      { en: 'Three security incidents were reported this week.', cn: '本周报告了三起安全事件。', words: [] },
+    ],
+    thinking: '在确认无重大事件后，补充说明有一条严重告警，是「先报喜后报忧」的汇报策略。\n被动语态 was reported 让焦点集中在事件本身。\nyesterday afternoon 明确时间范围，方便追溯。',
+    pronunciation: "critical 重音在第一音节：CRI-ti-cal。\nreported 的 -ed 读 /ɪd/，因为 report 以 /t/ 结尾。\n节奏：One CRI-ti-cal ｜ a-LARM ｜ was re-PORT-ed ｜ YES-ter-day ｜ af-ter-NOON.",
+    quiz: [
+      { q: '把「昨天下午发生了一条严重告警。」用英语说出来。', a: 'One critical alarm was reported yesterday afternoon.' },
+      { q: '「严重告警」用英语怎么说？', a: 'critical alarm (/ˈkrɪtɪkəl əˈlɑːrm/)' },
+    ],
+  },
+  {
+    id: 1967,
+    speaker: 'Manager',
+    en: 'The issue has been resolved successfully.',
+    cn: '该问题已经顺利解决。',
+    ipa: '/ðə ˈɪʃuː hæz biːn rɪˈzɑːlvd səkˈsɛsfəli/',
+    tags: ['第1967句', '昨日回顾', '★★★★★'],
+    when: '报告严重告警后，立即给出处理结果，消除团队顾虑。',
+    words: [
+      { w: 'resolved', ipa: '/rɪˈzɑːlvd/', pos: '动词（过去分词）', cn: '解决；处理', memory: 're(再) + solve(解决) → 再次解开 → 解决。与 solved 同义，但 resolved 更常用于工单/告警场景。', phonics: 're 读 /rɪ/，solve 读 /zɑːlv/，ed 读 /d/', collocations: [['issue resolved', '问题解决'], ['ticket resolved', '工单解决'], ['alarm resolved', '告警解决']], examples: [['The issue has been resolved.', '问题已经解决。'], ['All tickets have been resolved.', '所有工单都已解决。']] },
+      { w: 'successfully', ipa: '/səkˈsɛsfəli/', pos: '副词', cn: '顺利地；成功地', memory: 'success(成功) + ful(充满) + ly(副词后缀) → 顺利地。', phonics: 'suc 读 /sək/，cess 读 /sɛs/，ful 读 /fə/，ly 读 /li/', collocations: [['resolved successfully', '顺利解决'], ['completed successfully', '顺利完成'], ['deployed successfully', '成功部署']], examples: [['The maintenance was completed successfully.', '维护已顺利完成。'], ['The test passed successfully.', '测试顺利通过。']] },
+    ],
+    phrases: [
+      { p: 'has been resolved', ipa: '/hæz biːn rɪˈzɑːlvd/', cn: '已经被解决', why: '现在完成时被动语态，强调问题已经解决，结果是当前状态。' },
+      { p: 'successfully', ipa: '/səkˈsɛsfəli/', cn: '顺利地', why: '副词修饰 resolved，强调解决过程顺利，没有遗留问题。' },
+    ],
+    grammar: [
+      { q: '为什么用 has been resolved 而不是 was resolved？', a: 'has been resolved（现在完成时）强调「已经解决，现在是解决后的状态」，适合汇报当前结果。\nwas resolved（一般过去时）只描述过去发生的事，不强调当前状态。\n✅ The issue has been resolved successfully.（问题已经顺利解决了。）—— 强调当前已解决\n✅ The issue was resolved yesterday.（问题昨天解决了。）—— 强调过去时间' },
+    ],
+    pattern: 'The + 名词 + has been + 过去分词 + 副词',
+    patternExamples: [
+      { en: 'The alarm has been cleared automatically.', cn: '告警已自动恢复。', words: [] },
+      { en: 'The ticket has been closed successfully.', cn: '工单已顺利关闭。', words: [] },
+      { en: 'The maintenance has been completed on schedule.', cn: '维护已按计划完成。', words: [] },
+    ],
+    thinking: '报告问题后立即给出结果，是「问题→结果」的汇报闭环。\n现在完成时 has been resolved 强调当前状态已恢复正常。\nsuccessfully 给团队信心，确认没有遗留隐患。',
+    pronunciation: "resolved 的 -ed 读 /d/，因为 resolve 以 /v/ 结尾。\nsuccessfully 重音在第二音节：suc-CESS-ful-ly。\n节奏：The IS-sue ｜ has been re-SOLVED ｜ suc-CESS-ful-ly.",
+    quiz: [
+      { q: '把「该问题已经顺利解决。」用英语说出来。', a: 'The issue has been resolved successfully.' },
+      { q: '「解决」用英语怎么说？（工单/告警场景）', a: 'resolve (/rɪˈzɑːlv/)' },
+    ],
+  },
+  {
+    id: 1968,
+    speaker: 'Manager',
+    en: 'The root cause has been identified.',
+    cn: '根本原因已经找到。',
+    ipa: '/ðə ruːt kɔːz hæz biːn aɪˈdɛntɪfaɪd/',
+    tags: ['第1968句', '昨日回顾', '★★★★★'],
+    when: '确认问题解决后，进一步说明根本原因已被识别，展示深度分析能力。',
+    words: [
+      { w: 'root cause', ipa: '/ruːt kɔːz/', pos: '名词', cn: '根本原因', memory: 'root(根) + cause(原因) → 问题的根源，不是表面现象。', phonics: 'root 读 /ruːt/，cause 读 /kɔːz/', collocations: [['root cause analysis', '根本原因分析'], ['root cause identified', '根本原因已找到'], ['identify the root cause', '找到根本原因']], examples: [['We need to find the root cause.', '我们需要找到根本原因。'], ['Root cause analysis is required.', '需要进行根本原因分析。']] },
+      { w: 'identified', ipa: '/aɪˈdɛntɪfaɪd/', pos: '动词（过去分词）', cn: '识别；确认', memory: 'identity(身份) + fy(使) → 使确认身份 → 识别。', phonics: 'i 读 /aɪ/，den 读 /dɛn/，ti 读 /tɪ/，fied 读 /faɪd/', collocations: [['identified the issue', '识别了问题'], ['identified the cause', '确认了原因'], ['identified the risk', '识别了风险']], examples: [['The issue has been identified.', '问题已被识别。'], ['Please identify the affected equipment.', '请识别受影响的设备。']] },
+    ],
+    phrases: [
+      { p: 'root cause', ipa: '/ruːt kɔːz/', cn: '根本原因', why: '数据中心运维中，找到 root cause 是防止问题复发的关键步骤。' },
+      { p: 'has been identified', ipa: '/hæz biːn aɪˈdɛntɪfaɪd/', cn: '已经被识别', why: '现在完成时被动语态，强调根本原因已被确认，后续可以针对性处理。' },
+    ],
+    grammar: [
+      { q: '为什么用 root cause 而不是 just cause？', a: 'root cause 是运维领域的专业术语，指问题的根本根源，区别于 surface cause(表面原因)。\n✅ The root cause has been identified.（根本原因已找到。）—— 找到了真正的原因\n✅ The cause has been identified.（原因已找到。）—— 可能只是表面原因\n在事故分析中，必须找到 root cause 才能防止复发。' },
+    ],
+    pattern: 'The root cause + has been + 过去分词',
+    patternExamples: [
+      { en: 'The root cause has been confirmed.', cn: '根本原因已确认。', words: [] },
+      { en: 'The root cause has been documented.', cn: '根本原因已记录。', words: [] },
+      { en: 'The root cause is under investigation.', cn: '根本原因正在调查中。', words: [] },
+    ],
+    thinking: '解决问题后确认根本原因，是「解决→分析→预防」的完整闭环。\nroot cause 是运维专业术语，体现团队的分析深度。\n中文说「根本原因已经找到」，英语用 The root cause has been identified 完全对应。',
+    pronunciation: "root cause 两个词都重读：ROOT CAUSE。\nidentified 重音在第二音节：i-DEN-ti-fied。\n节奏：The ROOT CAUSE ｜ has been ｜ i-DEN-ti-fied.",
+    quiz: [
+      { q: '把「根本原因已经找到。」用英语说出来。', a: 'The root cause has been identified.' },
+      { q: '「根本原因」用英语怎么说？', a: 'root cause (/ruːt kɔːz/)' },
+    ],
+  },
+  {
+    id: 1969,
+    speaker: 'Manager',
+    en: 'Corrective actions have been completed.',
+    cn: '纠正措施已经完成。',
+    ipa: '/kəˈrɛktɪv ˈækʃənz hæv biːn kəmˈpliːtɪd/',
+    tags: ['第1969句', '昨日回顾', '★★★★★'],
+    when: '确认根本原因后，报告针对问题已采取的纠正措施全部完成。',
+    words: [
+      { w: 'corrective actions', ipa: '/kəˈrɛktɪv ˈækʃənz/', pos: '名词', cn: '纠正措施', memory: 'correct(纠正) + ive(形容词后缀) → 纠正性的。corrective actions = 针对已发现问题的修正行动。', phonics: 'cor 读 /kə/，rec 读 /rɛk/，tive 读 /tɪv/', collocations: [['corrective actions', '纠正措施'], ['corrective action plan', '纠正措施计划'], ['implement corrective actions', '执行纠正措施']], examples: [['Corrective actions have been implemented.', '纠正措施已执行。'], ['Please document the corrective actions.', '请记录纠正措施。']] },
+      { w: 'completed', ipa: '/kəmˈpliːtɪd/', pos: '动词（过去分词）', cn: '完成', memory: 'com(完全) + plete(填满) → 完全填满 → 完成。', phonics: 'com 读 /kəm/，plete 读 /pliːt/，ed 读 /ɪd/', collocations: [['completed on time', '按时完成'], ['completed successfully', '顺利完成'], ['task completed', '任务完成']], examples: [['All actions have been completed.', '所有措施已完成。'], ['The maintenance was completed yesterday.', '维护昨天完成了。']] },
+    ],
+    phrases: [
+      { p: 'corrective actions', ipa: '/kəˈrɛktɪv ˈækʃənz/', cn: '纠正措施', why: '与 preventive actions(预防措施)相对，corrective actions 是针对已发生问题的修正。' },
+      { p: 'have been completed', ipa: '/hæv biːn kəmˈpliːtɪd/', cn: '已经完成', why: '现在完成时被动语态，强调所有纠正措施都已完成，无遗留。' },
+    ],
+    grammar: [
+      { q: 'corrective actions 和 preventive actions 有什么区别？', a: 'corrective actions(纠正措施)：针对已发生的问题，修正已造成的影响。\npreventive actions(预防措施)：针对潜在风险，防止问题再次发生。\n✅ Corrective actions have been completed.（纠正措施已完成。）—— 修正已发生的问题\n✅ Preventive actions are being implemented.（预防措施正在落实。）—— 防止未来复发\n两者常配合使用：先纠正再预防。' },
+    ],
+    pattern: 'Corrective actions + have been + 过去分词',
+    patternExamples: [
+      { en: 'Corrective actions have been implemented.', cn: '纠正措施已执行。', words: [] },
+      { en: 'Corrective actions have been documented.', cn: '纠正措施已记录。', words: [] },
+      { en: 'Corrective actions have been verified.', cn: '纠正措施已验证。', words: [] },
+    ],
+    thinking: 'corrective actions 是运维事故处理的标准术语，属于 CAPA(Corrective And Preventive Actions)体系。\n汇报纠正措施已完成，是事故闭环管理的关键节点。\n中文说「纠正措施已经完成」，英语完全对应。',
+    pronunciation: "corrective 重音在第二音节：cor-REC-tive。\ncompleted 的 -ed 读 /ɪd/，因为 complete 以 /t/ 结尾。\n节奏：cor-REC-tive ｜ AC-tions ｜ have been ｜ com-PLE-ted.",
+    quiz: [
+      { q: '把「纠正措施已经完成。」用英语说出来。', a: 'Corrective actions have been completed.' },
+      { q: '「纠正措施」用英语怎么说？', a: 'corrective actions (/kəˈrɛktɪv ˈækʃənz/)' },
+    ],
+  },
+  {
+    id: 1970,
+    speaker: 'Manager',
+    en: 'Preventive actions are being implemented.',
+    cn: '预防措施正在落实。',
+    ipa: '/prɪˈvɛntɪv ˈækʃənz ɑːr ˈbiːɪŋ ˈɪmplɪmɛntɪd/',
+    tags: ['第1970句', '昨日回顾', '★★★★★'],
+    when: '报告纠正措施完成后，进一步说明预防措施正在推进，展示持续改进。',
+    words: [
+      { w: 'preventive actions', ipa: '/prɪˈvɛntɪv ˈækʃənz/', pos: '名词', cn: '预防措施', memory: 'prevent(预防) + ive(形容词后缀) → 预防性的。preventive actions = 防止问题再次发生的行动。', phonics: 'pre 读 /prɪ/，ven 读 /vɛn/，tive 读 /tɪv/', collocations: [['preventive actions', '预防措施'], ['preventive maintenance', '预防性维护'], ['preventive measures', '预防措施']], examples: [['Preventive actions are in progress.', '预防措施正在进行中。'], ['We need more preventive actions.', '我们需要更多预防措施。']] },
+      { w: 'implemented', ipa: '/ˈɪmplɪmɛntɪd/', pos: '动词（过去分词）', cn: '执行；落实', memory: 'im(进入) + ple(填满) + ment → 使之充实 → 执行落实。', phonics: 'im 读 /ɪm/，ple 读 /plɪ/，ment 读 /mɛnt/，ed 读 /ɪd/', collocations: [['implement actions', '执行措施'], ['implement changes', '实施变更'], ['implement the plan', '执行计划']], examples: [['The plan has been implemented.', '计划已执行。'], ['Please implement the corrective actions.', '请执行纠正措施。']] },
+    ],
+    phrases: [
+      { p: 'preventive actions', ipa: '/prɪˈvɛntɪv ˈækʃənz/', cn: '预防措施', why: '与 corrective actions 配合，形成完整的 CAPA 体系。' },
+      { p: 'are being implemented', ipa: '/ɑːr ˈbiːɪŋ ˈɪmplɪmɛntɪd/', cn: '正在被落实', why: '现在进行时被动语态，强调预防措施正在推进中，尚未全部完成。' },
+    ],
+    grammar: [
+      { q: '为什么用 are being implemented 而不是 have been implemented？', a: 'are being implemented（现在进行时）表示预防措施正在进行中，还没有全部完成。\nhave been implemented（现在完成时）表示预防措施已全部完成。\n✅ Preventive actions are being implemented.（预防措施正在落实。）—— 进行中\n✅ Preventive actions have been implemented.（预防措施已落实。）—— 已完成\n根据实际进度选择合适的时态。' },
+    ],
+    pattern: 'Preventive actions + are being + 过去分词',
+    patternExamples: [
+      { en: 'Preventive actions are being reviewed.', cn: '预防措施正在审查中。', words: [] },
+      { en: 'Preventive actions are being documented.', cn: '预防措施正在记录中。', words: [] },
+      { en: 'Preventive actions are being scheduled.', cn: '预防措施正在排期中。', words: [] },
+    ],
+    thinking: '纠正措施完成后推进预防措施，展示「解决→分析→预防」的完整闭环。\n现在进行时 are being implemented 诚实反映当前进度，不夸大。\n中文说「正在落实」，英语用 are being implemented 完全对应。',
+    pronunciation: "preventive 重音在第二音节：pre-VEN-tive。\nimplemented 重音在第一音节：IM-ple-men-ted。\n节奏：pre-VEN-tive ｜ AC-tions ｜ are BE-ing ｜ IM-ple-men-ted.",
+    quiz: [
+      { q: '把「预防措施正在落实。」用英语说出来。', a: 'Preventive actions are being implemented.' },
+      { q: '「预防措施」用英语怎么说？', a: 'preventive actions (/prɪˈvɛntɪv ˈækʃənz/)' },
+    ],
+  },
+  {
+    id: 1971,
+    speaker: 'Manager',
+    en: "Let's review today's open tickets.",
+    cn: '现在我们来看今天未关闭的工单。',
+    ipa: "/lɛts rɪˈvjuː təˈdeɪz ˈoʊpən ˈtɪkɪts/",
+    tags: ['第1971句', '工单汇报', '★★★★★'],
+    when: '值班经理从昨日回顾切换到今日议题，引导团队关注当前未关闭工单。',
+    words: [
+      { w: 'open tickets', ipa: '/ˈoʊpən ˈtɪkɪts/', pos: '名词', cn: '未关闭工单', memory: 'open(开着的/未关闭的) + tickets(工单) → 尚未完成处理的工单。', phonics: 'o 读 /oʊ/，pen 读 /pən/', collocations: [['open tickets', '未关闭工单'], ['open event tickets', '未关闭事件单'], ['open fault tickets', '未关闭故障单']], examples: [['There are five open tickets.', '有5张未关闭工单。'], ['Please close all open tickets.', '请关闭所有未关闭工单。']] },
+    ],
+    phrases: [
+      { p: "today's open tickets", ipa: "/təˈdeɪz ˈoʊpən ˈtɪkɪts/", cn: '今天的未关闭工单', why: "today's 修饰 open tickets，明确是当前待处理的工单。" },
+      { p: "Let's review", ipa: '/lɛts rɪˈvjuː/', cn: '让我们回顾', why: "Let's + review 是会议中切换议题的标准引导语。" },
+    ],
+    grammar: [
+      { q: '为什么用 open 而不是 unclosed？', a: '在工单管理语境中，open 是标准术语，表示「未关闭/待处理」。\nunclosed 虽然意思相近，但在 IT/运维领域不常用。\n✅ There are five open tickets.（有5张未关闭工单。）—— 标准用语\n❌ There are five unclosed tickets.（有5张未关闭工单。）—— 不常用' },
+    ],
+    pattern: "Let's review + 时间 + 形容词 + 名词",
+    patternExamples: [
+      { en: "Let's review this week's pending tasks.", cn: '我们来看本周待处理任务。', words: [] },
+      { en: "Let's review today's alarm summary.", cn: '我们来看今天的告警摘要。', words: [] },
+      { en: "Let's review the current status.", cn: '我们来看当前状态。', words: [] },
+    ],
+    thinking: "从昨日回顾切换到今日议题，用 Let's review 做自然过渡。\nopen tickets 是运维工单管理的标准术语。\n中文说「未关闭的工单」，英语用 open tickets 简洁标准。",
+    pronunciation: "open 读 /ˈoʊpən/，不要读成 /ˈɒpən/。\ntickets 的 -ets 读 /ɪts/，不要读成 /ɛts/。\n节奏：LET'S re-VIEW ｜ to-DAY'S ｜ O-pen TICK-ets.",
+    quiz: [
+      { q: '把「现在我们来看今天未关闭的工单。」用英语说出来。', a: "Let's review today's open tickets." },
+      { q: '「未关闭工单」用英语怎么说？', a: 'open tickets (/ˈoʊpən ˈtɪkɪts/)' },
+    ],
+  },
+  {
+    id: 1972,
+    speaker: 'Manager',
+    en: 'There are eight open event tickets.',
+    cn: '目前有8张未关闭事件单。',
+    ipa: '/ðɛr ɑːr eɪt ˈoʊpən ɪˈvɛnt ˈtɪkɪts/',
+    tags: ['第1972句', '工单汇报', '★★★★★'],
+    when: '值班经理报告当前事件单数量，让团队了解工单负载。',
+    words: [
+      { w: 'event tickets', ipa: '/ɪˈvɛnt ˈtɪkɪts/', pos: '名词', cn: '事件单', memory: 'event(事件) + tickets(工单) → 记录运维事件的工单类型，区别于 fault tickets(故障单)。', phonics: 'e 读 /ɪ/，vent 读 /vɛnt/', collocations: [['event ticket', '事件单'], ['open event ticket', '未关闭事件单'], ['create event ticket', '创建事件单']], examples: [['Please create an event ticket.', '请创建一张事件单。'], ['The event ticket has been closed.', '事件单已关闭。']] },
+    ],
+    phrases: [
+      { p: 'There are', ipa: '/ðɛr ɑːr/', cn: '有', why: 'There are + 数量 + 名词 是英语中报告存在某物的标准句式。' },
+      { p: 'eight open event tickets', ipa: '/eɪt ˈoʊpən ɪˈvɛnt ˈtɪkɪts/', cn: '8张未关闭事件单', why: '数量 + 状态(open) + 类型(event) + 名词(tickets) 的层层修饰。' },
+    ],
+    grammar: [
+      { q: 'event ticket 和 fault ticket 有什么区别？', a: 'event ticket(事件单)：记录一般运维事件，严重程度较低，通常不涉及设备故障。\nfault ticket(故障单)：记录设备或系统故障，严重程度较高，需要专项处理。\n✅ There are eight open event tickets.（有8张未关闭事件单。）—— 一般事件\n✅ There are three open fault tickets.（有3张未关闭故障单。）—— 设备故障\nevent ticket 可以升级为 fault ticket。' },
+    ],
+    pattern: 'There are + 数量 + open + 类型 + tickets',
+    patternExamples: [
+      { en: 'There are five open fault tickets.', cn: '有5张未关闭故障单。', words: [] },
+      { en: 'There are twelve open change requests.', cn: '有12个未关闭变更请求。', words: [] },
+      { en: 'There are two open PTW applications.', cn: '有2个未关闭的PTW申请。', words: [] },
+    ],
+    thinking: '用 There are + 数量 报告工单数量是英语中最直接的方式。\nevent ticket 和 fault ticket 是运维工单体系的两种基本类型。\n中文说「有X张」，英语用 There are X 完全对应。',
+    pronunciation: "event 重音在第二音节：e-VENT。\ntickets 读 /ˈtɪkɪts/，注意两个音节都要清晰。\n节奏：There are EIGHT ｜ O-pen ｜ e-VENT TICK-ets.",
+    quiz: [
+      { q: '把「目前有8张未关闭事件单。」用英语说出来。', a: 'There are eight open event tickets.' },
+      { q: '「事件单」用英语怎么说？', a: 'event ticket (/ɪˈvɛnt ˈtɪkɪt/)' },
+    ],
+  },
+  {
+    id: 1973,
+    speaker: 'Manager',
+    en: 'There are three open fault tickets.',
+    cn: '目前有3张未关闭故障单。',
+    ipa: '/ðɛr ɑːr θriː ˈoʊpən fɔːlt ˈtɪkɪts/',
+    tags: ['第1973句', '工单汇报', '★★★★★'],
+    when: '报告事件单后，继续报告故障单数量，让团队了解严重问题负载。',
+    words: [
+      { w: 'fault tickets', ipa: '/fɔːlt ˈtɪkɪts/', pos: '名词', cn: '故障单', memory: 'fault(故障) + tickets(工单) → 记录设备或系统故障的工单，严重级别高于 event ticket。', phonics: 'fault 读 /fɔːlt/，注意 l 不发音', collocations: [['fault ticket', '故障单'], ['open fault ticket', '未关闭故障单'], ['escalate fault ticket', '升级故障单']], examples: [['A fault ticket has been created.', '已创建一张故障单。'], ['The fault ticket is under investigation.', '故障单正在调查中。']] },
+    ],
+    phrases: [
+      { p: 'open fault tickets', ipa: '/ˈoʊpən fɔːlt ˈtɪkɪts/', cn: '未关闭故障单', why: 'open 修饰 fault tickets，表示尚未关闭的故障工单。' },
+    ],
+    grammar: [
+      { q: '为什么先报 event tickets 再报 fault tickets？', a: '先报数量多的事件单(8张)，再报数量少的故障单(3张)，是按数量递减的逻辑顺序。\n也可以反过来先报故障单(更严重)，再报事件单，取决于汇报策略。\n两种顺序都可以，关键是数据准确。' },
+    ],
+    pattern: 'There are + 数量 + open + fault tickets',
+    patternExamples: [
+      { en: 'There are two open fault tickets.', cn: '有2张未关闭故障单。', words: [] },
+      { en: 'There are five open fault tickets requiring attention.', cn: '有5张需要关注的未关闭故障单。', words: [] },
+      { en: 'There are no open fault tickets.', cn: '没有未关闭的故障单。', words: [] },
+    ],
+    thinking: '故障单数量通常少于事件单，但严重程度更高。\n连续报告两种工单类型，让团队全面了解工单负载。\n中文说「有X张故障单」，英语用 There are X fault tickets 完全对应。',
+    pronunciation: "fault 的 l 不发音，读 /fɔːlt/，不要读成 /fɑːlt/。\nthree 的 th 读 /θ/（咬舌送气）。\n节奏：There are THREE ｜ O-pen ｜ FAULT TICK-ets.",
+    quiz: [
+      { q: '把「目前有3张未关闭故障单。」用英语说出来。', a: 'There are three open fault tickets.' },
+      { q: '「故障单」用英语怎么说？', a: 'fault ticket (/fɔːlt ˈtɪkɪt/)' },
+    ],
+  },
+  {
+    id: 1974,
+    speaker: 'Manager',
+    en: 'Two tickets are close to the SLA deadline.',
+    cn: '有2张工单即将达到SLA时限。',
+    ipa: '/tuː ˈtɪkɪts ɑːr kloʊs tuː ðə ˌɛsˌɛlˈeɪ ˈdɛdlaɪn/',
+    tags: ['第1974句', '工单汇报', '★★★★★'],
+    when: '报告工单数量后，指出即将超时的工单，提醒团队优先处理。',
+    words: [
+      { w: 'close to', ipa: '/kloʊs tuː/', pos: '短语', cn: '接近；快要', memory: 'close(近的) + to(朝向) → 接近某个时间点。', phonics: 'close 读 /kloʊs/，to 读 /tuː/', collocations: [['close to the deadline', '接近截止期限'], ['close to SLA', '接近SLA'], ['close to completion', '接近完成']], examples: [['This ticket is close to the SLA deadline.', '这张工单接近SLA时限了。'], ['We are close to resolving the issue.', '我们快要解决这个问题了。']] },
+      { w: 'SLA deadline', ipa: '/ˌɛsˌɛlˈeɪ ˈdɛdlaɪn/', pos: '名词', cn: 'SLA时限', memory: 'SLA(Service Level Agreement 服务水平协议) + deadline(截止期限) → 工单必须在此时限内完成处理。', phonics: 'SLA 逐字母读 S-L-A，deadline 读 /ˈdɛdlaɪn/', collocations: [['SLA deadline', 'SLA时限'], ['meet the SLA', '达到SLA要求'], ['exceed the SLA', '超出SLA']], examples: [['The SLA deadline is in two hours.', 'SLA时限还有两小时。'], ['We must meet the SLA deadline.', '我们必须达到SLA时限。']] },
+    ],
+    phrases: [
+      { p: 'close to the SLA deadline', ipa: '/kloʊs tuː ðə ˌɛsˌɛlˈeɪ ˈdɛdlaɪn/', cn: '即将达到SLA时限', why: 'close to 表示时间上接近，SLA deadline 是工单处理的最后期限。' },
+    ],
+    grammar: [
+      { q: 'close to 和 near 有什么区别？', a: '在表示时间接近时，两者几乎可以互换。\n✅ Two tickets are close to the SLA deadline.（2张工单接近SLA时限。）\n✅ Two tickets are near the SLA deadline.（2张工单接近SLA时限。）\nclose to 更常用在口语中，near 更书面化。' },
+    ],
+    pattern: '数量 + tickets + are close to + 名词',
+    patternExamples: [
+      { en: 'One ticket is close to the SLA deadline.', cn: '有1张工单即将达到SLA时限。', words: [] },
+      { en: 'Three tickets are close to expiration.', cn: '有3张工单即将到期。', words: [] },
+      { en: 'Two change requests are close to approval.', cn: '有2个变更请求即将获批。', words: [] },
+    ],
+    thinking: '报告即将超时的工单是运维会议的重要环节，让团队优先处理紧急项。\nSLA deadline 是运维核心 KPI，超时会影响客户满意度。\n中文说「即将达到SLA时限」，英语用 close to the SLA deadline 简洁直接。',
+    pronunciation: "close 在这里读 /kloʊs/（形容词），不读 /kloʊz/（动词）。\ndeadline 重音在第一音节：DEAD-line。\n节奏：Two TICK-ets ｜ are CLOSE to ｜ the S-L-A DEAD-line.",
+    quiz: [
+      { q: '把「有2张工单即将达到SLA时限。」用英语说出来。', a: 'Two tickets are close to the SLA deadline.' },
+      { q: '「SLA时限」用英语怎么说？', a: 'SLA deadline (/ˌɛsˌɛlˈeɪ ˈdɛdlaɪn/)' },
+    ],
+  },
+  {
+    id: 1975,
+    speaker: 'Manager',
+    en: 'Please prioritize those tickets.',
+    cn: '请优先处理这些工单。',
+    ipa: '/pliːz praɪˈɔːrɪtaɪz ðoʊz ˈtɪkɪts/',
+    tags: ['第1975句', '工单汇报', '★★★★★'],
+    when: '指出即将超时的工单后，值班经理发出优先处理指令。',
+    words: [
+      { w: 'prioritize', ipa: '/praɪˈɔːrɪtaɪz/', pos: '动词', cn: '优先处理；排优先级', memory: 'prior(优先的) + ize(使) → 使之优先 → 优先处理。', phonics: 'pri 读 /praɪ/，or 读 /ɔːr/，i 读 /ɪ/，tize 读 /taɪz/', collocations: [['prioritize tickets', '优先处理工单'], ['prioritize tasks', '优先处理任务'], ['prioritize the work', '优先安排工作']], examples: [['Please prioritize the critical tickets.', '请优先处理严重工单。'], ['We need to prioritize our workload.', '我们需要优先安排工作量。']] },
+    ],
+    phrases: [
+      { p: 'prioritize those tickets', ipa: '/praɪˈɔːrɪtaɪz ðoʊz ˈtɪkɪts/', cn: '优先处理这些工单', why: 'those 指代前文提到的即将超时的工单，prioritize 是行动指令。' },
+    ],
+    grammar: [
+      { q: 'prioritize 和 give priority to 有什么区别？', a: '两者意思相同，prioritize 是动词形式，更简洁；give priority to 是短语形式，更正式。\n✅ Please prioritize those tickets.（请优先处理这些工单。）—— 简洁\n✅ Please give priority to those tickets.（请优先处理这些工单。）—— 稍长\n日常会议中用 prioritize 更高效。' },
+    ],
+    pattern: 'Please prioritize + 名词',
+    patternExamples: [
+      { en: 'Please prioritize the SLA-critical tickets.', cn: '请优先处理SLA关键工单。', words: [] },
+      { en: 'Please prioritize the safety-related tasks.', cn: '请优先处理安全相关任务。', words: [] },
+      { en: 'Please prioritize the customer complaints.', cn: '请优先处理客户投诉。', words: [] },
+    ],
+    thinking: 'prioritize 是运维管理中的高频动词，表示按优先级排列处理顺序。\nPlease + 动词 是礼貌指令的标准句式。\n中文说「优先处理」，英语用 prioritize 一个词就表达完整。',
+    pronunciation: "prioritize 重音在第二音节：pri-OR-i-tize。\nthose 的 th 读 /ð/（浊辅音，咬舌振动）。\n节奏：Please PRI-or-i-tize ｜ those TICK-ets.",
+    quiz: [
+      { q: '把「请优先处理这些工单。」用英语说出来。', a: 'Please prioritize those tickets.' },
+      { q: '「优先处理」用英语怎么说？', a: 'prioritize (/praɪˈɔːrɪtaɪz/)' },
+    ],
+  },
+  {
+    id: 1976,
+    speaker: 'Manager',
+    en: 'Please update the ticket status before noon.',
+    cn: '请在中午之前更新工单状态。',
+    ipa: '/pliːz ˌʌpˈdeɪt ðə ˈtɪkɪt ˈsteɪtəs bɪˈfɔːr nuːn/',
+    tags: ['第1976句', '工单汇报', '★★★★★'],
+    when: '值班经理设定工单状态更新的时间节点，确保信息及时同步。',
+    words: [
+      { w: 'update', ipa: '/ˌʌpˈdeɪt/', pos: '动词', cn: '更新', memory: 'up(向上) + date(日期) → 使日期更新 → 更新信息。', phonics: 'up 读 /ʌp/，date 读 /deɪt/', collocations: [['update the status', '更新状态'], ['update the record', '更新记录'], ['update the log', '更新日志']], examples: [['Please update the ticket status.', '请更新工单状态。'], ['The system has been updated.', '系统已更新。']] },
+      { w: 'status', ipa: '/ˈsteɪtəs/', pos: '名词', cn: '状态', memory: 'stat(站立) + us → 站立的位置 → 当前状态。', phonics: 'sta 读 /steɪ/，tus 读 /təs/', collocations: [['ticket status', '工单状态'], ['alarm status', '告警状态'], ['system status', '系统状态']], examples: [['What is the current status?', '当前状态是什么？'], ['The status has been updated.', '状态已更新。']] },
+    ],
+    phrases: [
+      { p: 'ticket status', ipa: '/ˈtɪkɪt ˈsteɪtəs/', cn: '工单状态', why: '工单状态包括 open/in progress/resolved/closed 等阶段。' },
+      { p: 'before noon', ipa: '/bɪˈfɔːr nuːn/', cn: '中午之前', why: 'before + 时间点 表示在该时间之前完成。noon = 中午12点。' },
+    ],
+    grammar: [
+      { q: 'before noon 和 by noon 有什么区别？', a: '两者几乎相同，都表示「在中午之前」。\n✅ Please update the ticket status before noon.（请在中午之前更新。）\n✅ Please update the ticket status by noon.（请在中午之前更新。）\nby 更强调「最迟不超过」，before 更强调「在此之前」。日常使用中可互换。' },
+    ],
+    pattern: 'Please update + 名词 + before + 时间',
+    patternExamples: [
+      { en: 'Please update the alarm log before 5 PM.', cn: '请在下午5点之前更新告警日志。', words: [] },
+      { en: 'Please update the maintenance record before the end of shift.', cn: '请在交班前更新维护记录。', words: [] },
+      { en: 'Please update the handover notes before the meeting.', cn: '请在会议前更新交接记录。', words: [] },
+    ],
+    thinking: '设定明确的时间节点(before noon)是运维管理的基本要求。\nupdate the status 确保工单信息与实际进展同步。\n中文说「在中午之前更新」，英语用 update...before noon 完全对应。',
+    pronunciation: "update 重音在第二音节：up-DATE（动词）。\nstatus 重音在第一音节：STA-tus，不要读成 /stæˈtuːs/。\n节奏：Please up-DATE ｜ the TICK-et STA-tus ｜ be-FORE NOON.",
+    quiz: [
+      { q: '把「请在中午之前更新工单状态。」用英语说出来。', a: 'Please update the ticket status before noon.' },
+      { q: '「工单状态」用英语怎么说？', a: 'ticket status (/ˈtɪkɪt ˈsteɪtəs/)' },
+    ],
+  },
+  {
+    id: 1977,
+    speaker: 'Manager',
+    en: 'Please notify me if any ticket is delayed.',
+    cn: '如果有工单延期，请立即通知我。',
+    ipa: '/pliːz ˈnoʊtɪfaɪ miː ɪf ˈɛni ˈtɪkɪt ɪz dɪˈleɪd/',
+    tags: ['第1977句', '工单汇报', '★★★★★'],
+    when: '值班经理要求团队在工单出现延期风险时立即上报，确保信息畅通。',
+    words: [
+      { w: 'notify', ipa: '/ˈnoʊtɪfaɪ/', pos: '动词', cn: '通知；告知', memory: 'not(标记) + ify(使) → 使标记 → 通知。与 inform 同义，notify 更正式。', phonics: 'no 读 /noʊ/，ti 读 /tɪ/，fy 读 /faɪ/', collocations: [['notify the manager', '通知经理'], ['notify immediately', '立即通知'], ['notify the team', '通知团队']], examples: [['Please notify me immediately.', '请立即通知我。'], ['The customer has been notified.', '客户已被通知。']] },
+      { w: 'delayed', ipa: '/dɪˈleɪd/', pos: '形容词/过去分词', cn: '延期的；延迟的', memory: 'de(向下) + lay(放置) → 放下推迟 → 延迟。', phonics: 'de 读 /dɪ/，lay 读 /leɪ/，ed 读 /d/', collocations: [['ticket delayed', '工单延期'], ['flight delayed', '航班延误'], ['project delayed', '项目延期']], examples: [['The ticket has been delayed.', '工单已延期。'], ['The maintenance is delayed.', '维护已延期。']] },
+    ],
+    phrases: [
+      { p: 'notify me', ipa: '/ˈnoʊtɪfaɪ miː/', cn: '通知我', why: 'notify + 人 是通知某人的标准搭配。' },
+      { p: 'if any ticket is delayed', ipa: '/ɪf ˈɛni ˈtɪkɪt ɪz dɪˈleɪd/', cn: '如果有工单延期', why: 'if 引导条件从句，any 表示「任何一个」。' },
+    ],
+    grammar: [
+      { q: '为什么用 any 而不是 a？', a: 'any 强调「任何一个」，范围更广，不遗漏。\n✅ Please notify me if any ticket is delayed.（如果有任何工单延期，请通知我。）—— 覆盖所有工单\n✅ Please notify me if a ticket is delayed.（如果有一张工单延期，请通知我。）—— 语气较弱\n在管理指令中，any 更严谨。' },
+    ],
+    pattern: 'Please notify me + if + 条件',
+    patternExamples: [
+      { en: 'Please notify me if any alarm escalates.', cn: '如果有告警升级，请通知我。', words: [] },
+      { en: 'Please notify me if the vendor does not respond.', cn: '如果供应商没有响应，请通知我。', words: [] },
+      { en: 'Please notify me if there is any change.', cn: '如果有任何变化，请通知我。', words: [] },
+    ],
+    thinking: '要求团队在出现异常时立即上报，是运维管理的信息畅通机制。\nnotify me if... 是管理者的标准指令句式。\n中文说「如果有…请通知我」，英语用 notify me if... 完全对应。',
+    pronunciation: "notify 重音在第一音节：NO-ti-fy。\ndelayed 读 /dɪˈleɪd/，不要读成 /diːˈleɪd/。\n节奏：Please NO-ti-fy ME ｜ if A-ny TICK-et ｜ is de-LAYED.",
+    quiz: [
+      { q: '把「如果有工单延期，请立即通知我。」用英语说出来。', a: 'Please notify me if any ticket is delayed.' },
+      { q: '「通知」用英语怎么说？', a: 'notify (/ˈnoʊtɪfaɪ/)' },
+    ],
+  },
+  {
+    id: 1978,
+    speaker: 'Manager',
+    en: 'No ticket should exceed the SLA.',
+    cn: '任何工单都不能超过SLA时限。',
+    ipa: '/noʊ ˈtɪkɪt ʃʊd ɪkˈsiːd ðə ˌɛsˌɛlˈeɪ/',
+    tags: ['第1978句', '工单汇报', '★★★★★'],
+    when: '值班经理以强硬语气设定SLA红线，强调工单管理的底线要求。',
+    words: [
+      { w: 'exceed', ipa: '/ɪkˈsiːd/', pos: '动词', cn: '超过；超出', memory: 'ex(超出) + ceed(走) → 走出去 → 超出范围。', phonics: 'ex 读 /ɪk/，ceed 读 /siːd/，重音在第二音节。', collocations: [['exceed the SLA', '超出SLA'], ['exceed the deadline', '超过截止期限'], ['exceed the budget', '超出预算']], examples: [['No ticket should exceed the SLA.', '任何工单都不能超出SLA。'], ['We must not exceed the time limit.', '我们不能超过时限。']] },
+      { w: 'should', ipa: '/ʃʊd/', pos: '情态动词', cn: '应该；必须', memory: '表示义务或期望，在管理语境中带有强烈的要求意味。', phonics: '读 /ʃʊd/', collocations: [['should not exceed', '不应超过'], ['should be completed', '应该完成'], ['should be reported', '应该报告']], examples: [['All tickets should be closed on time.', '所有工单应按时关闭。'], ['This should not happen again.', '这不应再次发生。']] },
+    ],
+    phrases: [
+      { p: 'No ticket should', ipa: '/noʊ ˈtɪkɪt ʃʊd/', cn: '任何工单都不应', why: 'No + 名词 + should 是英语中表达「绝对不允许」的强硬句式。' },
+      { p: 'exceed the SLA', ipa: '/ɪkˈsiːd ðə ˌɛsˌɛlˈeɪ/', cn: '超出SLA', why: 'exceed + SLA 是运维管理中最常见的违规场景描述。' },
+    ],
+    grammar: [
+      { q: 'No ticket should 和 Tickets should not 有什么区别？', a: 'No ticket should 更强调「零容忍」，语气更强硬。\nTickets should not 是普通的否定指令，语气稍弱。\n✅ No ticket should exceed the SLA.（任何工单都不能超出SLA。）—— 强硬红线\n✅ Tickets should not exceed the SLA.（工单不应超出SLA。）—— 一般要求\n管理者设定底线时用 No...should 更有力度。' },
+    ],
+    pattern: 'No + 名词 + should + 动词原形',
+    patternExamples: [
+      { en: 'No alarm should be ignored.', cn: '任何告警都不应被忽略。', words: [] },
+      { en: 'No maintenance should be skipped.', cn: '任何维护都不应被跳过。', words: [] },
+      { en: 'No safety rule should be violated.', cn: '任何安全规定都不应被违反。', words: [] },
+    ],
+    thinking: "No ticket should 是管理者设定红线的标准句式，语气强硬明确。\nexceed the SLA 是运维管理中最严重的违规之一。\n中文说「任何…都不能…」，英语用 No...should... 完全对应。",
+    pronunciation: "exceed 重音在第二音节：ex-CEED。\nSLA 逐字母读 S-L-A，不要读成单词。\n节奏：No TICK-et ｜ should ex-CEED ｜ the S-L-A.",
+    quiz: [
+      { q: '把「任何工单都不能超过SLA时限。」用英语说出来。', a: 'No ticket should exceed the SLA.' },
+      { q: '「超出SLA」用英语怎么说？', a: 'exceed the SLA (/ɪkˈsiːd ðə ˌɛsˌɛlˈeɪ/)' },
+    ],
+  },
+  {
+    id: 1979,
+    speaker: 'Manager',
+    en: 'We have three scheduled maintenance activities today.',
+    cn: '今天有3项计划维护。',
+    ipa: '/wiː hæv θriː ˈʃɛdjuːld ˈmeɪntənəns ækˈtɪvɪtiz təˈdeɪ/',
+    tags: ['第1979句', '今日维护', '★★★★★'],
+    when: '值班经理从工单汇报切换到维护议题，报告今日计划维护数量。',
+    words: [
+      { w: 'scheduled', ipa: '/ˈʃɛdjuːld/', pos: '形容词', cn: '计划好的；排定的', memory: 'schedule(计划表) + d → 按计划安排的。', phonics: 'sched 读 /ʃɛd/，uled 读 /juːld/', collocations: [['scheduled maintenance', '计划维护'], ['scheduled activity', '计划活动'], ['scheduled downtime', '计划停机']], examples: [['The scheduled maintenance starts at 10 AM.', '计划维护上午10点开始。'], ['All scheduled activities have been completed.', '所有计划活动已完成。']] },
+      { w: 'maintenance activities', ipa: '/ˈmeɪntənəns ækˈtɪvɪtiz/', pos: '名词', cn: '维护活动', memory: 'maintenance(维护) + activities(活动) → 具体的维护工作项目。', phonics: 'main 读 /meɪn/，te 读 /tə/，nance 读 /nəns/', collocations: [['maintenance activities', '维护活动'], ['maintenance schedule', '维护计划'], ['maintenance window', '维护窗口']], examples: [['Three maintenance activities are planned.', '计划了3项维护活动。'], ['The maintenance activity has been postponed.', '维护活动已延期。']] },
+    ],
+    phrases: [
+      { p: 'scheduled maintenance activities', ipa: '/ˈʃɛdjuːld ˈmeɪntənəns ækˈtɪvɪtiz/', cn: '计划维护活动', why: 'scheduled 修饰 maintenance activities，表示已排入计划的维护项目。' },
+    ],
+    grammar: [
+      { q: '为什么用 We have 而不是 There are？', a: "We have 强调「我们有这些安排」，更有主人翁意识。\nThere are 只是陈述存在，语气更中性。\n✅ We have three scheduled maintenance activities today.（我们今天有3项计划维护。）—— 主动\n✅ There are three scheduled maintenance activities today.（今天有3项计划维护。）—— 中性\n两者都正确，We have 更适合会议汇报。" },
+    ],
+    pattern: 'We have + 数量 + scheduled + 名词 + 时间',
+    patternExamples: [
+      { en: 'We have two scheduled inspections this week.', cn: '本周我们有2项计划巡检。', words: [] },
+      { en: 'We have one scheduled drill tomorrow.', cn: '明天我们有1项计划演练。', words: [] },
+      { en: 'We have four scheduled vendor visits this month.', cn: '本月我们有4次计划供应商拜访。', words: [] },
+    ],
+    thinking: '从工单汇报切换到维护议题，用 We have 自然过渡。\nscheduled maintenance 是运维管理的核心概念，区别于 emergency maintenance(应急维护)。\n中文说「有X项计划维护」，英语用 We have X scheduled maintenance activities 完全对应。',
+    pronunciation: "scheduled 重音在第一音节：SCHED-uled。\nmaintenance 重音在第一音节：MAIN-te-nance，注意不要读成 /meɪnˈtɛnəns/。\n节奏：We have THREE ｜ SCHED-uled ｜ MAIN-te-nance ｜ ac-TI-vi-ties ｜ to-DAY.",
+    quiz: [
+      { q: '把「今天有3项计划维护。」用英语说出来。', a: 'We have three scheduled maintenance activities today.' },
+      { q: '「计划维护」用英语怎么说？', a: 'scheduled maintenance (/ˈʃɛdjuːld ˈmeɪntənəns/)' },
+    ],
+  },
+  {
+    id: 1980,
+    speaker: 'Manager',
+    en: 'The first maintenance starts at 10:00 a.m.',
+    cn: '第一项维护上午10点开始。',
+    ipa: '/ðə fɜːrst ˈmeɪntənəns stɑːrts æt tɛn eɪˈɛm/',
+    tags: ['第1980句', '今日维护', '★★★★★'],
+    when: '值班经理报告第一项维护的具体开始时间，让团队做好时间安排。',
+    words: [
+      { w: 'first', ipa: '/fɜːrst/', pos: '形容词/序数词', cn: '第一项；第一个', memory: 'one 的序数词形式，表示排列顺序的第一位。', phonics: '读 /fɜːrst/，注意 r 在美式英语中发音', collocations: [['the first maintenance', '第一项维护'], ['the first task', '第一项任务'], ['the first step', '第一步']], examples: [['The first maintenance starts at 10 AM.', '第一项维护上午10点开始。'], ['The first step is safety check.', '第一步是安全检查。']] },
+      { w: 'starts at', ipa: '/stɑːrts æt/', pos: '短语', cn: '在…开始', memory: 'start(开始) + at(在) → 在某个时间点开始。', phonics: 'start 读 /stɑːrt/，at 读 /æt/', collocations: [['starts at 10 AM', '上午10点开始'], ['starts at noon', '中午开始'], ['starts immediately', '立即开始']], examples: [['The meeting starts at 9 AM.', '会议上午9点开始。'], ['The maintenance starts at 2 PM.', '维护下午2点开始。']] },
+    ],
+    phrases: [
+      { p: 'the first maintenance', ipa: '/ðə fɜːrst ˈmeɪntənəns/', cn: '第一项维护', why: 'first 修饰 maintenance，按时间顺序排列维护项目。' },
+      { p: 'starts at 10:00 a.m.', ipa: '/stɑːrts æt tɛn eɪˈɛm/', cn: '上午10点开始', why: 'at + 具体时间 表示在该时间点发生。a.m. = 上午。' },
+    ],
+    grammar: [
+      { q: '为什么用 starts 而不是 will start？', a: 'starts（一般现在时）用于表示按计划安排的时间表事件，比 will start 更确定。\n✅ The first maintenance starts at 10:00 a.m.（第一项维护上午10点开始。）—— 已排定的时间表\n✅ The first maintenance will start at 10:00 a.m.（第一项维护将在上午10点开始。）—— 未来计划\n对于已排入日程的活动，用一般现在时更自然。' },
+    ],
+    pattern: 'The + 序数词 + 名词 + starts at + 时间',
+    patternExamples: [
+      { en: 'The second maintenance starts at 2:00 p.m.', cn: '第二项维护下午2点开始。', words: [] },
+      { en: 'The inspection starts at 8:00 a.m.', cn: '巡检上午8点开始。', words: [] },
+      { en: 'The drill starts at 3:00 p.m.', cn: '演练下午3点开始。', words: [] },
+    ],
+    thinking: '报告具体时间是会议中安排工作的必要环节。\n一般现在时 starts 表示已排定的时间表，比 will start 更确定。\n中文说「上午10点开始」，英语用 starts at 10:00 a.m. 完全对应。',
+    pronunciation: "first 读 /fɜːrst/，美式发音带 r。\nstarts 的 -ts 读 /ts/，清辅音。\n节奏：The FIRST ｜ MAIN-te-nance ｜ STARTS at ｜ TEN A-M.",
+    quiz: [
+      { q: '把「第一项维护上午10点开始。」用英语说出来。', a: 'The first maintenance starts at 10:00 a.m.' },
+      { q: '「上午10点」用英语怎么说？', a: '10:00 a.m. (/tɛn eɪˈɛm/)' },
+    ],
+  },
+];
