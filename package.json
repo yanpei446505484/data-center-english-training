@@ -1,0 +1,40 @@
+{
+  "name": "data-center-english-training",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "prepare:assets": "node scripts/copy-mespeak-assets.cjs",
+    "predev": "npm run prepare:assets",
+    "dev": "vite",
+    "prebuild": "npm run prepare:assets",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint src",
+    "test": "vitest run",
+    "test:audio": "node scripts/audio-smoke.cjs",
+    "test:watch": "vitest",
+    "check": "npm run lint && npm run test && npm run test:audio && npm run build",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "lucide-react": "^1.34.0",
+    "mespeak": "^2.0.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.2",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "jsdom": "^30.0.1",
+    "oxlint": "^1.79.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  }
+}
