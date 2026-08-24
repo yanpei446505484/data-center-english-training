@@ -21,6 +21,7 @@ public/audio/zh-manifest.json
 public/kokoro/kokoro.web.js
 public/kokoro/voices/
 public/kokoro/ort-wasm-simd-threaded.jsep.wasm
+public/kokoro/ort-wasm-simd-threaded.jsep.mjs
 
 # Editor directories and files
 .vscode/*

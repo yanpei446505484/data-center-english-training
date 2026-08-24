@@ -42,6 +42,14 @@ for (const [key, item] of entries) {
 const workflow = fs.readFileSync(path.join(root, '.github', 'workflows', 'deploy.yml'), 'utf8')
 if (!workflow.includes('model_quantized.onnx')) throw new Error('Pages build does not install the Kokoro q8 model')
 if (!workflow.includes('ort-wasm-simd-threaded.jsep.wasm')) throw new Error('Pages build does not install the ONNX WebAssembly runtime')
+if (!workflow.includes('ort-wasm-simd-threaded.jsep.mjs')) throw new Error('Pages build does not install the ONNX WebAssembly loader')
+
+if (process.env.REQUIRE_KOKORO_ZH === '1') {
+  const wasmLoader = path.join(root, 'public', 'kokoro', 'ort-wasm-simd-threaded.jsep.mjs')
+  if (!fs.existsSync(wasmLoader) || fs.statSync(wasmLoader).size < 40_000) {
+    throw new Error('Kokoro ONNX WebAssembly loader is missing or truncated')
+  }
+}
 
 function walkFiles(target) {
   if (!fs.statSync(target).isDirectory()) return [target]

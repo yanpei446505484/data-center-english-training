@@ -10,6 +10,9 @@ curl -L --fail --retry 3 "https://cdn.jsdelivr.net/npm/kokoro-js@1.2.1/dist/koko
 curl -L --fail --retry 3 \
   "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.5.1/dist/ort-wasm-simd-threaded.jsep.wasm" \
   -o "$target/ort-wasm-simd-threaded.jsep.wasm"
+curl -L --fail --retry 3 \
+  "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.5.1/dist/ort-wasm-simd-threaded.jsep.mjs" \
+  -o "$target/ort-wasm-simd-threaded.jsep.mjs"
 
 if [[ -n "$model_dir" && -f "$model_dir/voices.bin" ]]; then
   # The multilingual archive stores all 53 voice embeddings in speaker order.
@@ -26,4 +29,5 @@ perl -0pi -e 's#allowLocalModels:!\(s\|\|i\),localModelPath:h\?n\.join\(m,b\):b#
 
 test "$(stat -c%s "$target/kokoro.web.js")" -gt 2000000
 test "$(stat -c%s "$target/ort-wasm-simd-threaded.jsep.wasm")" -gt 10000000
+test "$(stat -c%s "$target/ort-wasm-simd-threaded.jsep.mjs")" -gt 40000
 node "$root_dir/scripts/kokoro-smoke.cjs"
