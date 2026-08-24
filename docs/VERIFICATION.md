@@ -5,7 +5,7 @@
 ## 自动检查
 
 - Oxc lint：通过，无警告
-- Vitest：2/2 测试通过
+- Vitest：4/4 测试通过
 - 英式语音：生成 89,814 bytes RIFF/WAVE
 - 美式语音：生成 91,362 bytes RIFF/WAVE
 - TypeScript 项目构建：通过
@@ -39,6 +39,8 @@
 - 设置页口音试听和解码自检
 
 所有入口复用 `src/components/AudioButton.tsx` 和 `src/lib/audioEngine.ts`。
+
+浏览器兼容修复：meSpeak 浏览器版本显式输出字节数组，再统一转换为当前页面作用域的 `ArrayBuffer`，兼容跨作用域、普通数组和 TypedArray 返回值。服务工作线程升级为 v2，页面导航改为网络优先，确保修复版本不会被旧首页缓存阻挡。
 
 ## 响应式断点
 

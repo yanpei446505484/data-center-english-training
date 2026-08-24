@@ -3,7 +3,7 @@ import type { Accent } from '../types'
 interface MeSpeak {
   loadConfig: (url: string, callback: (ok: boolean, detail?: string) => void) => void
   loadVoice: (url: string, callback: (ok: boolean, detail?: string) => void) => void
-  speak: (text: string, options: Record<string, unknown>) => ArrayBuffer | null
+  speak: (text: string, options: Record<string, unknown>) => unknown
 }
 
 declare global {
@@ -61,6 +61,19 @@ function loadData(loader: (url: string, callback: (ok: boolean, detail?: string)
   return new Promise((resolve, reject) => {
     loader(assetUrl(path), (ok, detail) => ok ? resolve() : reject(new Error(detail || `语音数据加载失败：${path}`)))
   })
+}
+
+export function normalizeAudioBuffer(value: unknown): ArrayBuffer | null {
+  if (Object.prototype.toString.call(value) === '[object ArrayBuffer]') {
+    const bytes = new Uint8Array(value as ArrayBuffer)
+    return bytes.slice().buffer
+  }
+  if (ArrayBuffer.isView(value)) {
+    const bytes = new Uint8Array(value.buffer, value.byteOffset, value.byteLength)
+    return bytes.slice().buffer
+  }
+  if (Array.isArray(value)) return Uint8Array.from(value).buffer
+  return null
 }
 
 export function isWavBuffer(value: ArrayBuffer): boolean {
@@ -126,14 +139,15 @@ class OfflineAudioEngine {
       await this.initialize()
       if (runId !== this.generation || this.stopped) return
       const voice = options.language === 'zh' ? 'zh' : options.accent === 'american' ? 'en/en-us' : 'en/en-rp'
-      const wav = this.engine?.speak(normalized, {
+      const raw = this.engine?.speak(normalized, {
         voice,
         speed: options.speed ?? 145,
         amplitude: 100,
         wordgap: 1,
-        rawdata: true,
+        rawdata: 'array',
       })
-      if (!(wav instanceof ArrayBuffer) || !isWavBuffer(wav)) throw new Error('离线语音没有生成有效WAV音频')
+      const wav = normalizeAudioBuffer(raw)
+      if (!wav || !isWavBuffer(wav)) throw new Error('离线语音没有生成有效WAV音频')
       const decoded = await this.context!.decodeAudioData(wav.slice(0))
       if (runId !== this.generation || this.stopped) return
       const total = Math.max(1, Math.min(15, options.repeat ?? 1))
@@ -190,18 +204,19 @@ class OfflineAudioEngine {
     const results: AudioSelfTestResult[] = []
     for (const accent of ['british', 'american'] as const) {
       const voice = accent === 'british' ? 'en/en-rp' : 'en/en-us'
-      const wav = this.engine!.speak('Good morning, everyone.', { voice, speed: 145, rawdata: true })
-      const valid = wav instanceof ArrayBuffer && isWavBuffer(wav)
+      const raw = this.engine!.speak('Good morning, everyone.', { voice, speed: 145, rawdata: 'array' })
+      const wav = normalizeAudioBuffer(raw)
+      const valid = Boolean(wav && isWavBuffer(wav))
       let decodable = false
       if (valid) {
         try {
-          await this.context!.decodeAudioData(wav.slice(0))
+          await this.context!.decodeAudioData(wav!.slice(0))
           decodable = true
         } catch { decodable = false }
       }
       results.push({
         accent,
-        bytes: wav instanceof ArrayBuffer ? wav.byteLength : 0,
+        bytes: wav?.byteLength || 0,
         riff: valid,
         wave: valid,
         decodable,
