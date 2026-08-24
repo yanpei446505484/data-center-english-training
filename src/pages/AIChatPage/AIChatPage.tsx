@@ -162,7 +162,7 @@ export default function AIChatPage() {
     setSpeakingLineIdx(-1);
   }, []);
 
-  /** 所有朗读统一走同源 Kokoro WAV / 内置 meSpeak，不请求远程 TTS。 */
+  /** 所有朗读统一走同源 Kokoro WAV / 浏览器端 Kokoro，不请求远程 TTS。 */
   const speakLocal = useCallback((text: string, _lang: string, onDone: () => void) => {
     if (speakStopRef.current) {
       speakStopRef.current();

@@ -1,4 +1,4 @@
-const CACHE = 'dc-english-full-v2'
+const CACHE = 'dc-english-full-v3-kokoro'
 const CORE = ['./', './index.html', './logo.svg', './manifest.webmanifest']
 
 self.addEventListener('install', (event) => {
@@ -13,6 +13,11 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return
+  // Transformers.js persists the large model in its own browser cache.
+  if (new URL(event.request.url).pathname.includes('/kokoro/model/onnx/')) {
+    event.respondWith(fetch(event.request))
+    return
+  }
   if (event.request.mode === 'navigate') {
     event.respondWith(fetch(event.request).then((response) => {
       const copy = response.clone()

@@ -49,22 +49,11 @@ export function stopAllSpeech(): void {
     }
   }
   audioEngine.stop();
-  try {
-    window.speechSynthesis?.cancel();
-  } catch {
-    // Web Speech is not the primary engine, but cancel any legacy utterance.
-  }
 }
 
 export function warmupAudio(): HTMLAudioElement | null {
   void audioEngine.unlock().catch(() => undefined);
   return null;
-}
-
-export function isWebSpeechAvailable(): boolean {
-  return typeof window !== 'undefined'
-    && 'speechSynthesis' in window
-    && typeof window.SpeechSynthesisUtterance === 'function';
 }
 
 export async function preloadTTS(_texts: string[], _accent?: TTSAccent): Promise<void> {
@@ -73,9 +62,9 @@ export async function preloadTTS(_texts: string[], _accent?: TTSAccent): Promise
 
 /**
  * The original component API is retained, but every button now uses one
- * same-origin engine: pre-generated Kokoro WAV when available, otherwise the
- * bundled meSpeak engine. No remote TTS, browser voice or cross-region URL is
- * required.
+ * one same-origin Kokoro engine: pre-generated WAV when available, otherwise
+ * Kokoro runs directly in the browser. No legacy synthesizer, remote TTS API,
+ * or cross-region audio request is used.
  */
 export function speakWithPlugin(
   sourceText: string,
@@ -91,11 +80,13 @@ export function speakWithPlugin(
   stopAllSpeech();
   let stopped = false;
   let finished = false;
+  let loadingToast: string | number | undefined;
   const selectedAccent = accent ?? loadAccent();
 
   const complete = () => {
     if (finished || stopped) return;
     finished = true;
+    if (loadingToast !== undefined) toast.dismiss(loadingToast);
     unregisterStop(stop);
     onDone();
   };
@@ -103,6 +94,7 @@ export function speakWithPlugin(
   const stop = () => {
     if (stopped) return;
     stopped = true;
+    if (loadingToast !== undefined) toast.dismiss(loadingToast);
     unregisterStop(stop);
     audioEngine.stop();
   };
@@ -112,6 +104,15 @@ export function speakWithPlugin(
     accent: selectedAccent,
     language: 'en',
     speed: 145,
+    onPreparing: needsModelDownload => {
+      if (needsModelDownload && !stopped) {
+        loadingToast = toast.loading('首次启用 Kokoro，正在加载离线语音模型…');
+      }
+    },
+    onStart: () => {
+      if (loadingToast !== undefined) toast.dismiss(loadingToast);
+      loadingToast = undefined;
+    },
     onFinish: reason => {
       if (reason === 'ended') complete();
       if (reason === 'error' && !stopped) complete();

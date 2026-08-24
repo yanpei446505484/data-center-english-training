@@ -23,8 +23,48 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - run: npm ci --ignore-scripts
-      - run: npm run check
+      - name: Restore pre-generated Chinese Kokoro audio
+        id: cache-kokoro-zh
+        uses: actions/cache@v4
+        with:
+          path: |
+            public/audio/zh
+            public/audio/zh-manifest.json
+          key: kokoro-zh-v1-${{ hashFiles('src/data/**/*.ts', 'scripts/export-audio-corpus.mjs', 'scripts/generate-kokoro-chinese-sprites.py', 'public/audio/manifest.json') }}
+      - name: Prepare Kokoro runtime and Chinese audio
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/prepare-kokoro-runtime.sh
+          if [[ "${{ steps.cache-kokoro-zh.outputs.cache-hit }}" != "true" ]]; then
+            command -v ffmpeg >/dev/null || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+            curl -L --fail --retry 3 \
+              "https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_0.tar.bz2" \
+              -o kokoro-multi-lang-v1_0.tar.bz2
+            tar xf kokoro-multi-lang-v1_0.tar.bz2
+            python -m pip install "sherpa-onnx==1.13.6"
+            KOKORO_MODEL_DIR="$PWD/kokoro-multi-lang-v1_0" npm run generate:kokoro-zh
+            rm -rf kokoro-multi-lang-v1_0 kokoro-multi-lang-v1_0.tar.bz2
+          fi
+      - run: REQUIRE_KOKORO_ZH=1 npm run check
+      - name: Add same-origin Kokoro model files
+        shell: bash
+        run: |
+          set -euo pipefail
+          model_dir="dist/kokoro/model"
+          mkdir -p "$model_dir/onnx"
+          base_url="https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/main"
+          curl -L --fail --retry 3 "$base_url/config.json" -o "$model_dir/config.json"
+          curl -L --fail --retry 3 "$base_url/tokenizer.json" -o "$model_dir/tokenizer.json"
+          curl -L --fail --retry 3 "$base_url/tokenizer_config.json" -o "$model_dir/tokenizer_config.json"
+          curl -L --fail --retry 3 "$base_url/onnx/model_quantized.onnx" -o "$model_dir/onnx/model_quantized.onnx"
+          test "$(stat -c%s "$model_dir/onnx/model_quantized.onnx")" -gt 80000000
+          test "$(stat -c%s "dist/kokoro/ort-wasm-simd-threaded.jsep.wasm")" -gt 10000000
+          node -e "JSON.parse(require('fs').readFileSync('$model_dir/config.json')); JSON.parse(require('fs').readFileSync('$model_dir/tokenizer.json'))"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

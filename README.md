@@ -15,13 +15,14 @@
 
 ## 发音方案
 
-所有发音按钮都统一调用同一个同源播放器，不再请求妙搭、第三方 TTS 或跨区域音频地址：
+所有发音按钮都统一使用 Kokoro，不再请求妙搭、第三方 TTS 接口、浏览器系统语音或跨区域音频地址：
 
 1. 清单中已有的内容优先播放 Kokoro `kokoro-multi-lang-v1_0` 预生成 WAV；仓库内有英式和美式共 630 个文件。
-2. 其余任意单词、句子和用户文本由随站点打包的 meSpeak/eSpeak 在浏览器本地生成 WAV。
-3. 播放前校验 RIFF/WAVE 文件头，再由 Web Audio 解码；支持重复播放和立即停止。
+2. 其余任意英文单词、句子和用户文本，由站点自带的 Kokoro 浏览器运行库与 q8 模型在设备端生成；英式使用 `bf_emma`，美式使用 `af_sarah`。
+3. 2,542 条内置中文译文由同一 Kokoro 多语模型的 `zf_xiaobei` 声线预生成，并压缩为按需加载的音频分片。
+4. 支持重复播放、立即停止和长段落自动分句。首次朗读清单外的新英文时需加载约 92 MB 的 Kokoro 模型，随后由浏览器缓存。
 
-因此网络只要能打开本站，发音就不依赖浏览器自带语音包，也不会再出现原站的跨区域 TTS 获取失败。
+因此网络只要能打开本站，发音就不依赖浏览器自带语音包，也不会再出现原站跨区域 TTS 获取失败或不同按钮音色不一致的问题。
 
 ## 英语助手和文本分析
 
@@ -48,7 +49,7 @@ npm run dev
 npm run check
 ```
 
-检查内容包括 TypeScript/生产构建、课程数量和唯一 ID、音频引擎单元测试、两种后备语音的真实 WAV 生成、630 个 Kokoro 文件逐个校验。
+检查内容包括 TypeScript/生产构建、课程数量和唯一 ID、Kokoro 音频引擎单元测试、同源运行库与英美声线校验、630 个 Kokoro WAV 和中文音频分片逐个校验。
 
 ## GitHub Pages 免费部署
 
@@ -68,4 +69,4 @@ https://yanpei446505484.github.io/data-center-english-training/
 
 ## 许可证
 
-应用代码沿用仓库许可；meSpeak/eSpeak 的许可说明保留在 `public/mespeak/LICENSE-README.md`。
+应用代码沿用仓库许可；Kokoro、Kokoro.js/Transformers.js 运行库及 ONNX 模型按其 Apache-2.0 许可使用。

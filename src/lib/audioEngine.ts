@@ -1,22 +1,9 @@
-export type Accent = 'british' | 'american'
+import { generateKokoroWav, isKokoroModelReady } from '@/lib/kokoroRuntime'
 
-export interface MeSpeak {
-  loadConfig: (data: unknown) => void
-  loadVoice: (data: unknown) => void
-  isConfigLoaded: () => boolean
-  isVoiceLoaded: (voice: string) => boolean
-  setDefaultVoice: (voice: string) => void
-  speak: (text: string, options: Record<string, unknown>) => unknown
-}
+export type Accent = 'british' | 'american'
 
 declare global {
   interface Window {
-    module?: { exports: unknown }
-    exports?: unknown
-    require?: (id: string) => unknown
-    __captureCommonJs?: (name: string) => void
-    __ESpeakFactory?: unknown
-    __meSpeak?: MeSpeak
     webkitAudioContext?: typeof AudioContext
   }
 }
@@ -26,6 +13,7 @@ export interface SpeakOptions {
   language?: 'en' | 'zh'
   speed?: number
   repeat?: number
+  onPreparing?: (needsModelDownload: boolean) => void
   onStart?: () => void
   onFinish?: (reason: 'ended' | 'stopped' | 'error') => void
 }
@@ -40,83 +28,21 @@ export interface AudioSelfTestResult {
 
 interface StaticAudioManifest {
   version: number
+  engine: string
   baseSpeed: number
-  items: Record<string, string>
+  items: Record<string, string | { path: string; start: number; duration: number }>
 }
 
-const loadedScripts = new Map<string, Promise<void>>()
+interface StaticAudioClip {
+  data: ArrayBuffer
+  path: string
+  baseSpeed: number
+  start: number
+  duration?: number
+}
 
 function assetUrl(path: string): string {
   return new URL(path, document.baseURI).href
-}
-
-function loadScript(path: string): Promise<void> {
-  const url = assetUrl(path)
-  const existing = loadedScripts.get(url)
-  if (existing) return existing
-  const pending = new Promise<void>((resolve, reject) => {
-    const script = document.createElement('script')
-    script.src = url
-    script.async = false
-    script.onload = () => resolve()
-    script.onerror = () => reject(new Error(`离线语音资源加载失败：${path}`))
-    document.head.appendChild(script)
-  })
-  loadedScripts.set(url, pending)
-  return pending
-}
-
-async function fetchJsonAsset(path: string): Promise<unknown> {
-  const response = await fetch(assetUrl(path), { cache: 'force-cache' })
-  if (!response.ok) throw new Error(`语音数据加载失败：${path}（HTTP ${response.status}）`)
-  return response.json()
-}
-
-const VOICE_ASSETS = [
-  ['en/en-rp', 'mespeak/voices/en/en-rp.json'],
-  ['en/en-us', 'mespeak/voices/en/en-us.json'],
-  ['zh', 'mespeak/voices/zh.json'],
-] as const
-
-/**
- * Configure meSpeak from parsed same-origin JSON.
- *
- * meSpeak's loadConfig(url) API has no completion callback. Waiting for one
- * leaves initialization pending forever, while a second click can observe a
- * half-initialized engine with no active voice. Loading the JSON ourselves and
- * passing objects makes configuration synchronous and verifiable.
- */
-export async function configureMeSpeak(
-  engine: MeSpeak,
-  loadJson: (path: string) => Promise<unknown> = fetchJsonAsset,
-): Promise<void> {
-  const [config, ...voices] = await Promise.all([
-    loadJson('mespeak/mespeak_config.json'),
-    ...VOICE_ASSETS.map(([, path]) => loadJson(path)),
-  ])
-
-  engine.loadConfig(config)
-  voices.forEach(voice => engine.loadVoice(voice))
-  engine.setDefaultVoice('en/en-rp')
-
-  if (!engine.isConfigLoaded()) throw new Error('离线语音配置未能加载')
-  const missing = VOICE_ASSETS
-    .map(([voice]) => voice)
-    .filter(voice => !engine.isVoiceLoaded(voice))
-  if (missing.length > 0) throw new Error(`离线语音声库未能加载：${missing.join(', ')}`)
-}
-
-export function normalizeAudioBuffer(value: unknown): ArrayBuffer | null {
-  if (Object.prototype.toString.call(value) === '[object ArrayBuffer]') {
-    const bytes = new Uint8Array(value as ArrayBuffer)
-    return bytes.slice().buffer
-  }
-  if (ArrayBuffer.isView(value)) {
-    const bytes = new Uint8Array(value.buffer, value.byteOffset, value.byteLength)
-    return bytes.slice().buffer
-  }
-  if (Array.isArray(value)) return Uint8Array.from(value).buffer
-  return null
 }
 
 export function isWavBuffer(value: ArrayBuffer): boolean {
@@ -126,9 +52,7 @@ export function isWavBuffer(value: ArrayBuffer): boolean {
   return text.startsWith('RIFF') && text.slice(8, 12) === 'WAVE'
 }
 
-class OfflineAudioEngine {
-  private engine: MeSpeak | null = null
-  private initPromise: Promise<void> | null = null
+class KokoroAudioEngine {
   private context: AudioContext | null = null
   private source: AudioBufferSourceNode | null = null
   private finish: SpeakOptions['onFinish'] | null = null
@@ -136,6 +60,7 @@ class OfflineAudioEngine {
   private generation = 0
   private manifest: StaticAudioManifest | null = null
   private manifestPromise: Promise<StaticAudioManifest> | null = null
+  private decodedCache = new Map<string, AudioBuffer>()
 
   preload(): Promise<void> {
     return this.loadManifest().then(() => undefined)
@@ -144,10 +69,26 @@ class OfflineAudioEngine {
   private loadManifest(): Promise<StaticAudioManifest> {
     if (this.manifest) return Promise.resolve(this.manifest)
     if (this.manifestPromise) return this.manifestPromise
-    this.manifestPromise = fetch(assetUrl('audio/manifest.json'), { cache: 'no-cache' }).then(async (response) => {
-      if (!response.ok) throw new Error(`静态语音清单加载失败：HTTP ${response.status}`)
+    const fetchManifest = async (path: string, optional = false): Promise<StaticAudioManifest | null> => {
+      const response = await fetch(assetUrl(path), { cache: 'no-cache' })
+      if (optional && response.status === 404) return null
+      if (!response.ok) throw new Error(`Kokoro 语音清单加载失败：HTTP ${response.status}`)
       const manifest = await response.json() as StaticAudioManifest
-      if (!manifest.items || !manifest.baseSpeed) throw new Error('静态语音清单格式无效')
+      if (!manifest.items || !manifest.baseSpeed || !manifest.engine?.startsWith('kokoro')) {
+        throw new Error('Kokoro 语音清单格式无效')
+      }
+      return manifest
+    }
+    this.manifestPromise = Promise.all([
+      fetchManifest('audio/manifest.json'),
+      fetchManifest('audio/zh-manifest.json', true),
+    ]).then(([base, chinese]) => {
+      if (!base) throw new Error('Kokoro 基础语音清单缺失')
+      const manifest: StaticAudioManifest = {
+        ...base,
+        version: Math.max(base.version, chinese?.version || 0),
+        items: { ...base.items, ...chinese?.items },
+      }
       this.manifest = manifest
       return manifest
     }).catch((error) => {
@@ -157,36 +98,35 @@ class OfflineAudioEngine {
     return this.manifestPromise
   }
 
-  private async loadStaticWav(text: string, voice: string): Promise<{ wav: ArrayBuffer; baseSpeed: number } | null> {
+  private async loadStaticAudio(text: string, voice: string): Promise<StaticAudioClip | null> {
     const manifest = await this.loadManifest().catch(() => null)
-    const path = manifest?.items[`${voice}\0${text}`]
-    if (!manifest || !path) return null
-    const response = await fetch(assetUrl(path))
-    if (!response.ok) throw new Error(`预生成语音加载失败：HTTP ${response.status}`)
-    const wav = await response.arrayBuffer()
-    if (!isWavBuffer(wav)) throw new Error('预生成语音文件不是有效WAV音频')
-    return { wav, baseSpeed: manifest.baseSpeed }
+    const item = manifest?.items[`${voice}\0${text}`]
+    if (!manifest || !item) return null
+    const path = typeof item === 'string' ? item : item.path
+    const response = await fetch(assetUrl(path), { cache: 'force-cache' })
+    if (!response.ok) throw new Error(`Kokoro 预生成语音加载失败：HTTP ${response.status}`)
+    const data = await response.arrayBuffer()
+    if (path.endsWith('.wav') && !isWavBuffer(data)) throw new Error('Kokoro 预生成语音文件不是有效 WAV 音频')
+    return {
+      data,
+      path,
+      baseSpeed: manifest.baseSpeed,
+      start: typeof item === 'string' ? 0 : item.start,
+      duration: typeof item === 'string' ? undefined : item.duration,
+    }
   }
 
-  private initialize(): Promise<void> {
-    if (this.engine) return Promise.resolve()
-    if (this.initPromise) return this.initPromise
-    this.initPromise = (async () => {
-      await loadScript('mespeak/cjs-shim.js')
-      await loadScript('mespeak/ESpeak.js')
-      window.__captureCommonJs?.('__ESpeakFactory')
-      await loadScript('mespeak/mespeak.js')
-      window.__captureCommonJs?.('__meSpeak')
-      if (!window.__meSpeak) throw new Error('离线语音引擎初始化失败')
-      const engine = window.__meSpeak
-      await configureMeSpeak(engine)
-      this.engine = engine
-    })().catch((error) => {
-      this.engine = null
-      this.initPromise = null
-      throw error
-    })
-    return this.initPromise
+  private async decodeStatic(clip: StaticAudioClip): Promise<AudioBuffer> {
+    const cached = this.decodedCache.get(clip.path)
+    if (cached) return cached
+    const decoded = await this.context!.decodeAudioData(clip.data.slice(0))
+    this.decodedCache.set(clip.path, decoded)
+    while (this.decodedCache.size > 4) {
+      const oldest = this.decodedCache.keys().next().value as string | undefined
+      if (!oldest) break
+      this.decodedCache.delete(oldest)
+    }
+    return decoded
   }
 
   async unlock(): Promise<void> {
@@ -208,22 +148,24 @@ class OfflineAudioEngine {
     try {
       await this.unlock()
       if (runId !== this.generation || this.stopped) return
-      const voice = options.language === 'zh' ? 'zh' : options.accent === 'american' ? 'en/en-us' : 'en/en-rp'
-      const staticAudio = options.language === 'zh' ? null : await this.loadStaticWav(normalized, voice)
-      let wav = staticAudio?.wav || null
+      const voice = options.language === 'zh'
+        ? 'zh'
+        : options.accent === 'american' ? 'en/en-us' : 'en/en-rp'
+      const staticAudio = await this.loadStaticAudio(normalized, voice)
+      let wav = staticAudio?.data || null
+
       if (!wav) {
-        await this.initialize()
-        const raw = this.engine?.speak(normalized, {
-          voice,
-          speed: options.speed ?? 145,
-          amplitude: 100,
-          wordgap: 1,
-          rawdata: 'array',
-        })
-        wav = normalizeAudioBuffer(raw)
+        if (options.language === 'zh') throw new Error('这段中文尚未生成 Kokoro 音频')
+        options.onPreparing?.(!isKokoroModelReady())
+        const kokoroVoice = options.accent === 'american' ? 'af_sarah' : 'bf_emma'
+        const relativeSpeed = Math.max(.65, Math.min(1.45, (options.speed ?? 145) / 145))
+        wav = await generateKokoroWav(normalized, kokoroVoice, relativeSpeed)
       }
-      if (!wav || !isWavBuffer(wav)) throw new Error('离线语音没有生成有效WAV音频')
-      const decoded = await this.context!.decodeAudioData(wav.slice(0))
+
+      if (!wav || (!staticAudio && !isWavBuffer(wav))) throw new Error('Kokoro 没有生成有效音频')
+      const decoded = staticAudio
+        ? await this.decodeStatic(staticAudio)
+        : await this.context!.decodeAudioData(wav.slice(0))
       if (runId !== this.generation || this.stopped) return
       const total = Math.max(1, Math.min(15, options.repeat ?? 1))
       let current = 0
@@ -231,7 +173,9 @@ class OfflineAudioEngine {
         if (runId !== this.generation || this.stopped || !this.context) return
         const source = this.context.createBufferSource()
         source.buffer = decoded
-        if (staticAudio) source.playbackRate.value = Math.max(.65, Math.min(1.45, (options.speed ?? staticAudio.baseSpeed) / staticAudio.baseSpeed))
+        if (staticAudio) {
+          source.playbackRate.value = Math.max(.65, Math.min(1.45, (options.speed ?? staticAudio.baseSpeed) / staticAudio.baseSpeed))
+        }
         source.connect(this.context.destination)
         this.source = source
         source.onended = () => {
@@ -247,7 +191,8 @@ class OfflineAudioEngine {
           }
         }
         if (current === 0) options.onStart?.()
-        source.start(0)
+        if (staticAudio?.duration) source.start(0, staticAudio.start, staticAudio.duration)
+        else source.start(0)
       }
       playNext()
     } catch (error) {
@@ -279,7 +224,7 @@ class OfflineAudioEngine {
     const results: AudioSelfTestResult[] = []
     for (const accent of ['british', 'american'] as const) {
       const voice = accent === 'british' ? 'en/en-rp' : 'en/en-us'
-      const wav = (await this.loadStaticWav('Good morning, everyone.', voice))?.wav || null
+      const wav = (await this.loadStaticAudio('Good morning, everyone.', voice))?.data || null
       const valid = Boolean(wav && isWavBuffer(wav))
       let decodable = false
       if (valid) {
@@ -288,16 +233,10 @@ class OfflineAudioEngine {
           decodable = true
         } catch { decodable = false }
       }
-      results.push({
-        accent,
-        bytes: wav?.byteLength || 0,
-        riff: valid,
-        wave: valid,
-        decodable,
-      })
+      results.push({ accent, bytes: wav?.byteLength || 0, riff: valid, wave: valid, decodable })
     }
     return results
   }
 }
 
-export const audioEngine = new OfflineAudioEngine()
+export const audioEngine = new KokoroAudioEngine()
