@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "title": "2600句地道表达完整审校",
+  "outcome": "逐句检查并修正全部2600句的英语地道度、语法、术语和中英含义一致性，同时保持课程数据结构完整。",
+  "truth_policy": "逐句原文为source_exact；语言审校结论为engineering_explanation；无法确认的专有现场表达标记unknown并保留，不凭空改写。",
+  "created_at": "2026-08-25T02:47:39+00:00",
+  "updated_at": "2026-08-25T02:47:40+00:00",
+  "acceptance_criteria": [
+    {
+      "id": "coverage",
+      "description": "All sentence IDs 1-2600 reviewed exactly once",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "quality",
+      "description": "Each correction preserves Chinese meaning and uses natural professional English",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "integrity",
+      "description": "Corpus remains 2600 unique records across 81 sections and all tests pass",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "report",
+      "description": "Audit report lists every changed sentence and unresolved uncertainty",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "work_units": [
+    {
+      "id": "batch-1",
+      "description": "Audit and correct sentences 1-100",
+      "status": "in_progress",
+      "evidence": [],
+      "notes": [
+        "Started after user requested full 2600-sentence idiomaticity audit; TTS fix handled in parallel in same release."
+      ]
+    },
+    {
+      "id": "batch-2",
+      "description": "Audit and correct sentences 101-200",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-3",
+      "description": "Audit and correct sentences 201-300",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-4",
+      "description": "Audit and correct sentences 301-400",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-5",
+      "description": "Audit and correct sentences 401-500",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-6",
+      "description": "Audit and correct sentences 501-600",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-7",
+      "description": "Audit and correct sentences 601-700",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-8",
+      "description": "Audit and correct sentences 701-800",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-9",
+      "description": "Audit and correct sentences 801-900",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-10",
+      "description": "Audit and correct sentences 901-1000",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-11",
+      "description": "Audit and correct sentences 1001-1100",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-12",
+      "description": "Audit and correct sentences 1101-1200",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-13",
+      "description": "Audit and correct sentences 1201-1300",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-14",
+      "description": "Audit and correct sentences 1301-1400",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-15",
+      "description": "Audit and correct sentences 1401-1500",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-16",
+      "description": "Audit and correct sentences 1501-1600",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-17",
+      "description": "Audit and correct sentences 1601-1700",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-18",
+      "description": "Audit and correct sentences 1701-1800",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-19",
+      "description": "Audit and correct sentences 1801-1900",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-20",
+      "description": "Audit and correct sentences 1901-2000",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-21",
+      "description": "Audit and correct sentences 2001-2100",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-22",
+      "description": "Audit and correct sentences 2101-2200",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-23",
+      "description": "Audit and correct sentences 2201-2300",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-24",
+      "description": "Audit and correct sentences 2301-2400",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-25",
+      "description": "Audit and correct sentences 2401-2500",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    },
+    {
+      "id": "batch-26",
+      "description": "Audit and correct sentences 2501-2600",
+      "status": "pending",
+      "evidence": [],
+      "notes": []
+    }
+  ],
+  "checkpoints": [
+    {
+      "at": "2026-08-25T02:47:40+00:00",
+      "summary": "Goal contract established for all 2600 sentences.",
+      "next_action": "Finish English-only low-latency TTS patch, then extract a deterministic audit dataset and review batches 1-26."
+    }
+  ],
+  "risks_and_unknowns": []
+}
