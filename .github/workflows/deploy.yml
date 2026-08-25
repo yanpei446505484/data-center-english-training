@@ -23,34 +23,13 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
       - run: npm ci --ignore-scripts
-      - name: Restore pre-generated Chinese Kokoro audio
-        id: cache-kokoro-zh
-        uses: actions/cache@v4
-        with:
-          path: |
-            public/audio/zh
-            public/audio/zh-manifest.json
-          key: kokoro-zh-v1-${{ hashFiles('src/data/**/*.ts', 'scripts/export-audio-corpus.mjs', 'scripts/generate-kokoro-chinese-sprites.py', 'public/audio/manifest.json') }}
-      - name: Prepare Kokoro runtime and Chinese audio
+      - name: Prepare Kokoro browser runtime
         shell: bash
         run: |
           set -euo pipefail
           bash scripts/prepare-kokoro-runtime.sh
-          if [[ "${{ steps.cache-kokoro-zh.outputs.cache-hit }}" != "true" ]]; then
-            command -v ffmpeg >/dev/null || (sudo apt-get update && sudo apt-get install -y ffmpeg)
-            curl -L --fail --retry 3 \
-              "https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_0.tar.bz2" \
-              -o kokoro-multi-lang-v1_0.tar.bz2
-            tar xf kokoro-multi-lang-v1_0.tar.bz2
-            python -m pip install "sherpa-onnx==1.13.6"
-            KOKORO_MODEL_DIR="$PWD/kokoro-multi-lang-v1_0" npm run generate:kokoro-zh
-            rm -rf kokoro-multi-lang-v1_0 kokoro-multi-lang-v1_0.tar.bz2
-          fi
-      - run: REQUIRE_KOKORO_ZH=1 npm run check
+      - run: npm run check
       - name: Add same-origin Kokoro model files
         shell: bash
         run: |

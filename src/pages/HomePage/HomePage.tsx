@@ -16,7 +16,6 @@ import {
 import { SENTENCE_SECTIONS, MOCK_SENTENCES } from '@/data/sentenceLearning';
 import { aiTranslate, detectTranslationDirection } from '@/lib/ai-gateway';
 import { speakWithPlugin, stopAllSpeech, warmupAudio, preloadTTS } from '@/lib/ttsPlugin';
-import { speakChinese } from '@/lib/speakChinese';
 import { toast } from 'sonner';
 import { useFavorites, extractSentencesFromResponse } from '@/hooks/useFavorites';
 import { useHiddenScenarios } from '@/hooks/useHiddenScenarios';
@@ -208,7 +207,6 @@ function SentenceSearchSection() {
 
   const playTranslationText = useCallback((
     text: string,
-    language: 'zh' | 'en',
     voiceKey: string,
     accent: 'british' | 'american' = 'british',
   ) => {
@@ -227,9 +225,7 @@ function SentenceSearchSection() {
         setPlayingTranslationVoice(null);
       }
     };
-    stopFn = language === 'zh'
-      ? speakChinese(text, done)
-      : speakWithPlugin(text, done, accent);
+    stopFn = speakWithPlugin(text, done, accent);
     translationSpeechStopRef.current = stopFn;
   }, [playingTranslationVoice]);
 
@@ -399,47 +395,25 @@ function SentenceSearchSection() {
             )}
             {!isGenerating && translationResult && (
               <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-border/20">
-                {translationResult.sourceLanguage === 'zh' ? (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="text-xs gap-1.5"
-                    onClick={() => playTranslationText(translationResult.sourceText, 'zh', 'source-zh')}
-                  >
-                    {playingTranslationVoice === 'source-zh' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
-                    原文·中文
-                  </Button>
-                ) : (
+                {translationResult.sourceLanguage === 'en' && (
                   <>
-                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.sourceText, 'en', 'source-uk', 'british')}>
+                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.sourceText, 'source-uk', 'british')}>
                       {playingTranslationVoice === 'source-uk' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
                       原文·英音
                     </Button>
-                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.sourceText, 'en', 'source-us', 'american')}>
+                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.sourceText, 'source-us', 'american')}>
                       {playingTranslationVoice === 'source-us' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
                       原文·美音
                     </Button>
                   </>
                 )}
-                {translationResult.targetLanguage === 'zh' ? (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="text-xs gap-1.5"
-                    onClick={() => playTranslationText(translationResult.translatedText, 'zh', 'target-zh')}
-                  >
-                    {playingTranslationVoice === 'target-zh' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
-                    译文·中文
-                  </Button>
-                ) : (
+                {translationResult.targetLanguage === 'en' && (
                   <>
-                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.translatedText, 'en', 'target-uk', 'british')}>
+                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.translatedText, 'target-uk', 'british')}>
                       {playingTranslationVoice === 'target-uk' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
                       译文·英音
                     </Button>
-                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.translatedText, 'en', 'target-us', 'american')}>
+                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.translatedText, 'target-us', 'american')}>
                       {playingTranslationVoice === 'target-us' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
                       译文·美音
                     </Button>

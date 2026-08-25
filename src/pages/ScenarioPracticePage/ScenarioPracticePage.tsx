@@ -30,7 +30,6 @@ import { storage } from '@/lib/storage';
 import { logger } from '@/lib/app-logger';
 import { userStorageKey } from '@/lib/userStorage';
 import { speakWithPlugin, stopAllSpeech, stripChinese, warmupAudio } from '@/lib/ttsPlugin';
-import { speakChinese } from '@/lib/speakChinese';
 import { lookupTerm, DICTIONARY_SOURCES } from '@/data/dcTermsDictionary';
 import { lookupWordLocal, type ILocalWordResult } from '@/skills/dictionarySkill';
 import { recordSentencesStudied } from '@/hooks/useStudyProgress';
@@ -408,13 +407,9 @@ export default function ScenarioPracticePage() {
     setSpeakPhase('');
   }, []);
 
-  const speakOne = useCallback((text: string, lang: string, _rate: number): Promise<void> => {
+  const speakOne = useCallback((text: string, _lang: string, _rate: number): Promise<void> => {
     return new Promise((resolve) => {
-      if (lang === 'en-US') {
-        pluginStopRef.current = speakWithPlugin(text, resolve);
-      } else {
-        speakChinese(text, resolve);
-      }
+      pluginStopRef.current = speakWithPlugin(text, resolve);
     });
   }, []);
 

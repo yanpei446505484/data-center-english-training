@@ -43,7 +43,6 @@ import {
 import { storage } from '@/lib/storage';
 import { userStorageKey } from '@/lib/userStorage';
 import { preloadTTS, speakWithPlugin, stopAllSpeech, warmupAudio } from '@/lib/ttsPlugin';
-import { speakChinese } from '@/lib/speakChinese';
 import { recordSentenceStudied } from '@/hooks/useStudyProgress';
 import { useFavorites } from '@/hooks/useFavorites';
 
@@ -174,7 +173,7 @@ export default function SentenceDetailPage() {
 
   const [miniPlaying, setMiniPlaying] = useState<string | null>(null);
 
-  const playMiniTTS = useCallback((text: string, lang: string, key: string) => {
+  const playMiniTTS = useCallback((text: string, key: string) => {
     if (!text?.trim()) return;
     if (miniPlaying === key) {
       stopAllSpeech();
@@ -185,11 +184,7 @@ export default function SentenceDetailPage() {
     stopAllSpeech();
     setMiniPlaying(key);
     const onDone = () => setMiniPlaying(null);
-    if (lang === 'en-US') {
-      speakWithPlugin(text, onDone);
-    } else {
-      speakChinese(text, onDone);
-    }
+    speakWithPlugin(text, onDone);
   }, [miniPlaying]);
 
   const toggleWordExpand = (wordKey: string) => {
@@ -397,7 +392,7 @@ export default function SentenceDetailPage() {
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
-                            playMiniTTS(word.w, 'en-US', `word-${wi}`);
+                            playMiniTTS(word.w, `word-${wi}`);
                           }}
                           className="shrink-0"
                           title="朗读单词"
@@ -516,7 +511,7 @@ export default function SentenceDetailPage() {
                     <span className="text-xs font-mono text-muted-foreground">{phrase.ipa}</span>
                     <button
                       type="button"
-                      onClick={() => playMiniTTS(phrase.p, 'en-US', `phrase-${pi}`)}
+                      onClick={() => playMiniTTS(phrase.p, `phrase-${pi}`)}
                       className="shrink-0"
                       title="朗读短语"
                     >

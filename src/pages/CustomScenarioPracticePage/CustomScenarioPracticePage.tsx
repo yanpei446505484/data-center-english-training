@@ -31,7 +31,6 @@ import { aiChat } from '@/lib/ai-gateway';
 import { logger } from '@/lib/app-logger';
 import { userStorageKey } from '@/lib/userStorage';
 import { speakWithPlugin, stopAllSpeech, stripChinese, warmupAudio } from '@/lib/ttsPlugin';
-import { speakChinese } from '@/lib/speakChinese';
 import { lookupWordLocal, type ILocalWordResult } from '@/skills/dictionarySkill';
 import { lookupTermsInSentence, lookupTerm, DICTIONARY_SOURCES } from '@/data/dcTermsDictionary';
 import { toast } from 'sonner';
@@ -469,14 +468,10 @@ ${pair.en}`;
     setSpeakPhase('');
   }, []);
 
-  const speakOne = useCallback((text: string, lang: string, _rate: number): Promise<void> => {
+  const speakOne = useCallback((text: string, _lang: string, _rate: number): Promise<void> => {
     return new Promise((resolve) => {
       const done = () => setTimeout(resolve, 100);
-      if (lang === 'en-US') {
-        pluginStopRef.current = speakWithPlugin(text, done);
-      } else {
-        speakChinese(text, done);
-      }
+      pluginStopRef.current = speakWithPlugin(text, done);
     });
   }, []);
 
