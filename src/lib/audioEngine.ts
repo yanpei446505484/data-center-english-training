@@ -61,9 +61,55 @@ class KokoroAudioEngine {
   private manifest: StaticAudioManifest | null = null
   private manifestPromise: Promise<StaticAudioManifest> | null = null
   private decodedCache = new Map<string, AudioBuffer>()
+  private generatedWavCache = new Map<string, ArrayBuffer>()
+  private generatedWavPromises = new Map<string, Promise<ArrayBuffer>>()
 
   preload(): Promise<void> {
     return this.loadManifest().then(() => undefined)
+  }
+
+  async prepare(texts: string[], options: SpeakOptions = {}): Promise<void> {
+    const voice = options.language === 'zh'
+      ? 'zh'
+      : options.accent === 'american' ? 'en/en-us' : 'en/en-rp'
+    for (const sourceText of texts) {
+      const text = sourceText.trim()
+      if (!text) continue
+      const staticAudio = await this.loadStaticAudio(text, voice)
+      if (staticAudio || options.language === 'zh') continue
+      await this.loadGeneratedAudio(text, options)
+    }
+  }
+
+  private generatedKey(text: string, options: SpeakOptions): string {
+    const accent = options.accent === 'american' ? 'american' : 'british'
+    const speed = Math.max(.65, Math.min(1.45, (options.speed ?? 145) / 145))
+    return `${accent}\0${speed.toFixed(3)}\0${text}`
+  }
+
+  private loadGeneratedAudio(text: string, options: SpeakOptions): Promise<ArrayBuffer> {
+    const key = this.generatedKey(text, options)
+    const cached = this.generatedWavCache.get(key)
+    if (cached) return Promise.resolve(cached)
+    const pending = this.generatedWavPromises.get(key)
+    if (pending) return pending
+
+    const kokoroVoice = options.accent === 'american' ? 'af_sarah' : 'bf_emma'
+    const relativeSpeed = Math.max(.65, Math.min(1.45, (options.speed ?? 145) / 145))
+    const promise = generateKokoroWav(text, kokoroVoice, relativeSpeed)
+      .then(wav => {
+        if (!isWavBuffer(wav)) throw new Error('Kokoro 没有生成有效音频')
+        this.generatedWavCache.set(key, wav)
+        while (this.generatedWavCache.size > 12) {
+          const oldest = this.generatedWavCache.keys().next().value as string | undefined
+          if (!oldest) break
+          this.generatedWavCache.delete(oldest)
+        }
+        return wav
+      })
+      .finally(() => this.generatedWavPromises.delete(key))
+    this.generatedWavPromises.set(key, promise)
+    return promise
   }
 
   private loadManifest(): Promise<StaticAudioManifest> {
@@ -157,9 +203,7 @@ class KokoroAudioEngine {
       if (!wav) {
         if (options.language === 'zh') throw new Error('这段中文尚未生成 Kokoro 音频')
         options.onPreparing?.(!isKokoroModelReady())
-        const kokoroVoice = options.accent === 'american' ? 'af_sarah' : 'bf_emma'
-        const relativeSpeed = Math.max(.65, Math.min(1.45, (options.speed ?? 145) / 145))
-        wav = await generateKokoroWav(normalized, kokoroVoice, relativeSpeed)
+        wav = await this.loadGeneratedAudio(normalized, options)
       }
 
       if (!wav || (!staticAudio && !isWavBuffer(wav))) throw new Error('Kokoro 没有生成有效音频')
