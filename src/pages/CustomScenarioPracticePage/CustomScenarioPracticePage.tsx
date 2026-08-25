@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft,
   ArrowRight,
@@ -354,7 +353,12 @@ ${pair.en}`;
 
   useEffect(() => {
     const nextPair = translatedPairs[currentIndex + 1] || sentencePairs[currentIndex + 1];
-    if (currentPair?.en) void preloadTTS([currentPair.en, nextPair?.en || ''], 'british');
+    if (!currentPair?.en) return;
+    // Render the next sentence before doing any audio preparation.
+    const timer = window.setTimeout(() => {
+      void preloadTTS([currentPair.en, nextPair?.en || ''], 'british');
+    }, 120);
+    return () => window.clearTimeout(timer);
   }, [currentIndex, currentPair?.en, sentencePairs, translatedPairs]);
 
   // 页面卸载时停止所有语音（切换页面/导航时自动停读）
@@ -403,7 +407,7 @@ ${pair.en}`;
     pluginStopRef.current = null;
     setIsSpeaking(false);
     if (currentIndex < sentencePairs.length - 1) {
-      setCurrentIndex(currentIndex + 1);
+      setCurrentIndex((value) => value + 1);
     } else {
       setIsComplete(true);
     }
@@ -501,14 +505,7 @@ ${pair.en}`;
         </div>
 
         {/* Sentence Card */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-          >
+        <div key={currentIndex}>
             <Card className="border-border/40">
               <CardHeader>
                 <div className="flex items-start justify-between gap-4">
@@ -622,7 +619,7 @@ ${pair.en}`;
                       听标准发音
                     </Button>
                   )}
-                  {/* Skip / Next button - always visible */}
+                  {/* Next button switches immediately; audio preloads afterwards. */}
                   <Button
                     variant="outline"
                     onClick={nextSentence}
@@ -636,8 +633,7 @@ ${pair.en}`;
 
               </CardContent>
             </Card>
-          </motion.div>
-        </AnimatePresence>
+        </div>
       </div>
     );
   }

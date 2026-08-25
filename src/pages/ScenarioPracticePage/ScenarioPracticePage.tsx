@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft,
   ArrowRight,
@@ -271,9 +270,13 @@ export default function ScenarioPracticePage() {
   const currentSentence = sentences[currentIndex];
 
   useEffect(() => {
-    if (currentSentence?.en) {
+    if (!currentSentence?.en) return;
+    // Let the new sentence render first. Audio preparation runs shortly after
+    // the visual update so the Next button always feels immediate.
+    const timer = window.setTimeout(() => {
       void preloadTTS([currentSentence.en, sentences[currentIndex + 1]?.en || ''], 'british');
-    }
+    }, 120);
+    return () => window.clearTimeout(timer);
   }, [currentIndex, currentSentence?.en, sentences]);
 
   // Build a global word dictionary from ALL sentences for fallback lookup
@@ -357,7 +360,7 @@ export default function ScenarioPracticePage() {
     setIsSpeaking(false);
     setSpeakRound(0);
     if (currentIndex < sentences.length - 1) {
-      setCurrentIndex(currentIndex + 1);
+      setCurrentIndex((value) => value + 1);
     } else {
       recordSentencesStudied(sentences.map((sentence) => sentence.id));
       setIsComplete(true);
@@ -397,14 +400,7 @@ export default function ScenarioPracticePage() {
         </div>
 
         {/* Sentence Card */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSentence.id}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-          >
+        <div key={currentSentence.id}>
             <Card className="border-border/40">
               <CardHeader>
                 <div className="flex items-start justify-between gap-4">
@@ -561,7 +557,7 @@ export default function ScenarioPracticePage() {
                       听标准发音
                     </Button>
                   )}
-                  {/* 下一句/跳过按钮 - 始终可见 */}
+                  {/* 下一句按钮 - 立即切换，不等待音频预加载 */}
                   <Button
                     variant="outline"
                     onClick={nextSentence}
@@ -575,8 +571,7 @@ export default function ScenarioPracticePage() {
 
               </CardContent>
             </Card>
-          </motion.div>
-        </AnimatePresence>
+        </div>
       </div>
     );
   }
