@@ -79,6 +79,11 @@ async function loadModel(onProgress?: (progress: unknown) => void): Promise<Koko
   return modelPromise
 }
 
+/** Start downloading and initializing Kokoro before the first pronunciation click. */
+export async function preloadKokoroModel(): Promise<void> {
+  await loadModel()
+}
+
 function concatenateAudio(chunks: KokoroAudio[]): ArrayBuffer {
   if (chunks.length === 1) return chunks[0].toWav()
   const sampleRate = chunks[0]?.sampling_rate || 24_000

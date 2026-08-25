@@ -18,7 +18,7 @@ import {
   Accordion, AccordionItem, AccordionTrigger, AccordionContent,
 } from '@/components/ui/accordion';
 import { Textarea } from '@/components/ui/textarea';
-import { speakWithPlugin, stopAllSpeech, warmupAudio } from '@/lib/ttsPlugin';
+import { preloadTTS, speakWithPlugin, stopAllSpeech, warmupAudio } from '@/lib/ttsPlugin';
 import { recordSentenceStudied } from '@/hooks/useStudyProgress';
 
 const NOTES_KEY = 'dc_sentence_notes';
@@ -88,6 +88,11 @@ export default function SentenceLearningPage() {
     () => MOCK_SENTENCES.find((s) => s.id === currentId) ?? MOCK_SENTENCES[0],
     [currentId],
   );
+
+  useEffect(() => {
+    const next = MOCK_SENTENCES.find((item) => item.id === currentId + 1);
+    void preloadTTS([sentence.en, next?.en || ''], 'british');
+  }, [currentId, sentence.en]);
 
   const currentNote = allNotes[String(sentence.id)] ?? '';
 

@@ -1,4 +1,5 @@
 import { audioEngine, type Accent } from '@/lib/audioEngine';
+import { preloadKokoroModel } from '@/lib/kokoroRuntime';
 import { storage } from '@/lib/storage';
 import { toast } from 'sonner';
 
@@ -63,6 +64,13 @@ export async function preloadTTS(texts: string[], accent?: TTSAccent): Promise<v
     language: 'en',
     speed: 145,
   }).catch(() => undefined);
+}
+
+export async function preloadTTSModel(): Promise<void> {
+  await Promise.all([
+    audioEngine.preload(),
+    preloadKokoroModel(),
+  ]).then(() => undefined).catch(() => undefined);
 }
 
 /**

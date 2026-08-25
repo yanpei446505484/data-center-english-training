@@ -31,7 +31,7 @@ import {
   MOCK_SENTENCES,
   type ISentence,
 } from '@/data/sentenceLearning';
-import { speakWithPlugin, stopAllSpeech, warmupAudio } from '@/lib/ttsPlugin';
+import { preloadTTS, speakWithPlugin, stopAllSpeech, warmupAudio } from '@/lib/ttsPlugin';
 import { storage } from '@/lib/storage';
 import { userStorageKey } from '@/lib/userStorage';
 import { useFavorites, extractSentencePairsFromResponse } from '@/hooks/useFavorites';
@@ -178,6 +178,12 @@ export default function FlashcardPage() {
 
   const current = displaySentences[currentIndex];
   const total = displaySentences.length;
+
+  useEffect(() => {
+    const active = customScenarioId ? customCards[currentIndex]?.en : current?.en;
+    const next = customScenarioId ? customCards[currentIndex + 1]?.en : displaySentences[currentIndex + 1]?.en;
+    if (active) void preloadTTS([active, next || ''], 'british');
+  }, [customCards, customScenarioId, current?.en, currentIndex, displaySentences]);
 
   const sectionStats = useMemo(() => {
     let known = 0;

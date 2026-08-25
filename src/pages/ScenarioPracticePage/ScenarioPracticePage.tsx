@@ -29,7 +29,7 @@ import { SENTENCE_SECTIONS, MOCK_SENTENCES, type ISentence } from '@/data/senten
 import { storage } from '@/lib/storage';
 import { logger } from '@/lib/app-logger';
 import { userStorageKey } from '@/lib/userStorage';
-import { speakWithPlugin, stopAllSpeech, stripChinese, warmupAudio } from '@/lib/ttsPlugin';
+import { preloadTTS, speakWithPlugin, stopAllSpeech, stripChinese, warmupAudio } from '@/lib/ttsPlugin';
 import { lookupTerm, DICTIONARY_SOURCES } from '@/data/dcTermsDictionary';
 import { lookupWordLocal, type ILocalWordResult } from '@/skills/dictionarySkill';
 import { recordSentencesStudied } from '@/hooks/useStudyProgress';
@@ -358,6 +358,12 @@ export default function ScenarioPracticePage() {
   const { addFavorite, isFavorited } = useFavorites();
 
   const currentSentence = sentences[currentIndex];
+
+  useEffect(() => {
+    if (currentSentence?.en) {
+      void preloadTTS([currentSentence.en, sentences[currentIndex + 1]?.en || ''], 'british');
+    }
+  }, [currentIndex, currentSentence?.en, sentences]);
 
   // Build a global word dictionary from ALL sentences for fallback lookup
   const globalWordDict = useMemo(() => {

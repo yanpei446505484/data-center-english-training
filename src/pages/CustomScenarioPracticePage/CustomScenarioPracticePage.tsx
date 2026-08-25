@@ -30,7 +30,7 @@ import { storage } from '@/lib/storage';
 import { aiChat } from '@/lib/ai-gateway';
 import { logger } from '@/lib/app-logger';
 import { userStorageKey } from '@/lib/userStorage';
-import { speakWithPlugin, stopAllSpeech, stripChinese, warmupAudio } from '@/lib/ttsPlugin';
+import { preloadTTS, speakWithPlugin, stopAllSpeech, stripChinese, warmupAudio } from '@/lib/ttsPlugin';
 import { lookupWordLocal, type ILocalWordResult } from '@/skills/dictionarySkill';
 import { lookupTermsInSentence, lookupTerm, DICTIONARY_SOURCES } from '@/data/dcTermsDictionary';
 import { toast } from 'sonner';
@@ -436,6 +436,11 @@ ${pair.en}`;
 
   const recognitionRef = useRef<any>(null);
   const currentPair = translatedPairs[currentIndex] || sentencePairs[currentIndex];
+
+  useEffect(() => {
+    const nextPair = translatedPairs[currentIndex + 1] || sentencePairs[currentIndex + 1];
+    if (currentPair?.en) void preloadTTS([currentPair.en, nextPair?.en || ''], 'british');
+  }, [currentIndex, currentPair?.en, sentencePairs, translatedPairs]);
 
   // Initialize speech recognition
   useEffect(() => {

@@ -132,6 +132,9 @@ function SentenceSearchSection() {
       const { sourceLanguage, targetLanguage } = detectTranslationDirection(extracted);
       setAiContent(`📷 已识别文字，正在翻译成${targetLanguage === 'zh' ? '中文' : '英文'}…\n\n`);
       const translated = await aiTranslate(extracted, targetLanguage);
+      const englishText = sourceLanguage === 'en' ? extracted : translated;
+      void preloadTTS([englishText], 'british');
+      void preloadTTS([englishText], 'american');
       setTranslationResult({ sourceText: extracted, translatedText: translated, sourceLanguage, targetLanguage });
       setAiContent(`**识别原文（${sourceLanguage === 'zh' ? '中文' : '英文'}）**\n\n${extracted}\n\n---\n\n**${targetLanguage === 'zh' ? '中文' : '英文'}翻译**\n\n${translated}`);
     } catch (error) {
@@ -166,6 +169,9 @@ function SentenceSearchSection() {
     try {
       const { sourceLanguage, targetLanguage } = detectTranslationDirection(query);
       const translated = await aiTranslate(query, targetLanguage);
+      const englishText = sourceLanguage === 'en' ? query : translated;
+      void preloadTTS([englishText], 'british');
+      void preloadTTS([englishText], 'american');
       setTranslationResult({ sourceText: query, translatedText: translated, sourceLanguage, targetLanguage });
       setAiContent(`**原文（${sourceLanguage === 'zh' ? '中文' : '英文'}）**\n\n${query}\n\n---\n\n**${targetLanguage === 'zh' ? '中文' : '英文'}翻译**\n\n${translated}`);
     } catch {

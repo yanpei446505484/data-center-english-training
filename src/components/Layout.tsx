@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { LogOut, User, RefreshCw, AlertTriangle } from 'lucide-react';
 import { logger } from '@/lib/app-logger';
 import { appLogoUrl } from '@/lib/publicAsset';
+import { preloadTTSModel } from '@/lib/ttsPlugin';
 
 
 /** Loading skeleton shown during route transitions */
@@ -132,6 +133,11 @@ export const Layout = () => {
   const location = useLocation();
 
   const mainRef = useRef<HTMLElement>(null);
+
+  // Warm the same-origin Kokoro model before the first pronunciation click.
+  useEffect(() => {
+    void preloadTTSModel();
+  }, []);
 
   const handleLogout = useCallback(async () => {
     await logout();
