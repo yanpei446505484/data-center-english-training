@@ -14,65 +14,13 @@ import {
   ImagePlus, Camera,
 } from 'lucide-react';
 import { SENTENCE_SECTIONS, MOCK_SENTENCES, type ISentence } from '@/data/sentenceLearning';
-import { storage } from '@/lib/storage';
-import { aiChat, aiChatStream, aiVision } from '@/lib/ai-gateway';
+import { aiTranslate, detectTranslationDirection } from '@/lib/ai-gateway';
 import { speakWithPlugin, stopAllSpeech, warmupAudio, preloadTTS } from '@/lib/ttsPlugin';
 import { toast } from 'sonner';
 import { useFavorites, extractSentencesFromResponse } from '@/hooks/useFavorites';
-import { userStorageKey } from '@/lib/userStorage';
 import { useHiddenScenarios } from '@/hooks/useHiddenScenarios';
+import { loadStudyProgress } from '@/hooks/useStudyProgress';
 import { Image } from '@/components/ui/image';
-
-const STORAGE_KEY = '__app_dc_english_progress';
-
-interface IStudyProgress {
-  studiedIds: number[];
-  masteredIds: number[];
-  quizCorrect: number;
-  quizTotal: number;
-  dailyLog: Record<string, number>;
-  lastDate: string;
-  streak: number;
-}
-
-const DEFAULT_PROGRESS: IStudyProgress = {
-  studiedIds: [],
-  masteredIds: [],
-  quizCorrect: 0,
-  quizTotal: 0,
-  dailyLog: {},
-  lastDate: '',
-  streak: 0,
-};
-
-function loadProgress(): IStudyProgress {
-  try {
-    const raw = storage.getItem(userStorageKey(STORAGE_KEY));
-    if (!raw) return DEFAULT_PROGRESS;
-    const parsed = JSON.parse(raw) as Partial<IStudyProgress>;
-    return { ...DEFAULT_PROGRESS, ...parsed };
-  } catch {
-    return DEFAULT_PROGRESS;
-  }
-}
-
-function computeStreak(log: Record<string, number>): number {
-  const today = new Date().toISOString().slice(0, 10);
-  let streak = 0;
-  const d = new Date();
-  while (true) {
-    const key = d.toISOString().slice(0, 10);
-    if (log[key] && log[key] > 0) {
-      streak++;
-      d.setDate(d.getDate() - 1);
-    } else if (key === today) {
-      d.setDate(d.getDate() - 1);
-    } else {
-      break;
-    }
-  }
-  return streak;
-}
 
 /* ─── Stats Card ─── */
 function StatCard({ icon: Icon, label, value, accent }: {
@@ -97,16 +45,23 @@ function StatCard({ icon: Icon, label, value, accent }: {
 }
 
 /* ─── AI English Tutor ─── */
-type AiMode = 'word' | 'scenario' | 'translate';
+type AiMode = 'text' | 'image';
+type TranslationResult = {
+  sourceText: string;
+  translatedText: string;
+  sourceLanguage: 'zh' | 'en';
+  targetLanguage: 'zh' | 'en';
+};
 
 function SentenceSearchSection() {
   const [inputValue, setInputValue] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiContent, setAiContent] = useState('');
   const [hasQueried, setHasQueried] = useState(false);
-  const [mode, setMode] = useState<AiMode>('word');
+  const [translationResult, setTranslationResult] = useState<TranslationResult | null>(null);
+  const [mode, setMode] = useState<AiMode>('text');
   const contentRef = useRef<HTMLDivElement>(null);
-  const { addFavorite, addScenarioFavorite, isFavorited } = useFavorites();
+  const { addTranslationFavorite, isFavorited } = useFavorites();
   // Image upload state
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -133,7 +88,7 @@ function SentenceSearchSection() {
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rec = new SR() as any;
-    rec.lang = mode === 'word' ? 'en-US' : 'zh-CN';
+    rec.lang = /[\u3400-\u9fff]/u.test(inputValue) ? 'zh-CN' : 'en-US';
     rec.interimResults = false;
     rec.continuous = false;
     rec.maxAlternatives = 1;
@@ -153,7 +108,7 @@ function SentenceSearchSection() {
     voiceRecogRef.current = rec;
     rec.start();
     setIsListening(true);
-  }, [isListening, mode]);
+  }, [isListening, inputValue]);
 
   /** 处理图片选择 */
   const handleImageSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -180,80 +135,44 @@ function SentenceSearchSection() {
     setImagePreview(null);
   }, [imagePreview]);
 
-  /** 图片翻译：提取英文句子并翻译成中文 */
+  /** 图片翻译：浏览器端 OCR 提取中英文，再自动双向翻译。 */
   const translateImage = useCallback(async (file: File) => {
     setIsAnalyzingImage(true);
     setAiContent('');
+    setTranslationResult(null);
     setHasQueried(true);
 
-    setInputValue('[图片翻译] ' + (file.name || '图片英文提取'));
+    setInputValue('[图片翻译] ' + (file.name || '图片文字提取'));
 
+    let worker: Awaited<ReturnType<typeof import('tesseract.js')['createWorker']>> | null = null;
     try {
-      setAiContent('📷 正在识别图片中的英文…\n\n');
-      const imageUrl = URL.createObjectURL(file);
-      const full = await aiVision(
-        imageUrl,
-        'Extract all English text from this image and translate each sentence into Chinese. Output each English sentence followed by its Chinese translation.',
-      );
-      URL.revokeObjectURL(imageUrl);
-
-      if (full.trim()) {
-        setAiContent(full);
-      } else {
-        setAiContent('抱歉，未能从图片中识别到英文内容，请尝试拍摄更清晰的图片。');
-      }
-    } catch {
-      setAiContent('抱歉，图片翻译功能暂时无法使用，请稍后再试。');
-    } finally {
-      setIsAnalyzingImage(false);
-      setIsGenerating(false);
-    }
-  }, []);
-
-  /** 分析图片并生成场景描述 */
-  const analyzeImageAndGenerate = useCallback(async (file: File) => {
-    setIsAnalyzingImage(true);
-    setAiContent('');
-    setHasQueried(true);
-
-    try {
-      // Step 1: 调用 AI 视觉分析场景
-      setAiContent('📷 正在分析图片中的场景…\n\n');
-      const imageUrl = URL.createObjectURL(file);
-      const sceneDescription = await aiVision(
-        imageUrl,
-        'Describe the scene in this image in detail. What is happening? What equipment or environment is visible?',
-      );
-      URL.revokeObjectURL(imageUrl);
-
-      if (!sceneDescription.trim()) {
-        setAiContent('抱歉，无法从图片中识别出有效的场景信息，请尝试其他图片。');
-        setIsAnalyzingImage(false);
+      setAiContent('📷 正在加载中英文识别模型，首次使用需要下载语言包…\n\n');
+      const { createWorker } = await import('tesseract.js');
+      worker = await createWorker(['eng', 'chi_sim'], 1, {
+        logger: message => {
+          if (message.status === 'recognizing text') {
+            const progress = Math.round((message.progress ?? 0) * 100);
+            setAiContent(`📷 正在识别图片文字：${progress}%\n\n`);
+          }
+        },
+      });
+      const result = await worker.recognize(file);
+      const extracted = result.data.text.replace(/\n{3,}/g, '\n\n').trim();
+      if (!extracted) {
+        setAiContent('未识别到清晰文字。请裁剪图片、保持画面端正并提高文字对比度后重试。');
         return;
       }
 
-      // Step 2: 用场景描述生成英语对话
-      setAiContent('📷 **图片场景分析**\n\n' + sceneDescription + '\n\n---\n\n🎬 **正在生成英语对话练习…**\n\n');
-      setInputValue('[图片场景] ' + sceneDescription.slice(0, 60).replace(/\n/g, ' '));
-
-      // Step 2: 用场景描述生成英语对话
-      setAiContent('📷 **图片场景分析**\n\n' + sceneDescription + '\n\n---\n\n🎬 **正在生成英语对话练习…**\n\n');
-      setInputValue('[图片场景] ' + sceneDescription.slice(0, 60).replace(/\n/g, ' '));
-
-      let dialogueContent = '';
-      await new Promise<void>((resolve) => {
-        aiChatStream(
-          [{ role: 'user', content: sceneDescription }],
-          (chunk: string) => {
-            dialogueContent += chunk;
-            setAiContent('📷 **图片场景分析**\n\n' + sceneDescription + '\n\n---\n\n🎬 **英语对话练习**\n\n' + dialogueContent);
-          },
-          () => { resolve(); },
-        );
-      });
-    } catch {
-      setAiContent('抱歉，图片分析或场景生成暂时无法使用，请稍后再试。');
+      const { sourceLanguage, targetLanguage } = detectTranslationDirection(extracted);
+      setAiContent(`📷 已识别文字，正在翻译成${targetLanguage === 'zh' ? '中文' : '英文'}…\n\n`);
+      const translated = await aiTranslate(extracted, targetLanguage);
+      setTranslationResult({ sourceText: extracted, translatedText: translated, sourceLanguage, targetLanguage });
+      setAiContent(`**识别原文（${sourceLanguage === 'zh' ? '中文' : '英文'}）**\n\n${extracted}\n\n---\n\n**${targetLanguage === 'zh' ? '中文' : '英文'}翻译**\n\n${translated}`);
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : '';
+      setAiContent(`图片翻译失败。请检查网络后重试，或换一张更清晰的图片。${detail ? `\n\n错误：${detail}` : ''}`);
     } finally {
+      await worker?.terminate();
       setIsAnalyzingImage(false);
       setIsGenerating(false);
     }
@@ -263,18 +182,10 @@ function SentenceSearchSection() {
     e?.preventDefault();
 
     // 图片翻译模式 → 提取并翻译
-    if (mode === 'translate' && imageFile) {
+    if (mode === 'image' && imageFile) {
       if (isGenerating || isAnalyzingImage) return;
       setIsGenerating(true);
       await translateImage(imageFile);
-      return;
-    }
-
-    // 场景模式 + 有图片 → 先分析图片再生成对话
-    if (mode === 'scenario' && imageFile) {
-      if (isGenerating || isAnalyzingImage) return;
-      setIsGenerating(true);
-      await analyzeImageAndGenerate(imageFile);
       return;
     }
 
@@ -283,37 +194,25 @@ function SentenceSearchSection() {
 
     setIsGenerating(true);
     setHasQueried(true);
+    setTranslationResult(null);
     // Don't clear aiContent here — keep old content visible until new stream starts
 
     try {
-      let full = '';
-      let firstChunk = true;
-
-      await new Promise<void>((resolve) => {
-        aiChatStream(
-          [{ role: 'user', content: query }],
-          (chunk: string) => {
-            if (firstChunk) {
-              full = chunk;
-              firstChunk = false;
-            } else {
-              full += chunk;
-            }
-            setAiContent(full);
-          },
-          () => { resolve(); },
-        );
-      });
+      const { sourceLanguage, targetLanguage } = detectTranslationDirection(query);
+      const translated = await aiTranslate(query, targetLanguage);
+      setTranslationResult({ sourceText: query, translatedText: translated, sourceLanguage, targetLanguage });
+      setAiContent(`**原文（${sourceLanguage === 'zh' ? '中文' : '英文'}）**\n\n${query}\n\n---\n\n**${targetLanguage === 'zh' ? '中文' : '英文'}翻译**\n\n${translated}`);
     } catch {
-      setAiContent('抱歉，英语助手暂时无法响应，请稍后再试。');
+      setAiContent('翻译暂时不可用。请检查网络后重试；桌面版 Chrome 首次使用也可能需要下载翻译语言包。');
     } finally {
       setIsGenerating(false);
     }
-  }, [inputValue, isGenerating, mode, imageFile, isAnalyzingImage, analyzeImageAndGenerate, translateImage]);
+  }, [inputValue, isGenerating, mode, imageFile, isAnalyzingImage, translateImage]);
 
   const handleModeChange = useCallback((newMode: AiMode) => {
     setMode(newMode);
     setAiContent('');
+    setTranslationResult(null);
     setHasQueried(false);
     // 切换模式时清除图片
     if (imagePreview) URL.revokeObjectURL(imagePreview);
@@ -321,36 +220,24 @@ function SentenceSearchSection() {
     setImagePreview(null);
   }, [imagePreview]);
 
-  const wordPrompts: string[] = [];
-
-  const scenarioPrompts: string[] = [];
-
-  const currentPrompts = mode === 'scenario' ? scenarioPrompts : wordPrompts;
-
   const handleSave = useCallback(() => {
-    const query = inputValue.trim();
-    if (!query || !aiContent) return;
-
-    if (mode === 'scenario') {
-      const saved = addScenarioFavorite(query, aiContent);
-      if (saved) {
-        toast.success('场景已收藏，已自动添加到场景练习、闪卡学习和自测挑战');
-      } else {
-        toast.info('该场景已收藏');
-      }
+    if (!translationResult) return;
+    const saved = addTranslationFavorite(
+      translationResult.sourceText,
+      translationResult.translatedText,
+      translationResult.sourceLanguage,
+      translationResult.targetLanguage,
+    );
+    if (saved) {
+      toast.success('翻译已收藏到「我的收藏」');
     } else {
-      const saved = addFavorite(query, aiContent);
-      if (saved) {
-        toast.success('已收藏到「我的收藏」');
-      } else {
-        toast.info('该词条已收藏');
-      }
+      toast.info('该翻译已收藏');
     }
-  }, [inputValue, aiContent, mode, addFavorite, addScenarioFavorite]);
+  }, [translationResult, addTranslationFavorite]);
 
-  const isCurrentFavorited = mode === 'scenario'
-    ? isFavorited(inputValue.trim()) && inputValue.trim() !== ''
-    : isFavorited(inputValue.trim());
+  const isCurrentFavorited = translationResult
+    ? isFavorited(translationResult.sourceText)
+    : false;
 
   return (
     <Card className="border-border/40 border-primary/20">
@@ -360,11 +247,9 @@ function SentenceSearchSection() {
           英语助手
         </CardTitle>
         <CardDescription className="text-xs">
-          {mode === 'translate'
-            ? '上传或拍摄包含英文的图片，自动提取句子并翻译成中文'
-            : mode === 'scenario'
-              ? '描述一个数据中心工作场景，生成英语对话练习内容'
-              : '输入英文词汇或句子，AI 为你提供释义、发音、例句和语法解析'}
+          {mode === 'image'
+            ? '上传或拍摄图片，提取中文或英文并自动翻译成另一种语言'
+            : '输入中文或英文，自动识别语言并进行中英互译'}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -372,33 +257,22 @@ function SentenceSearchSection() {
         <div className="flex gap-1.5 p-1 bg-secondary/50 rounded-lg">
           <button
             className={`flex-1 text-xs py-1.5 px-3 rounded-md transition-all flex items-center justify-center gap-1.5 ${
-              mode === 'word'
+              mode === 'text'
                 ? 'bg-primary text-primary-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
-            onClick={() => handleModeChange('word')}
+            onClick={() => handleModeChange('text')}
           >
             <BookOpen className="size-3.5" />
-            词汇查询
+            文字互译
           </button>
           <button
             className={`flex-1 text-xs py-1.5 px-3 rounded-md transition-all flex items-center justify-center gap-1.5 ${
-              mode === 'scenario'
+              mode === 'image'
                 ? 'bg-primary text-primary-foreground shadow-sm'
                 : 'text-muted-foreground hover:text-foreground'
             }`}
-            onClick={() => handleModeChange('scenario')}
-          >
-            <Clapperboard className="size-3.5" />
-            场景生成
-          </button>
-          <button
-            className={`flex-1 text-xs py-1.5 px-3 rounded-md transition-all flex items-center justify-center gap-1.5 ${
-              mode === 'translate'
-                ? 'bg-primary text-primary-foreground shadow-sm'
-                : 'text-muted-foreground hover:text-foreground'
-            }`}
-            onClick={() => handleModeChange('translate')}
+            onClick={() => handleModeChange('image')}
           >
             <ImagePlus className="size-3.5" />
             图片翻译
@@ -406,11 +280,11 @@ function SentenceSearchSection() {
         </div>
 
         {/* Image preview (scenario & translate mode) */}
-        {(mode === 'scenario' || mode === 'translate') && imagePreview && (
+        {mode === 'image' && imagePreview && (
           <div className="relative inline-block">
             <Image
               src={imagePreview}
-              alt="场景图片预览"
+              alt="待翻译图片预览"
               className="h-20 w-auto rounded-md border border-border/40 object-cover"
             />
             <button
@@ -444,9 +318,7 @@ function SentenceSearchSection() {
         {/* Input form */}
         <form onSubmit={handleSubmit} className="flex gap-2">
           <div className="relative flex-1">
-            {mode === 'scenario' ? (
-              <Clapperboard className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            ) : mode === 'translate' ? (
+            {mode === 'image' ? (
               <ImagePlus className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             ) : (
               <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -454,21 +326,17 @@ function SentenceSearchSection() {
             <Input
               value={inputValue}
               onChange={e => setInputValue(e.target.value)}
-              placeholder={mode === 'translate'
+              placeholder={mode === 'image'
                 ? imageFile
                   ? '已选择图片，点击发送开始翻译…'
-                  : '上传或拍摄包含英文的图片…'
-                : mode === 'scenario'
-                  ? imageFile
-                    ? '已选择图片，可直接发送或补充文字描述…'
-                    : '描述一个数据中心工作场景，或上传场景照片…'
-                  : '输入英文词汇、短语或句子…'}
+                  : '上传或拍摄包含中文或英文的图片…'
+                : '输入中文或英文，自动互译…'}
               className="pl-9 bg-background"
               disabled={isGenerating || isAnalyzingImage}
             />
           </div>
           {/* Image upload buttons (scenario & translate mode) */}
-          {(mode === 'scenario' || mode === 'translate') && !imageFile && (
+          {mode === 'image' && !imageFile && (
             <>
               <Button
                 type="button"
@@ -477,7 +345,7 @@ function SentenceSearchSection() {
                 className="shrink-0"
                 onClick={() => imageInputRef.current?.click()}
                 disabled={isGenerating || isAnalyzingImage}
-                title={mode === 'translate' ? '上传图片翻译' : '上传场景照片'}
+                title="上传图片翻译"
               >
                 <ImagePlus className="size-4" />
               </Button>
@@ -488,7 +356,7 @@ function SentenceSearchSection() {
                 className="shrink-0"
                 onClick={() => cameraInputRef.current?.click()}
                 disabled={isGenerating || isAnalyzingImage}
-                title={mode === 'translate' ? '拍照翻译' : '拍照生成场景'}
+                title="拍照翻译"
               >
                 <Camera className="size-4" />
               </Button>
@@ -497,7 +365,7 @@ function SentenceSearchSection() {
           <Button
             type="submit"
             size="icon"
-            disabled={(mode === 'translate' ? !imageFile : (!inputValue.trim() && !imageFile)) || isGenerating || isAnalyzingImage}
+            disabled={(mode === 'image' ? !imageFile : !inputValue.trim()) || isGenerating || isAnalyzingImage}
           >
             {isGenerating || isAnalyzingImage ? (
               <Loader2 className="size-4 animate-spin" />
@@ -506,24 +374,6 @@ function SentenceSearchSection() {
             )}
           </Button>
         </form>
-
-        {/* Quick prompts */}
-        {!hasQueried && currentPrompts.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
-            <span className="text-xs text-muted-foreground leading-6">试试：</span>
-            {currentPrompts.map((p) => (
-              <button
-                key={p}
-                className="text-xs px-2.5 py-1 rounded-md border border-border/40 text-muted-foreground hover:text-foreground hover:border-primary/40 hover:bg-primary/5 transition-colors truncate max-w-[180px]"
-                onClick={() => {
-                  setInputValue(p);
-                }}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
-        )}
 
         {/* AI Response */}
         {hasQueried && (
@@ -534,13 +384,7 @@ function SentenceSearchSection() {
             {isGenerating && !aiContent && (
               <div className="flex items-center gap-2 text-sm text-muted-foreground py-4">
                 <Loader2 className="size-4 animate-spin text-primary" />
-                {mode === 'translate'
-                  ? '正在识别并翻译图片中的英文…'
-                  : isAnalyzingImage
-                    ? '正在分析图片中的场景…'
-                    : mode === 'scenario'
-                      ? '正在生成场景对话…'
-                      : '正在分析中…'}
+                {mode === 'image' ? '正在识别并翻译图片中的文字…' : '正在翻译…'}
               </div>
             )}
             {aiContent && (
@@ -555,7 +399,7 @@ function SentenceSearchSection() {
               </div>
             )}
             {/* Save to favorites */}
-            {!isGenerating && aiContent && inputValue.trim() && (
+            {!isGenerating && translationResult && (
               <div className="flex items-center justify-end gap-2 mt-3 pt-3 border-t border-border/20">
                 <Button
                   variant="outline"
@@ -572,7 +416,7 @@ function SentenceSearchSection() {
                   ) : (
                     <>
                       <Bookmark className="size-3.5" />
-                      {mode === 'translate' ? '收藏翻译' : mode === 'scenario' ? '收藏场景' : '收藏'}
+                      收藏翻译
                     </>
                   )}
                 </Button>
@@ -1011,8 +855,8 @@ function QuickActionsSection() {
 
 /* ─── Main Page ─── */
 export default function HomePage() {
-  const progress = useMemo(() => loadProgress(), []);
-  const streak = useMemo(() => computeStreak(progress.dailyLog), [progress.dailyLog]);
+  const progress = useMemo(() => loadStudyProgress(), []);
+  const streak = progress.streak;
   const totalSentences = MOCK_SENTENCES.length;
   const studied = progress.studiedIds.length;
   const mastered = progress.masteredIds.length;

@@ -1,4 +1,4 @@
-import { lookupTerm, lookupTermsInSentence } from '@/data/dcTermsDictionary';
+import { DC_TERMS_DICTIONARY, lookupTerm, lookupTermsInSentence } from '@/data/dcTermsDictionary';
 
 interface OfflineMessage {
   role: 'system' | 'user' | 'assistant';
@@ -55,10 +55,13 @@ function dictionaryJson(prompt: string): string {
 
 export function offlineTranslate(text: string): string {
   const cleaned = cleanDocument(text);
-  const terms = lookupTermsInSentence(cleaned).slice(0, 12);
-  if (terms.length === 0) return `本地辅助翻译：${cleaned}`;
-  const glossary = terms.map(term => `${term.en}＝${term.cn}`).join('；');
-  return `术语参考：${glossary}\n原文：${cleaned}`;
+  const englishHit = lookupTerm(cleaned);
+  if (englishHit) return englishHit.cn;
+
+  const chineseHit = DC_TERMS_DICTIONARY.find(entry => entry.definition.trim() === cleaned);
+  if (chineseHit) return chineseHit.term;
+
+  return '';
 }
 
 export async function offlineAiChat(messages: OfflineMessage[]): Promise<string> {
