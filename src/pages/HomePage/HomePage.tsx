@@ -16,6 +16,7 @@ import {
 import { SENTENCE_SECTIONS, MOCK_SENTENCES, type ISentence } from '@/data/sentenceLearning';
 import { aiTranslate, detectTranslationDirection } from '@/lib/ai-gateway';
 import { speakWithPlugin, stopAllSpeech, warmupAudio, preloadTTS } from '@/lib/ttsPlugin';
+import { speakChinese } from '@/lib/speakChinese';
 import { toast } from 'sonner';
 import { useFavorites, extractSentencesFromResponse } from '@/hooks/useFavorites';
 import { useHiddenScenarios } from '@/hooks/useHiddenScenarios';
@@ -68,6 +69,8 @@ function SentenceSearchSection() {
   const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  const translationSpeechStopRef = useRef<(() => void) | null>(null);
+  const [playingTranslationVoice, setPlayingTranslationVoice] = useState<string | null>(null);
 
   // ─── Voice Input (Web Speech API) ───
   const [isListening, setIsListening] = useState(false);
@@ -239,6 +242,38 @@ function SentenceSearchSection() {
     ? isFavorited(translationResult.sourceText)
     : false;
 
+  const playTranslationText = useCallback((
+    text: string,
+    language: 'zh' | 'en',
+    voiceKey: string,
+    accent: 'british' | 'american' = 'british',
+  ) => {
+    warmupAudio();
+    translationSpeechStopRef.current?.();
+    if (playingTranslationVoice === voiceKey) {
+      translationSpeechStopRef.current = null;
+      setPlayingTranslationVoice(null);
+      return;
+    }
+    setPlayingTranslationVoice(voiceKey);
+    let stopFn: () => void = () => undefined;
+    const done = () => {
+      if (translationSpeechStopRef.current === stopFn) {
+        translationSpeechStopRef.current = null;
+        setPlayingTranslationVoice(null);
+      }
+    };
+    stopFn = language === 'zh'
+      ? speakChinese(text, done)
+      : speakWithPlugin(text, done, accent);
+    translationSpeechStopRef.current = stopFn;
+  }, [playingTranslationVoice]);
+
+  useEffect(() => () => {
+    translationSpeechStopRef.current?.();
+    translationSpeechStopRef.current = null;
+  }, []);
+
   return (
     <Card className="border-border/40 border-primary/20">
       <CardHeader className="pb-3">
@@ -396,6 +431,56 @@ function SentenceSearchSection() {
               <div className="flex items-center gap-2 text-xs text-muted-foreground mt-3 pt-3 border-t border-border/20">
                 <Loader2 className="size-3 animate-spin" />
                 生成中…
+              </div>
+            )}
+            {!isGenerating && translationResult && (
+              <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-border/20">
+                {translationResult.sourceLanguage === 'zh' ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="text-xs gap-1.5"
+                    onClick={() => playTranslationText(translationResult.sourceText, 'zh', 'source-zh')}
+                  >
+                    {playingTranslationVoice === 'source-zh' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
+                    原文·中文
+                  </Button>
+                ) : (
+                  <>
+                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.sourceText, 'en', 'source-uk', 'british')}>
+                      {playingTranslationVoice === 'source-uk' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
+                      原文·英音
+                    </Button>
+                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.sourceText, 'en', 'source-us', 'american')}>
+                      {playingTranslationVoice === 'source-us' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
+                      原文·美音
+                    </Button>
+                  </>
+                )}
+                {translationResult.targetLanguage === 'zh' ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="text-xs gap-1.5"
+                    onClick={() => playTranslationText(translationResult.translatedText, 'zh', 'target-zh')}
+                  >
+                    {playingTranslationVoice === 'target-zh' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
+                    译文·中文
+                  </Button>
+                ) : (
+                  <>
+                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.translatedText, 'en', 'target-uk', 'british')}>
+                      {playingTranslationVoice === 'target-uk' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
+                      译文·英音
+                    </Button>
+                    <Button type="button" variant="outline" size="sm" className="text-xs gap-1.5" onClick={() => playTranslationText(translationResult.translatedText, 'en', 'target-us', 'american')}>
+                      {playingTranslationVoice === 'target-us' ? <Square className="size-3.5" /> : <Volume2 className="size-3.5" />}
+                      译文·美音
+                    </Button>
+                  </>
+                )}
               </div>
             )}
             {/* Save to favorites */}
