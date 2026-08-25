@@ -42,7 +42,7 @@ import {
 } from '@/data/sentenceLearning';
 import { storage } from '@/lib/storage';
 import { userStorageKey } from '@/lib/userStorage';
-import { speakWithPlugin, stopAllSpeech, warmupAudio } from '@/lib/ttsPlugin';
+import { preloadTTS, speakWithPlugin, stopAllSpeech, warmupAudio } from '@/lib/ttsPlugin';
 import { speakChinese } from '@/lib/speakChinese';
 import { recordSentenceStudied } from '@/hooks/useStudyProgress';
 import { useFavorites } from '@/hooks/useFavorites';
@@ -60,17 +60,12 @@ export default function SentenceDetailPage() {
   const repeatCount = 1;
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [speakRound, setSpeakRound] = useState(0);
-  const [speakPhase, setSpeakPhase] = useState<'en' | 'cn' | ''>('');
   const speakAbortRef = useRef(false);
   const pluginStopRef = useRef<(() => void) | null>(null);
 
-  const speakOne = useCallback((text: string, lang: string, _rate: number): Promise<void> => {
+  const speakEnglish = useCallback((text: string): Promise<void> => {
     return new Promise((resolve) => {
-      if (lang === 'en-US') {
-        pluginStopRef.current = speakWithPlugin(text, resolve);
-      } else {
-        speakChinese(text, resolve);
-      }
+      pluginStopRef.current = speakWithPlugin(text, resolve);
     });
   }, []);
 
@@ -81,7 +76,6 @@ export default function SentenceDetailPage() {
     pluginStopRef.current = null;
     setIsSpeaking(false);
     setSpeakRound(0);
-    setSpeakPhase('');
   }, []);
 
 
@@ -115,6 +109,17 @@ export default function SentenceDetailPage() {
       next: idx < MOCK_SENTENCES.length - 1 ? MOCK_SENTENCES[idx + 1] : null,
     };
   }, [sentence]);
+
+  // Prepare the current and next English sentence while the learner reads the page.
+  // If the audio is not in the static pack, Kokoro generation is deduplicated and
+  // cached so clicking the button does not start the same expensive work again.
+  useEffect(() => {
+    if (!sentence?.en) return;
+    const timer = window.setTimeout(() => {
+      void preloadTTS([sentence.en, adjacentSentences.next?.en || '']);
+    }, 250);
+    return () => window.clearTimeout(timer);
+  }, [sentence?.en, adjacentSentences.next?.en]);
 
   // Per-sentence notes (localStorage persisted, keyed by sentence id)
   const NOTES_KEY_PREFIX = '__app_dc_sentence_note_';
@@ -161,18 +166,11 @@ export default function SentenceDetailPage() {
     setIsSpeaking(true);
 
     setSpeakRound(1);
-    setSpeakPhase('en');
-    await speakOne(sentence.en, 'en-US', 0.85);
-    if (!speakAbortRef.current) {
-      await new Promise((r) => setTimeout(r, 400));
-      setSpeakPhase('cn');
-      await speakOne(sentence.cn, 'zh-CN', 1.0);
-    }
+    await speakEnglish(sentence.en);
 
     setIsSpeaking(false);
     setSpeakRound(0);
-    setSpeakPhase('');
-  }, [sentence, speakOne]);
+  }, [sentence, speakEnglish]);
 
   const [miniPlaying, setMiniPlaying] = useState<string | null>(null);
 
@@ -312,7 +310,7 @@ export default function SentenceDetailPage() {
                   停止
                   {speakRound > 0 && (
                     <span className="text-[10px] opacity-80 ml-1">
-                      {speakRound}/{repeatCount} · {speakPhase === 'en' ? 'EN' : '中'}
+                      {speakRound}/{repeatCount} · EN
                     </span>
                   )}
                 </Button>
