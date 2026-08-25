@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import {
-  Play, ArrowRight, ChevronRight, Clapperboard, X, RotateCcw, Search, Filter,
+  Play, ArrowRight, Clapperboard, X, RotateCcw, Search, Filter,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -128,19 +128,10 @@ export default function ScenarioListPage() {
           <div className="min-w-0">
             <h1 className="text-xl font-bold text-foreground">场景练习</h1>
             <p className="text-sm text-muted-foreground mt-0.5">
-              共 {totalAll} 个场景 · 选择工作场景，逐句跟读练习
+              共 {totalAll} 个场景 · 选择工作场景，逐句学习并收听标准英文发音
             </p>
           </div>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => navigate('/report')}
-          className="gap-1.5"
-        >
-          练习报告
-          <ChevronRight className="size-3.5" />
-        </Button>
       </div>
 
       {/* Search + Filter Bar */}

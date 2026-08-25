@@ -18,14 +18,10 @@ import {
   GraduationCap,
   PenTool,
   ClipboardList,
-  Mic,
-  MicOff,
   FileText,
   ImagePlus,
   X,
   Repeat,
-  CheckCircle2,
-  XCircle,
 } from 'lucide-react';
 
 import { logger } from '@/lib/app-logger';
@@ -88,11 +84,8 @@ export default function TextAnalysisPage() {
   const [showAnswer, setShowAnswer] = useState<Set<number>>(new Set());
   const abortRef = useRef(false);
 
-  // ─── Sentence TTS & Shadow Reading ───
+  // ─── Sentence TTS ───
   const [playingSentenceIdx, setPlayingSentenceIdx] = useState<number | null>(null);
-  const [shadowReadingIdx, setShadowReadingIdx] = useState<number | null>(null);
-  const [shadowResult, setShadowResult] = useState<{ idx: number; text: string; score: number } | null>(null);
-  const shadowRecognitionRef = useRef<SpeechRecognition | null>(null);
 
   // ─── Live Translation ───
   const [translationText, setTranslationText] = useState('');
@@ -283,10 +276,6 @@ export default function TextAnalysisPage() {
   useEffect(() => {
     return () => {
       stopAllSpeech();
-      if (shadowRecognitionRef.current) {
-        try { shadowRecognitionRef.current.stop(); } catch { /* ignore */ }
-        shadowRecognitionRef.current = null;
-      }
     };
   }, []);
 
@@ -346,9 +335,6 @@ export default function TextAnalysisPage() {
     setIsTranslating(false);
     if (translateAbortRef.current) translateAbortRef.current.abort();
     setPlayingSentenceIdx(null);
-    setShadowReadingIdx(null);
-    setShadowResult(null);
-    if (shadowRecognitionRef.current) { try { shadowRecognitionRef.current.stop(); } catch { /* */ } }
     stopSpeak();
     setPlayingWord(null);
   }, []);
@@ -413,64 +399,6 @@ export default function TextAnalysisPage() {
     }, 'british');
     stopFnRef.current = stop;
   }, [playingSentenceIdx, stopSpeak]);
-
-  const handleShadowRead = useCallback((idx: number, targetText: string) => {
-    // Stop any ongoing shadow reading
-    if (shadowReadingIdx !== null) {
-      shadowRecognitionRef.current?.stop();
-      setShadowReadingIdx(null);
-      return;
-    }
-
-    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognitionAPI) {
-      toast.error('Speech recognition not supported in this browser');
-      return;
-    }
-
-    setShadowResult(null);
-    setShadowReadingIdx(idx);
-    stopSpeak();
-    warmupAudio();
-
-    if (!targetText?.trim()) return;
-
-    // First play the sentence, then start recording
-    const shadowStop = speakWithPlugin(targetText, () => {
-      if (stopFnRef.current === shadowStop) stopFnRef.current = null;
-        const recognition = new SpeechRecognitionAPI();
-        recognition.lang = 'en-US';
-        recognition.interimResults = false;
-        recognition.continuous = false;
-        recognition.maxAlternatives = 1;
-        shadowRecognitionRef.current = recognition;
-
-        recognition.onresult = (event: SpeechRecognitionEvent) => {
-          const spoken = event.results[0][0].transcript.trim();
-          // Simple similarity score: compare normalized word overlap
-          const targetWords = targetText.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(Boolean);
-          const spokenWords = spoken.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/).filter(Boolean);
-          const matched = spokenWords.filter(w => targetWords.includes(w)).length;
-          const score = targetWords.length > 0 ? Math.round((matched / targetWords.length) * 100) : 0;
-          setShadowResult({ idx, text: spoken, score });
-          setShadowReadingIdx(null);
-        };
-
-        recognition.onerror = () => {
-          setShadowReadingIdx(null);
-        };
-
-        recognition.onend = () => {
-          setShadowReadingIdx(null);
-        };
-
-        // Small delay before starting recognition
-        setTimeout(() => {
-          try { recognition.start(); } catch { setShadowReadingIdx(null); }
-        }, 300);
-    }, 'british');
-    stopFnRef.current = shadowStop;
-  }, [shadowReadingIdx, stopSpeak]);
 
   // ─── Exercise toggle ───
 
@@ -757,9 +685,6 @@ export default function TextAnalysisPage() {
                 <div className="space-y-3">
                   {course.sentences.map((s, idx) => {
                     const isPlayingSentence = playingSentenceIdx === idx;
-                    const isShadowReading = shadowReadingIdx === idx;
-                    const result = shadowResult?.idx === idx ? shadowResult : null;
-
                     return (
                       <motion.div
                         key={idx}
@@ -794,22 +719,6 @@ export default function TextAnalysisPage() {
                                     <Volume2 className="size-2.5" />
                                   )}
                                 </button>
-                                <button
-                                  type="button"
-                                  onClick={() => handleShadowRead(idx, s.en)}
-                                  className={`size-6 rounded-sm flex items-center justify-center transition-colors border ${
-                                    isShadowReading
-                                      ? 'bg-destructive/15 border-destructive/40 text-destructive animate-pulse'
-                                      : 'border-border/30 text-muted-foreground hover:text-primary hover:border-primary/30'
-                                  }`}
-                                  title={isShadowReading ? 'Recording... click to stop' : 'Read along'}
-                                >
-                                  {isShadowReading ? (
-                                    <MicOff className="size-2.5" />
-                                  ) : (
-                                    <Mic className="size-2.5" />
-                                  )}
-                                </button>
                               </div>
                             )}
                           </div>
@@ -818,22 +727,6 @@ export default function TextAnalysisPage() {
                           </div>
                         </div>
 
-                        {/* Shadow reading result */}
-                        {result && (
-                          <div className="px-4 py-2 border-t border-border/20 bg-muted/10 space-y-1">
-                            <div className="flex items-center gap-2">
-                              {result.score >= 70 ? (
-                                <CheckCircle2 className="size-3.5 text-success shrink-0" />
-                              ) : (
-                                <XCircle className="size-3.5 text-destructive shrink-0" />
-                              )}
-                              <span className="text-[10px] font-mono tabular-nums shrink-0 text-muted-foreground">
-                                Match: {result.score}%
-                              </span>
-                            </div>
-                            <p className="text-xs text-foreground/70 font-mono pl-5.5">{result.text}</p>
-                          </div>
-                        )}
                       </motion.div>
                     );
                   })}

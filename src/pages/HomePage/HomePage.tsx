@@ -8,14 +8,14 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import {
-  Search, BookOpen, Mic, Volume2, Flame, Trophy, Target,
+  Search, BookOpen, Volume2, Flame, Trophy, Target,
   ArrowRight, Star, Play, Square, X, ChevronRight, RotateCcw,
   Loader2, Send, Bot, Bookmark, BookmarkCheck, Clapperboard,
   ImagePlus, Camera, CheckCircle2, Clock3,
 } from 'lucide-react';
 import { SENTENCE_SECTIONS, MOCK_SENTENCES } from '@/data/sentenceLearning';
 import { aiTranslate, detectTranslationDirection } from '@/lib/ai-gateway';
-import { speakWithPlugin, stopAllSpeech, warmupAudio, preloadTTS } from '@/lib/ttsPlugin';
+import { speakWithPlugin, warmupAudio, preloadTTS } from '@/lib/ttsPlugin';
 import { toast } from 'sonner';
 import { useFavorites, extractSentencesFromResponse } from '@/hooks/useFavorites';
 import { useHiddenScenarios } from '@/hooks/useHiddenScenarios';
@@ -458,245 +458,6 @@ function SentenceSearchSection() {
   );
 }
 
-/* ─── Read-Aloud Practice ─── */
-function ReadAloudSection() {
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
-  const [recognized, setRecognized] = useState('');
-  const [score, setScore] = useState<number | null>(null);
-  const [supported, setSupported] = useState(true);
-  const recognitionRef = useRef<ReturnType<typeof createRecognition> | null>(null);
-  const speakStopRef = useRef<(() => void) | null>(null);
-
-  const practiceSentences = useMemo(() => {
-    const seed = new Date().getDate();
-    const shuffled = [...MOCK_SENTENCES].sort((a, b) => {
-      const ha = ((a.id * 2654435761 + seed) >>> 0) % 1000;
-      const hb = ((b.id * 2654435761 + seed) >>> 0) % 1000;
-      return ha - hb;
-    });
-    return shuffled.slice(0, 5);
-  }, []);
-
-  // Preload TTS audio for all practice sentences on mount (mobile optimization)
-  useEffect(() => {
-    if (practiceSentences.length > 0) {
-      preloadTTS(practiceSentences.map(s => s.en));
-    }
-  }, [practiceSentences]);
-
-  const sentence = practiceSentences[currentIdx];
-
-  function createRecognition(): { lang: string; continuous: boolean; interimResults: boolean; onresult: unknown; onerror: unknown; onend: unknown; start: () => void; stop: () => void; abort: () => void } | null {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SR) return null;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const rec = new SR() as any;
-    rec.lang = 'en-US';
-    rec.continuous = false;
-    rec.interimResults = false;
-    return rec;
-  }
-
-  useEffect(() => {
-    const rec = createRecognition();
-    if (!rec) {
-      setSupported(false);
-      return;
-    }
-    recognitionRef.current = rec;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    rec.onresult = (event: any) => {
-      const text = event.results[0]?.[0]?.transcript ?? '';
-      setRecognized(text);
-      const s = computeScore(sentence.en, text);
-      setScore(s);
-      setIsRecording(false);
-    };
-    rec.onerror = () => {
-      setIsRecording(false);
-    };
-    rec.onend = () => {
-      setIsRecording(false);
-    };
-    return () => {
-      rec.abort();
-    };
-  }, []);
-
-  // 页面卸载时停止语音并清理 stop 函数
-  useEffect(() => {
-    return () => {
-      if (speakStopRef.current) {
-        speakStopRef.current();
-        speakStopRef.current = null;
-      }
-      stopAllSpeech();
-    };
-  }, []);
-
-  const speak = useCallback(() => {
-    if (!sentence) return;
-    // 🔒 Mobile iOS: unlock audio in user gesture BEFORE async
-    warmupAudio();
-    stopAllSpeech();
-    setIsSpeaking(true);
-    const stopFn = speakWithPlugin(sentence.en, () => {
-      if (speakStopRef.current === stopFn) {
-        speakStopRef.current = null;
-      }
-      setIsSpeaking(false);
-    });
-    speakStopRef.current = stopFn;
-  }, [sentence]);
-
-  const startRecord = useCallback(() => {
-    setRecognized('');
-    setScore(null);
-    const rec = createRecognition();
-    if (!rec) {
-      setSupported(false);
-      return;
-    }
-    recognitionRef.current = rec;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    rec.onresult = (event: any) => {
-      const text = event.results[0]?.[0]?.transcript ?? '';
-      setRecognized(text);
-      setScore(computeScore(sentence.en, text));
-      setIsRecording(false);
-    };
-    rec.onerror = () => setIsRecording(false);
-    rec.onend = () => setIsRecording(false);
-    rec.start();
-    setIsRecording(true);
-  }, [sentence]);
-
-  const stopRecord = useCallback(() => {
-    recognitionRef.current?.stop();
-    setIsRecording(false);
-  }, []);
-
-  const nextSentence = useCallback(() => {
-    if (speakStopRef.current) {
-      speakStopRef.current();
-      speakStopRef.current = null;
-    }
-    stopAllSpeech();
-    setIsSpeaking(false);
-    setRecognized('');
-    setScore(null);
-    setCurrentIdx(prev => (prev + 1) % practiceSentences.length);
-  }, [practiceSentences.length]);
-
-  return (
-    <Card className="border-border/40">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="text-sm flex items-center gap-2">
-              <Mic className="size-4 text-primary" />
-              跟读匹配度
-            </CardTitle>
-            <CardDescription className="text-xs mt-1">
-              听英音 → 跟读 → 语音识别匹配（{currentIdx + 1}/{practiceSentences.length}）
-            </CardDescription>
-          </div>
-          <Button variant="outline" size="sm" onClick={nextSentence}>
-            <RotateCcw className="size-3.5 mr-1" />
-            换一句
-          </Button>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Target sentence */}
-        <div className="p-4 rounded-lg bg-secondary/40 border border-border/30 space-y-2">
-          <div className="text-base font-medium text-foreground leading-relaxed">{sentence.en}</div>
-          <div className="text-sm text-muted-foreground">{sentence.cn}</div>
-          <div className="text-xs text-muted-foreground font-mono">{sentence.ipa}</div>
-        </div>
-
-        {/* Controls */}
-        <div className="flex items-center gap-3">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={speak}
-            disabled={isSpeaking}
-            className="gap-1.5"
-          >
-            {isSpeaking ? <Volume2 className="size-4 animate-pulse" /> : <Play className="size-4" />}
-            听发音
-          </Button>
-          {supported ? (
-            isRecording ? (
-              <Button variant="destructive" size="sm" onClick={stopRecord} className="gap-1.5">
-                <Square className="size-3.5" />
-                停止录音
-              </Button>
-            ) : (
-              <Button size="sm" onClick={startRecord} className="gap-1.5">
-                <Mic className="size-4" />
-                开始跟读
-              </Button>
-            )
-          ) : (
-            <Badge variant="outline" className="text-xs text-muted-foreground">
-              浏览器不支持语音识别
-            </Badge>
-          )}
-        </div>
-
-        {/* Results */}
-        {(recognized || score !== null) && (
-          <div className="space-y-3 p-4 rounded-lg border border-border/30">
-            {recognized && (
-              <div>
-                <div className="text-xs text-muted-foreground mb-1">语音识别结果：</div>
-                <div className="text-sm text-foreground">{recognized}</div>
-              </div>
-            )}
-            {score !== null && (
-              <div className="flex items-center gap-3">
-                <div className="flex-1">
-                  <Progress value={score} className="h-2" />
-                </div>
-                <div className={`text-lg font-bold tabular-nums shrink-0 ${score >= 80 ? 'text-primary' : score >= 60 ? 'text-warning' : 'text-destructive'}`}>
-                  {score}%匹配
-                </div>
-              </div>
-            )}
-            {score !== null && (
-              <p className="text-xs text-muted-foreground">
-                此结果比较识别文本与目标句是否一致，不代表专业音素或口音评分。
-              </p>
-            )}
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-function computeScore(original: string, recognized: string): number {
-  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
-  const a = norm(original);
-  const b = norm(recognized);
-  if (!a || !b) return 0;
-  const aWords = a.split(' ');
-  const bWords = b.split(' ');
-  let matches = 0;
-  for (const aw of aWords) {
-    if (bWords.includes(aw)) matches++;
-  }
-  const precision = aWords.length > 0 ? matches / aWords.length : 0;
-  const recall = bWords.length > 0 ? matches / bWords.length : 0;
-  const f1 = precision + recall > 0 ? (2 * precision * recall) / (precision + recall) : 0;
-  return Math.round(f1 * 100);
-}
-
 /* ─── Today's Recommendations ─── */
 function TodaysSentencesSection() {
   const navigate = useNavigate();
@@ -785,12 +546,9 @@ function ScenarioPracticeSection() {
             <Play className="size-4 text-primary" />
             场景练习
           </CardTitle>
-          <Button variant="ghost" size="sm" onClick={() => navigate('/report')} className="text-xs gap-1">
-            练习报告 <ChevronRight className="size-3.5" />
-          </Button>
         </div>
         <CardDescription className="text-xs mt-1">
-          选择工作场景，逐句跟读练习，完成后查看能力分析报告
+          选择工作场景，逐句学习并收听标准英文发音
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -1014,9 +772,6 @@ export default function HomePage() {
 
       {/* Sentence search */}
       <SentenceSearchSection />
-
-      {/* Read-aloud */}
-      <ReadAloudSection />
 
       {/* Today's recommendations */}
       <TodaysSentencesSection />

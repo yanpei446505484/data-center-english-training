@@ -18,7 +18,6 @@ const FlashcardPage = lazyWithRetry(() => import("@/pages/FlashcardPage/Flashcar
 const QuizPage = lazyWithRetry(() => import("@/pages/QuizPage/QuizPage"));
 const ProgressPage = lazyWithRetry(() => import("@/pages/ProgressPage/ProgressPage"));
 const ScenarioPracticePage = lazyWithRetry(() => import("@/pages/ScenarioPracticePage/ScenarioPracticePage"));
-const PracticeReportPage = lazyWithRetry(() => import("@/pages/PracticeReportPage/PracticeReportPage"));
 const FavoritesPage = lazyWithRetry(() => import("@/pages/FavoritesPage/FavoritesPage"));
 const CustomScenarioPracticePage = lazyWithRetry(() => import("@/pages/CustomScenarioPracticePage/CustomScenarioPracticePage"));
 const AIChatPage = lazyWithRetry(() => import("@/pages/AIChatPage/AIChatPage"));
@@ -45,7 +44,6 @@ export default function App() {
           <Route path="quiz" element={<QuizPage />} />
           <Route path="progress" element={<ProgressPage />} />
           <Route path="scenario/:sectionIndex" element={<ScenarioPracticePage />} />
-          <Route path="report" element={<PracticeReportPage />} />
           <Route path="text-analysis" element={<TextAnalysisPage />} />
           <Route path="wrong-book" element={<WrongBookPage />} />
           <Route path="favorites" element={<FavoritesPage />} />

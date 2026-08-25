@@ -1,21 +1,15 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import PracticeReportView from '../ScenarioPracticePage/PracticeReportView';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft,
   ArrowRight,
   Volume2,
-  Mic,
-  MicOff,
   CheckCircle2,
-  XCircle,
-  RotateCcw,
   Home,
   Clapperboard,
   Bookmark,
   BookmarkCheck,
-  SkipForward,
   Square,
   Loader2,
   Globe,
@@ -26,10 +20,8 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-import { storage } from '@/lib/storage';
 import { aiChat } from '@/lib/ai-gateway';
 import { logger } from '@/lib/app-logger';
-import { userStorageKey } from '@/lib/userStorage';
 import { preloadTTS, speakWithPlugin, stopAllSpeech, stripChinese, warmupAudio } from '@/lib/ttsPlugin';
 import { lookupWordLocal, type ILocalWordResult } from '@/skills/dictionarySkill';
 import { lookupTermsInSentence, lookupTerm, DICTIONARY_SOURCES } from '@/data/dcTermsDictionary';
@@ -40,8 +32,6 @@ import {
   type ISentencePair,
 } from '@/hooks/useFavorites';
 
-const PASS_SCORE = 60;
-
 // Module-level cache for AI-fetched word definitions
 const aiWordCache = new Map<string, { cn: string; ipa: string; pos?: string }>();
 
@@ -50,48 +40,6 @@ const sentenceTranslationCache = new Map<string, string>();
 
 // Module-level cache for scenario title translations
 const scenarioTitleTranslationCache = new Map<string, string>();
-
-/* ─── Score Result ─── */
-interface ScoreResult {
-  score: number;
-  missedWords: string[];
-  extraWords: string[];
-  matchedWords: string[];
-  totalWords: number;
-}
-
-function computeScore(target: string, spoken: string): ScoreResult {
-  const normalize = (s: string) =>
-    s.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
-
-  const targetWords = normalize(target).split(' ').filter(Boolean);
-  const spokenWords = normalize(spoken).split(' ').filter(Boolean);
-
-  if (targetWords.length === 0) {
-    return { score: 100, missedWords: [], extraWords: [], matchedWords: targetWords, totalWords: 0 };
-  }
-  if (spokenWords.length === 0) {
-    return { score: 0, missedWords: targetWords, extraWords: [], matchedWords: [], totalWords: targetWords.length };
-  }
-
-  const matchedWords: string[] = [];
-  const missedWords: string[] = [];
-  const spokenCopy = [...spokenWords];
-
-  for (const tw of targetWords) {
-    const idx = spokenCopy.findIndex((sw) => sw === tw);
-    if (idx !== -1) {
-      matchedWords.push(tw);
-      spokenCopy.splice(idx, 1);
-    } else {
-      missedWords.push(tw);
-    }
-  }
-
-  const extraWords = spokenCopy.filter((w) => !targetWords.includes(w));
-  const score = Math.round((matchedWords.length / targetWords.length) * 100);
-  return { score, missedWords, extraWords, matchedWords, totalWords: targetWords.length };
-}
 
 /* ─── Word Popover ─── */
 function WordPopover({
@@ -287,28 +235,6 @@ function WordPopover({
   );
 }
 
-/* ─── Save practice record ─── */
-function saveCustomPracticeRecord(record: {
-  scenarioId: string;
-  scenarioLabel: string;
-  totalSentences: number;
-  scores: number[];
-  averageScore: number;
-  bestScore: number;
-  worstScore: number;
-  completedAt: string;
-}) {
-  try {
-    const raw = storage.getItem(userStorageKey('scenario_practice_history'));
-    const history = raw ? JSON.parse(raw) : [];
-    history.push(record);
-    if (history.length > 50) history.shift();
-    storage.setItem(userStorageKey('scenario_practice_history'), JSON.stringify(history));
-  } catch {
-    // silently fail
-  }
-}
-
 /* ─── Main Component ─── */
 export default function CustomScenarioPracticePage() {
   const { favId } = useParams<{ favId: string }>();
@@ -419,42 +345,17 @@ ${pair.en}`;
   }, [sentencePairs]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [scores, setScores] = useState<number[]>([]);
-  const [isRecording, setIsRecording] = useState(false);
-  const [currentScore, setCurrentScore] = useState<number | null>(null);
-  const [scoreDetails, setScoreDetails] = useState<{ missedWords: string[]; extraWords: string[] } | null>(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [recognizedText, setRecognizedText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
 
-  // Single playback only (no repeat)
-  const repeatCount = 1;
-  const [speakRound, setSpeakRound] = useState(0);
-  const [speakPhase, setSpeakPhase] = useState<'en' | ''>('');
   const speakAbortRef = useRef(false);
   const pluginStopRef = useRef<(() => void) | null>(null);
-
-  const recognitionRef = useRef<any>(null);
   const currentPair = translatedPairs[currentIndex] || sentencePairs[currentIndex];
 
   useEffect(() => {
     const nextPair = translatedPairs[currentIndex + 1] || sentencePairs[currentIndex + 1];
     if (currentPair?.en) void preloadTTS([currentPair.en, nextPair?.en || ''], 'british');
   }, [currentIndex, currentPair?.en, sentencePairs, translatedPairs]);
-
-  // Initialize speech recognition
-  useEffect(() => {
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SR) return;
-
-    const rec = new SR();
-    rec.lang = 'en-US';
-    rec.continuous = false;
-    rec.interimResults = false;
-    recognitionRef.current = rec;
-
-    return () => { rec.abort(); };
-  }, []);
 
   // 页面卸载时停止所有语音（切换页面/导航时自动停读）
   useEffect(() => {
@@ -469,8 +370,6 @@ ${pair.en}`;
     pluginStopRef.current?.();
     pluginStopRef.current = null;
     setIsSpeaking(false);
-    setSpeakRound(0);
-    setSpeakPhase('');
   }, []);
 
   const speakOne = useCallback((text: string, _lang: string, _rate: number): Promise<void> => {
@@ -492,50 +391,10 @@ ${pair.en}`;
     speakAbortRef.current = false;
     setIsSpeaking(true);
 
-    setSpeakRound(1);
-    setSpeakPhase('en');
     await speakOne(enText, 'en-US', 0.85);
 
     setIsSpeaking(false);
-    setSpeakRound(0);
-    setSpeakPhase('');
-  }, [currentPair, repeatCount, speakOne]);
-
-
-
-  const startRecording = useCallback(() => {
-    if (!recognitionRef.current || !currentPair) return;
-
-    setRecognizedText('');
-    setCurrentScore(null);
-    setScoreDetails(null);
-    setIsRecording(true);
-
-    const rec = recognitionRef.current;
-    rec.onresult = (event: any) => {
-      const text = event.results[0]?.[0]?.transcript ?? '';
-      setRecognizedText(text);
-      const result = computeScore(currentPair.en, text);
-      setCurrentScore(result.score);
-      setScoreDetails({ missedWords: result.missedWords, extraWords: result.extraWords });
-      setScores((prev) => [...prev, result.score]);
-      setIsRecording(false);
-    };
-    rec.onerror = () => setIsRecording(false);
-    rec.onend = () => setIsRecording(false);
-
-    try {
-      rec.start();
-    } catch (e) {
-      logger.error('Speech recognition error:', String(e));
-      setIsRecording(false);
-    }
-  }, [currentPair]);
-
-  const stopRecording = useCallback(() => {
-    recognitionRef.current?.stop();
-    setIsRecording(false);
-  }, []);
+  }, [currentPair, speakOne]);
 
   const nextSentence = useCallback(() => {
     speakAbortRef.current = true;
@@ -543,43 +402,12 @@ ${pair.en}`;
     pluginStopRef.current?.();
     pluginStopRef.current = null;
     setIsSpeaking(false);
-    setSpeakRound(0);
-    setSpeakPhase('');
     if (currentIndex < sentencePairs.length - 1) {
       setCurrentIndex(currentIndex + 1);
-      setCurrentScore(null);
-      setScoreDetails(null);
-      setRecognizedText('');
     } else {
-      const avgScore = scores.length > 0
-        ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
-        : 0;
-      saveCustomPracticeRecord({
-        scenarioId: scenario?.id || '',
-        scenarioLabel: scenario?.query || '自定义场景',
-        totalSentences: sentencePairs.length,
-        scores,
-        averageScore: avgScore,
-        bestScore: Math.max(...scores, 0),
-        worstScore: Math.min(...scores, 100),
-        completedAt: new Date().toISOString(),
-      });
       setIsComplete(true);
     }
-  }, [currentIndex, sentencePairs.length, scores, scenario]);
-
-  const retrySentence = useCallback(() => {
-    speakAbortRef.current = true;
-    stopAllSpeech();
-    pluginStopRef.current?.();
-    pluginStopRef.current = null;
-    setIsSpeaking(false);
-    setSpeakRound(0);
-    setSpeakPhase('');
-    setCurrentScore(null);
-    setScoreDetails(null);
-    setRecognizedText('');
-  }, []);
+  }, [currentIndex, sentencePairs.length]);
 
   // ─── Not found state ───
   if (!scenario) {
@@ -788,7 +616,6 @@ ${pair.en}`;
                     <Button
                       variant="outline"
                       onClick={speak}
-                      disabled={isRecording}
                       className="flex-1"
                     >
                       <Volume2 className="size-4 mr-2" />
@@ -799,145 +626,14 @@ ${pair.en}`;
                   <Button
                     variant="outline"
                     onClick={nextSentence}
-                    disabled={isRecording || (currentScore !== null && currentScore < PASS_SCORE)}
                     className="shrink-0"
-                    title={
-                      currentScore !== null && currentScore < PASS_SCORE
-                        ? `得分需达到 ${PASS_SCORE} 分才能进入下一句`
-                        : currentIndex < sentencePairs.length - 1
-                          ? '进入下一句'
-                          : '完成练习'
-                    }
+                    title={currentIndex < sentencePairs.length - 1 ? '进入下一句' : '完成学习'}
                   >
-                    {currentScore === null ? (
-                      <><SkipForward className="size-4 mr-1" />跳过</>
-                    ) : (
-                      <><ArrowRight className="size-4 mr-1" />{currentIndex < sentencePairs.length - 1 ? '下一句' : '完成'}</>
-                    )}
+                    <ArrowRight className="size-4 mr-1" />
+                    {currentIndex < sentencePairs.length - 1 ? '下一句' : '完成'}
                   </Button>
                 </div>
 
-                {/* Pass threshold warning */}
-                {currentScore !== null && currentScore < PASS_SCORE && (
-                  <p className="text-xs text-orange-500 text-center">
-                    得分需达到 {PASS_SCORE} 分以上才能进入下一句，请重试
-                  </p>
-                )}
-
-                {/* Record Section */}
-                <div className="space-y-3">
-                  {!isRecording ? (
-                    <Button
-                      variant={currentScore !== null ? 'secondary' : 'default'}
-                      onClick={startRecording}
-                      disabled={isSpeaking}
-                      className="w-full"
-                      size="lg"
-                    >
-                      <Mic className="size-5 mr-2" />
-                      {currentScore !== null ? '重新跟读' : '点击跟读'}
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="destructive"
-                      onClick={stopRecording}
-                      className="w-full"
-                      size="lg"
-                    >
-                      <MicOff className="size-5 mr-2" />
-                      停止录音
-                    </Button>
-                  )}
-
-                  {recognizedText && (
-                    <div className="p-3 bg-secondary/50 rounded-lg">
-                      <p className="text-xs text-muted-foreground mb-1">识别结果:</p>
-                      <p className="text-sm text-foreground">{recognizedText}</p>
-                    </div>
-                  )}
-
-                  {currentScore !== null && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="space-y-3"
-                    >
-                      <div className="flex items-center justify-between p-4 bg-secondary/30 rounded-lg">
-                        <div className="flex items-center gap-2">
-                          {currentScore >= 80 ? (
-                            <CheckCircle2 className="size-5 text-green-500" />
-                          ) : (
-                            <XCircle className="size-5 text-orange-500" />
-                          )}
-                          <span className="font-semibold text-foreground">
-                            {currentScore >= 80 ? '优秀' : currentScore >= 60 ? '良好' : '需要加强'}
-                          </span>
-                        </div>
-                        <span className="text-2xl font-bold text-foreground tabular-nums">
-                          {currentScore}
-                        </span>
-                      </div>
-
-                      {/* Detailed feedback */}
-                      {scoreDetails && currentScore < 100 && (
-                        <div className="p-3 bg-secondary/20 rounded-lg space-y-2">
-                          {scoreDetails.missedWords.length > 0 && (
-                            <div>
-                              <p className="text-xs text-muted-foreground mb-1">
-                                未正确读出的词 ({scoreDetails.missedWords.length} 个):
-                              </p>
-                              <div className="flex flex-wrap gap-1.5">
-                                {scoreDetails.missedWords.map((w, i) => (
-                                  <span
-                                    key={`miss-${i}`}
-                                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-mono bg-destructive/15 text-destructive border border-destructive/20"
-                                  >
-                                    <XCircle className="size-3" />
-                                    {w}
-                                  </span>
-                                ))}
-                              </div>
-                              <p className="text-xs text-muted-foreground mt-1.5">
-                                请重点练习以上单词的发音，注意每个音节清晰读出。
-                              </p>
-                            </div>
-                          )}
-                          {scoreDetails.extraWords.length > 0 && (
-                            <div>
-                              <p className="text-xs text-muted-foreground mb-1">
-                                多读的词 ({scoreDetails.extraWords.length} 个):
-                              </p>
-                              <div className="flex flex-wrap gap-1.5">
-                                {scoreDetails.extraWords.map((w, i) => (
-                                  <span
-                                    key={`extra-${i}`}
-                                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-mono bg-warning/15 text-warning border border-warning/20"
-                                  >
-                                    {w}
-                                  </span>
-                                ))}
-                              </div>
-                              <p className="text-xs text-muted-foreground mt-1.5">
-                                这些词不在原句中，跟读时请严格按原文朗读。
-                              </p>
-                            </div>
-                          )}
-                          {scoreDetails.missedWords.length === 0 && scoreDetails.extraWords.length === 0 && currentScore < 100 && (
-                            <p className="text-xs text-muted-foreground">
-                              单词基本匹配，注意语调和连贯性可以进一步提升。
-                            </p>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Retry button */}
-                      <Button variant="outline" onClick={retrySentence} className="w-full">
-                        <RotateCcw className="size-4 mr-2" />
-                        再试一次
-                      </Button>
-                    </motion.div>
-                  )}
-                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -946,29 +642,25 @@ ${pair.en}`;
     );
   }
 
-  // ─── Report Mode — lazy-load echarts chart component ───
-  if (isComplete && scores.length > 0) {
+  // Completion view: follow-reading scores and reports have been removed.
+  if (isComplete) {
     return (
-      <PracticeReportView
-        scores={scores}
-        totalSentences={sentencePairs.length}
-        sectionLabel={scenario.query}
-        onRestart={() => {
-          speakAbortRef.current = true;
-          stopAllSpeech();
-          pluginStopRef.current?.();
-          pluginStopRef.current = null;
-          setIsSpeaking(false);
-          setSpeakRound(0);
-          setSpeakPhase('');
-          setCurrentIndex(0);
-          setScores([]);
-          setCurrentScore(null);
-          setScoreDetails(null);
-          setRecognizedText('');
-          setIsComplete(false);
-        }}
-      />
+      <Card className="border-border/40">
+        <CardContent className="p-12 text-center space-y-4">
+          <CheckCircle2 className="size-12 text-primary mx-auto" />
+          <div>
+            <h1 className="text-xl font-bold text-foreground">本场景学习完成</h1>
+            <p className="text-sm text-muted-foreground mt-1">已完成 {sentencePairs.length} 句学习</p>
+          </div>
+          <div className="flex justify-center gap-2">
+            <Button variant="outline" onClick={() => navigate('/')}>返回首页</Button>
+            <Button onClick={() => {
+              setCurrentIndex(0);
+              setIsComplete(false);
+            }}>重新学习</Button>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
