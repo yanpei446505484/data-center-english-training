@@ -7,6 +7,7 @@ export type TTSAccent = Accent;
 
 const ACCENT_KEY = 'tts_accent_preference';
 const activeStops = new Set<() => void>();
+let modelPreloadPromise: Promise<void> | null = null;
 
 export function loadAccent(): TTSAccent {
   try {
@@ -67,10 +68,17 @@ export async function preloadTTS(texts: string[], accent?: TTSAccent): Promise<v
 }
 
 export async function preloadTTSModel(): Promise<void> {
-  await Promise.all([
-    audioEngine.preload(),
-    preloadKokoroModel(),
-  ]).then(() => undefined).catch(() => undefined);
+  if (!modelPreloadPromise) {
+    modelPreloadPromise = Promise.all([
+      audioEngine.preload(),
+      preloadKokoroModel(),
+    ]).then(() => undefined).catch(() => {
+      // Permit a later user action or route preload to retry after a temporary
+      // network failure without surfacing an unhandled startup rejection.
+      modelPreloadPromise = null;
+    });
+  }
+  await modelPreloadPromise;
 }
 
 /**

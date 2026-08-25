@@ -2,8 +2,15 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
 import AppShell from '@/components/AppShell';
+import { preloadTTSModel } from '@/lib/ttsPlugin';
 import App from './app';
 import './index.css';
+
+// Start the complete same-origin Kokoro initialization for every visitor as
+// soon as the application bundle runs. This is deliberately outside React and
+// outside authenticated routes, so login, register, refresh and deep links all
+// warm the exact same model before the first pronunciation click.
+void preloadTTSModel();
 
 window.addEventListener('unhandledrejection', (event: PromiseRejectionEvent) => {
   const reason = String(event.reason);
