@@ -4,7 +4,7 @@ import { userStorageKey } from '@/lib/userStorage';
 
 // EXPORTS: IFavorite, ISentencePair, useFavorites, addSentenceFavorite, extractSentencesFromResponse, extractSentencePairsFromResponse
 
-export type FavoriteType = 'word' | 'phrase' | 'sentence' | 'scenario';
+export type FavoriteType = 'word' | 'phrase' | 'sentence' | 'translation' | 'scenario';
 
 export interface IFavorite {
   id: string;
@@ -13,6 +13,8 @@ export interface IFavorite {
   type: FavoriteType;
   createdAt: string;
   inPractice?: boolean;
+  sourceLanguage?: 'zh' | 'en';
+  targetLanguage?: 'zh' | 'en';
 }
 
 const STORAGE_KEY = '__app_dc_english_favorites';
@@ -230,6 +232,36 @@ export function useFavorites() {
     return true;
   }, []);
 
+  const addTranslationFavorite = useCallback((
+    sourceText: string,
+    translatedText: string,
+    sourceLanguage: 'zh' | 'en',
+    targetLanguage: 'zh' | 'en',
+  ) => {
+    const query = sourceText.trim();
+    const translation = translatedText.trim();
+    if (!query || !translation) return false;
+    const existing = loadFavorites();
+    if (existing.some((favorite) =>
+      favorite.type === 'translation' && favorite.query.toLowerCase() === query.toLowerCase()
+    )) return false;
+    const sourceLabel = sourceLanguage === 'zh' ? '中文原文' : '英文原文';
+    const targetLabel = targetLanguage === 'zh' ? '中文翻译' : '英文翻译';
+    const newFav: IFavorite = {
+      id: `translation_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      query,
+      aiResponse: `**${sourceLabel}**\n\n${query}\n\n---\n\n**${targetLabel}**\n\n${translation}`,
+      type: 'translation',
+      sourceLanguage,
+      targetLanguage,
+      createdAt: new Date().toISOString(),
+    };
+    const updated = [newFav, ...existing];
+    saveFavorites(updated);
+    setFavorites(updated);
+    return true;
+  }, []);
+
   const removeFavorite = useCallback((id: string) => {
     const updated = loadFavorites().filter((f) => f.id !== id);
     saveFavorites(updated);
@@ -285,6 +317,7 @@ export function useFavorites() {
     favorites,
     addFavorite,
     addScenarioFavorite,
+    addTranslationFavorite,
     addSentenceFavorite,
     removeFavorite,
     clearAll,

@@ -17,6 +17,7 @@ import {
   Headphones,
   StopCircle,
   Volume2,
+  Languages,
 } from 'lucide-react';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -40,12 +41,13 @@ import { toast } from 'sonner';
 import { useFavorites, type IFavorite } from '@/hooks/useFavorites';
 import { speakWithPlugin, stopAllSpeech, warmupAudio } from '@/lib/ttsPlugin';
 
-type FilterType = 'all' | 'word' | 'phrase' | 'sentence';
+type FilterType = 'all' | 'translation' | 'word' | 'phrase' | 'sentence';
 
 const TYPE_CONFIG: Record<string, { label: string; icon: typeof Type; color: string }> = {
   word: { label: '单词', icon: Type, color: 'bg-info/15 text-info border-info/30' },
   phrase: { label: '短语', icon: MessageSquare, color: 'bg-warning/15 text-warning border-warning/30' },
   sentence: { label: '句子', icon: BookOpen, color: 'bg-success/15 text-success border-success/30' },
+  translation: { label: '翻译', icon: Languages, color: 'bg-primary/15 text-primary border-primary/30' },
   scenario: { label: '场景', icon: Clapperboard, color: 'bg-primary/15 text-primary border-primary/30' },
 };
 
@@ -110,7 +112,8 @@ export default function FavoritesPage() {
     const word = activeFavs.filter((f) => f.type === 'word').length;
     const phrase = activeFavs.filter((f) => f.type === 'phrase').length;
     const sentence = activeFavs.filter((f) => f.type === 'sentence').length;
-    return { all, word, phrase, sentence };
+    const translation = activeFavs.filter((f) => f.type === 'translation').length;
+    return { all, translation, word, phrase, sentence };
   }, [favorites]);
 
   const handleRemove = useCallback(
@@ -232,7 +235,7 @@ export default function FavoritesPage() {
               我的收藏
             </h1>
             <p className="text-sm text-muted-foreground mt-0.5 truncate">
-              AI 查询的单词、短语、句子和场景
+              收藏翻译、单词、短语、句子和练习场景
             </p>
           </div>
         </div>
@@ -300,6 +303,12 @@ export default function FavoritesPage() {
             单词
             <Badge variant="secondary" className="ml-1.5 text-xs px-1.5 py-0 h-4">
               {counts.word}
+            </Badge>
+          </TabsTrigger>
+          <TabsTrigger value="translation">
+            翻译
+            <Badge variant="secondary" className="ml-1.5 text-xs px-1.5 py-0 h-4">
+              {counts.translation}
             </Badge>
           </TabsTrigger>
           <TabsTrigger value="phrase">
