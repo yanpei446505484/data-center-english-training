@@ -36,7 +36,7 @@ import { storage } from '@/lib/storage';
 import { userStorageKey } from '@/lib/userStorage';
 import { useFavorites, extractSentencePairsFromResponse } from '@/hooks/useFavorites';
 import { useHiddenScenarios } from '@/hooks/useHiddenScenarios';
-import { recordDailyActivity } from '@/hooks/useStudyProgress';
+import { recordFlashcardResult } from '@/hooks/useStudyProgress';
 
 const STORAGE_KEY = 'flashcard_progress';
 
@@ -196,7 +196,7 @@ export default function FlashcardPage() {
       const next = { ...progress, [current.id]: status };
       setProgress(next);
       saveProgress(next);
-      recordDailyActivity();
+      recordFlashcardResult(current.id, status === 'known');
       if (status === 'unknown') {
         const added = addSentenceFavorite(current.en, current.cn);
         if (added) {

@@ -33,7 +33,7 @@ import { speakWithPlugin, stopAllSpeech, stripChinese, warmupAudio } from '@/lib
 import { speakChinese } from '@/lib/speakChinese';
 import { lookupTerm, DICTIONARY_SOURCES } from '@/data/dcTermsDictionary';
 import { lookupWordLocal, type ILocalWordResult } from '@/skills/dictionarySkill';
-import { recordDailyActivity } from '@/hooks/useStudyProgress';
+import { recordSentencesStudied } from '@/hooks/useStudyProgress';
 
 const WORD_AI_PLUGIN_ID = 'datacenter_english_training_assistant_1';
 
@@ -326,9 +326,12 @@ export default function ScenarioPracticePage() {
   const index = parseInt(sectionIndex || '0', 10);
 
   const section = SENTENCE_SECTIONS[index];
-  const sentences = section
-    ? MOCK_SENTENCES.filter((s) => s.id >= section.range[0] && s.id <= section.range[1])
-    : [];
+  const sentences = useMemo(
+    () => section
+      ? MOCK_SENTENCES.filter((s) => s.id >= section.range[0] && s.id <= section.range[1])
+      : [],
+    [section],
+  );
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [scores, setScores] = useState<number[]>([]);
@@ -515,10 +518,10 @@ export default function ScenarioPracticePage() {
         completedAt: new Date().toISOString(),
       };
       savePracticeRecord(record);
-      recordDailyActivity();
+      recordSentencesStudied(sentences.map((sentence) => sentence.id));
       setIsComplete(true);
     }
-  }, [currentIndex, sentences.length, scores, index, section]);
+  }, [currentIndex, sentences, scores, index, section]);
 
   const retrySentence = useCallback(() => {
     speakAbortRef.current = true;

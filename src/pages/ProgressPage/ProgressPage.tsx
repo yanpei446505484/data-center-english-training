@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import {
   Calendar,
   Flame,
@@ -35,57 +35,62 @@ import {
 import { SENTENCE_SECTIONS, MOCK_SENTENCES, type ISentence } from '@/data/sentenceLearning';
 import { storage } from '@/lib/storage';
 import { userStorageKey } from '@/lib/userStorage';
-
-// ── Progress data loader (returns empty when no real learning data exists) ──
-function getOrCreateProgress() {
-  const key = userStorageKey('dc_english_progress');
-  const raw = storage.getItem(key);
-  if (raw) {
-    try {
-      const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === 'object') return parsed;
-    } catch { /* fall through */ }
-  }
-  // Return clean empty state — no mock data; real learning activities will populate this
-  const empty = {
-    learned: {} as Record<number, { correct: number; wrong: number; lastReview: string }>,
-    streakDays: 0,
-    checkinDates: [] as string[],
-  };
-  storage.setItem(key, JSON.stringify(empty));
-  return empty;
-}
-
-interface IProgressData {
-  learned: Record<number, { correct: number; wrong: number; lastReview: string }>;
-  streakDays: number;
-  checkinDates: string[];
-}
+import {
+  clearStudyProgress,
+  createEmptyStudyProgress,
+  loadStudyProgress,
+  loadStudyProgressAsync,
+  type IStudyProgress,
+} from '@/hooks/useStudyProgress';
 
 export default function ProgressPage() {
   const navigate = useNavigate();
-  const [progress, setProgress] = useState<IProgressData>(() => getOrCreateProgress());
+  const [progress, setProgress] = useState<IStudyProgress>(loadStudyProgress);
   const [activeTab, setActiveTab] = useState('overview');
 
+  // Refresh on mount/focus and restore the IndexedDB copy on mobile when needed.
+  useEffect(() => {
+    let active = true;
+    const refresh = () => {
+      loadStudyProgressAsync().then((latest) => {
+        if (active) setProgress(latest);
+      });
+    };
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') refresh();
+    };
+    refresh();
+    window.addEventListener('focus', refresh);
+    window.addEventListener('storage', refresh);
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => {
+      active = false;
+      window.removeEventListener('focus', refresh);
+      window.removeEventListener('storage', refresh);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, []);
+
   const stats = useMemo(() => {
-    const entries = Object.values(progress.learned) as { correct: number; wrong: number }[];
-    const totalLearned = entries.length;
-    const totalCorrect = entries.reduce((s, e) => s + e.correct, 0);
-    const totalWrong = entries.reduce((s, e) => s + e.wrong, 0);
-    const totalAttempts = totalCorrect + totalWrong;
-    const accuracy = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
+    const totalLearned = progress.studiedIds.length;
+    const totalCorrect = progress.quizCorrect;
+    const totalQuizAttempts = progress.quizTotal;
+    const totalAttempts = progress.practiceCount;
+    const totalWrong = Math.max(0, totalQuizAttempts - totalCorrect);
+    const accuracy = totalQuizAttempts > 0 ? Math.round((totalCorrect / totalQuizAttempts) * 100) : 0;
     return { totalLearned, totalCorrect, totalWrong, totalAttempts, accuracy };
   }, [progress]);
 
   // Per-section progress
   const sectionProgress = useMemo(() => {
+    const studiedIds = new Set(progress.studiedIds);
     return SENTENCE_SECTIONS.map((sec) => {
       const [start, end] = sec.range;
       const sectionSentences = MOCK_SENTENCES.filter(
         (s: ISentence) => s.id >= start && s.id <= end
       );
       const learnedInSection = sectionSentences.filter(
-        (s: ISentence) => progress.learned[s.id]
+        (s: ISentence) => studiedIds.has(s.id)
       );
       const total = sectionSentences.length || 1;
       const learned = learnedInSection.length;
@@ -97,7 +102,7 @@ export default function ProgressPage() {
   // Weak sentences (wrong > correct or high error rate)
   const weakSentences = useMemo(() => {
     const weak: { sentence: ISentence; correct: number; wrong: number; rate: number }[] = [];
-    for (const [idStr, rec] of Object.entries(progress.learned)) {
+    for (const [idStr, rec] of Object.entries(progress.sentenceResults)) {
       const r = rec as { correct: number; wrong: number };
       const total = r.correct + r.wrong;
       if (r.wrong > 0 && total >= 2) {
@@ -118,7 +123,11 @@ export default function ProgressPage() {
     const month = now.getMonth();
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const checkinSet = new Set(progress.checkinDates);
+    const checkinSet = new Set(
+      Object.entries(progress.dailyLog)
+        .filter(([, count]) => count > 0)
+        .map(([date]) => date),
+    );
     const days: { day: number; checked: boolean; today: boolean }[] = [];
     for (let i = 0; i < firstDay; i++) {
       days.push({ day: 0, checked: false, today: false });
@@ -154,10 +163,11 @@ export default function ProgressPage() {
     for (const baseKey of keysToClear) {
       storage.removeItem(userStorageKey(baseKey));
     }
+    clearStudyProgress();
     // Also clear any per-sentence notes (browse_notes_*)
     // These use dynamic keys, so we iterate all scoped storage keys
     try {
-      const currentUsername = storage.getItem('__app_dc_auth_session');
+      const currentUsername = storage.getItem('dc_auth_session');
       if (currentUsername) {
         const prefix = `u:${currentUsername}:browse_notes_`;
         for (let i = 0; i < localStorage.length; i++) {
@@ -172,12 +182,7 @@ export default function ProgressPage() {
       // Ignore cleanup errors
     }
     // Reset state in-place — no page reload
-    const empty: IProgressData = {
-      learned: {},
-      streakDays: 0,
-      checkinDates: [],
-    };
-    setProgress(empty);
+    setProgress(createEmptyStudyProgress());
     // Also clear IndexedDB
     dbClearUserData().catch(() => { /* best-effort */ });
     toast.success('所有学习数据已重置');
@@ -229,7 +234,7 @@ export default function ProgressPage() {
                 <Flame className="size-4 text-primary" />
               </div>
               <div>
-                <div className="text-2xl font-bold tabular-nums text-foreground">{progress.streakDays}</div>
+                <div className="text-2xl font-bold tabular-nums text-foreground">{progress.streak}</div>
                 <div className="text-xs text-muted-foreground">连续打卡天数</div>
               </div>
             </div>
@@ -293,7 +298,7 @@ export default function ProgressPage() {
                   const vocabulary = Math.min(100, Math.round((totalLearned / MOCK_SENTENCES.length) * 100 * 1.2));
                   const accuracy = stats.accuracy || 0;
                   const fluency = Math.min(100, Math.round(stats.totalAttempts / Math.max(totalLearned, 1) * 30));
-                  const consistency = Math.min(100, progress.streakDays * 8);
+                  const consistency = Math.min(100, progress.streak * 8);
                   const comprehension = Math.round((accuracy + vocabulary) / 2);
                   return {
                     tooltip: { trigger: 'item' },
@@ -325,7 +330,7 @@ export default function ProgressPage() {
                       }],
                     }],
                   };
-                }, [stats, progress.streakDays])}
+                }, [stats, progress.streak])}
                 theme="ud"
                 className="h-[300px]"
               />
@@ -336,7 +341,7 @@ export default function ProgressPage() {
                 { label: '发音/测验', value: stats.accuracy, desc: '测验正确率' },
                 { label: '理解能力', value: Math.round((stats.accuracy + Math.min(100, Math.round((stats.totalLearned / Math.max(MOCK_SENTENCES.length, 1)) * 100 * 1.2))) / 2), desc: '词汇+测验综合' },
                 { label: '流利程度', value: Math.min(100, Math.round(stats.totalAttempts / Math.max(stats.totalLearned, 1) * 30)), desc: '复习频率' },
-                { label: '学习连贯性', value: Math.min(100, progress.streakDays * 8), desc: '连续打卡天数' },
+                { label: '学习连贯性', value: Math.min(100, progress.streak * 8), desc: '连续打卡天数' },
               ] as const).map((dim) => (
                 <div key={dim.label} className="space-y-1">
                   <div className="flex items-center justify-between">

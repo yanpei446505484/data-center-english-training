@@ -70,6 +70,7 @@ export interface IAnswerRecord {
   isCorrect: boolean;
   sentenceEn: string;
   sentenceCn: string;
+  sentenceId: number;
 }
 
 export interface IQuizResult {

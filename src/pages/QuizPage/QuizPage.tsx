@@ -137,6 +137,7 @@ export default function QuizPage() {
       isCorrect,
       sentenceEn: q.sentence.en,
       sentenceCn: q.sentence.cn,
+      sentenceId: q.sentence.id,
     }]);
     setShowAnswer(true);
   }, []);
@@ -202,7 +203,14 @@ export default function QuizPage() {
         ? (favorites.find(f => f.id === customScenarioId)?.query || '自定义场景')
         : (SENTENCE_SECTIONS[selectedTopicIdx]?.label || '未知主题');
       saveQuizResult({ topicLabel, score, total: questions.length, timeSeconds: totalTime, date: new Date().toISOString() });
-      recordQuizResult(score, questions.length);
+      recordQuizResult(
+        score,
+        questions.length,
+        answers.map((answer) => ({
+          sentenceId: answer.sentenceId,
+          correct: answer.isCorrect,
+        })),
+      );
 
       const wrongItems = answers.filter(a => !a.isCorrect).map(a => ({
         questionType: a.questionType,
