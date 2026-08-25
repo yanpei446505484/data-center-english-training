@@ -51,7 +51,11 @@ async function translateInBrowser(
   if (!factory) throw new Error('Browser Translator API unavailable');
 
   const availability = await factory.availability({ sourceLanguage, targetLanguage });
-  if (availability === 'unavailable') throw new Error('Language pair unavailable');
+  // Do not make the user wait while Chrome downloads a large language model.
+  // The free web API is the immediate fallback for downloadable/downloading pairs.
+  if (availability !== 'available' && availability !== 'readily') {
+    throw new Error(`Language pair is not immediately available: ${availability}`);
+  }
 
   const cacheKey = `${sourceLanguage}-${targetLanguage}`;
   let translatorPromise = browserTranslators.get(cacheKey);
@@ -256,15 +260,18 @@ export async function aiTranslate(
     }
   }
 
+  // Prefer the free web service because it responds immediately on desktop and mobile.
+  // Chrome's on-device Translator may report "downloadable" and otherwise hang while
+  // silently fetching its language model.
   try {
-    const translated = await translateInBrowser(cleaned, sourceLanguage, targetLanguage);
+    const translated = await translateWithPublicFallback(cleaned, sourceLanguage, targetLanguage);
     if (translated) return translated;
   } catch {
-    // Chrome's on-device Translator API is not available on every device.
+    // Continue with the on-device browser translator when it is already installed.
   }
 
   try {
-    const translated = await translateWithPublicFallback(cleaned, sourceLanguage, targetLanguage);
+    const translated = await translateInBrowser(cleaned, sourceLanguage, targetLanguage);
     if (translated) return translated;
   } catch {
     // Preserve the existing local glossary as the last, offline-only fallback.
