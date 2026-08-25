@@ -56,8 +56,13 @@ export function warmupAudio(): HTMLAudioElement | null {
   return null;
 }
 
-export async function preloadTTS(_texts: string[], _accent?: TTSAccent): Promise<void> {
+export async function preloadTTS(texts: string[], accent?: TTSAccent): Promise<void> {
   await audioEngine.preload().catch(() => undefined);
+  await audioEngine.prepare(texts.slice(0, 2), {
+    accent: accent ?? loadAccent(),
+    language: 'en',
+    speed: 145,
+  }).catch(() => undefined);
 }
 
 /**
