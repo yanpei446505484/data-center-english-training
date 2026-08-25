@@ -81,6 +81,24 @@ export default function ProgressPage() {
     return { totalLearned, totalCorrect, totalWrong, totalAttempts, accuracy };
   }, [progress]);
 
+  const learningIndicators = useMemo(() => {
+    const coverage = Math.min(100, Math.round((stats.totalLearned / Math.max(MOCK_SENTENCES.length, 1)) * 100));
+    const mastery = stats.totalLearned > 0
+      ? Math.min(100, Math.round((progress.masteredIds.length / stats.totalLearned) * 100))
+      : 0;
+    const reviewActivity = stats.totalLearned > 0
+      ? Math.min(100, Math.round((stats.totalAttempts / stats.totalLearned) * 20))
+      : 0;
+    const consistency = Math.min(100, Math.round((progress.streak / 7) * 100));
+    return [
+      { label: '课程覆盖率', value: coverage, desc: `${stats.totalLearned}/${MOCK_SENTENCES.length} 句已学习` },
+      { label: '测验正确率', value: stats.accuracy, desc: stats.totalAttempts > 0 ? '来自已完成的测验记录' : '完成测验后生成' },
+      { label: '已学掌握率', value: mastery, desc: `${progress.masteredIds.length}/${stats.totalLearned || 0} 句已掌握` },
+      { label: '复习活跃度', value: reviewActivity, desc: '根据练习次数与已学句子计算' },
+      { label: '7日连续性', value: consistency, desc: `当前连续学习 ${progress.streak} 天` },
+    ];
+  }, [progress.masteredIds.length, progress.streak, stats]);
+
   // Per-section progress
   const sectionProgress = useMemo(() => {
     const studiedIds = new Set(progress.studiedIds);
@@ -281,12 +299,12 @@ export default function ProgressPage() {
         </Card>
       </div>
 
-      {/* Ability Radar Chart */}
+      {/* Evidence-based learning indicators */}
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-sm font-medium flex items-center gap-2">
             <Sparkles className="size-4 text-primary" />
-            五维能力评估
+            五项学习指标
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -294,21 +312,15 @@ export default function ProgressPage() {
             <div>
               <ReactECharts
                 option={useMemo((): EChartsOption => {
-                  const totalLearned = stats.totalLearned || 1;
-                  const vocabulary = Math.min(100, Math.round((totalLearned / MOCK_SENTENCES.length) * 100 * 1.2));
-                  const accuracy = stats.accuracy || 0;
-                  const fluency = Math.min(100, Math.round(stats.totalAttempts / Math.max(totalLearned, 1) * 30));
-                  const consistency = Math.min(100, progress.streak * 8);
-                  const comprehension = Math.round((accuracy + vocabulary) / 2);
                   return {
                     tooltip: { trigger: 'item' },
                     radar: {
                       indicator: [
-                        { name: '词汇掌握' },
-                        { name: '发音/测验' },
-                        { name: '理解能力' },
-                        { name: '流利程度' },
-                        { name: '学习连贯性' },
+                        { name: '课程覆盖率' },
+                        { name: '测验正确率' },
+                        { name: '已学掌握率' },
+                        { name: '复习活跃度' },
+                        { name: '7日连续性' },
                       ],
                       shape: 'circle',
                       splitNumber: 4,
@@ -320,8 +332,8 @@ export default function ProgressPage() {
                     series: [{
                       type: 'radar',
                       data: [{
-                        value: [vocabulary, accuracy, comprehension, fluency, consistency],
-                        name: '能力评估',
+                        value: learningIndicators.map(item => item.value),
+                        name: '学习指标',
                         areaStyle: { color: 'rgba(245,158,11,0.15)' },
                         lineStyle: { color: '#f59e0b', width: 2 },
                         itemStyle: { color: '#f59e0b' },
@@ -330,19 +342,13 @@ export default function ProgressPage() {
                       }],
                     }],
                   };
-                }, [stats, progress.streak])}
+                }, [learningIndicators])}
                 theme="ud"
                 className="h-[300px]"
               />
             </div>
             <div className="space-y-4 flex flex-col justify-center">
-              {([
-                { label: '词汇掌握', value: Math.min(100, Math.round((stats.totalLearned / Math.max(MOCK_SENTENCES.length, 1)) * 100 * 1.2)), desc: '已学句子覆盖度' },
-                { label: '发音/测验', value: stats.accuracy, desc: '测验正确率' },
-                { label: '理解能力', value: Math.round((stats.accuracy + Math.min(100, Math.round((stats.totalLearned / Math.max(MOCK_SENTENCES.length, 1)) * 100 * 1.2))) / 2), desc: '词汇+测验综合' },
-                { label: '流利程度', value: Math.min(100, Math.round(stats.totalAttempts / Math.max(stats.totalLearned, 1) * 30)), desc: '复习频率' },
-                { label: '学习连贯性', value: Math.min(100, progress.streak * 8), desc: '连续打卡天数' },
-              ] as const).map((dim) => (
+              {learningIndicators.map((dim) => (
                 <div key={dim.label} className="space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-foreground">{dim.label}</span>
@@ -421,7 +427,7 @@ export default function ProgressPage() {
         <TabsContent value="topics" className="mt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
             {sectionProgress.map((sec, i) => (
-              <Card key={i} className="hover-elevate cursor-pointer" onClick={() => navigate('/browse')}>
+              <Card key={i} className="hover-elevate cursor-pointer" onClick={() => navigate(`/browse/${sec.range[0]}`)}>
                 <CardContent className="p-4 space-y-2">
                   <div className="flex items-center justify-between min-w-0">
                     <span className="text-sm font-medium truncate flex-1">{sec.label}</span>
@@ -462,7 +468,7 @@ export default function ProgressPage() {
                     <div
                       key={ws.sentence.id}
                       className="flex items-start gap-3 p-4 hover-elevate cursor-pointer"
-                      onClick={() => navigate('/browse')}
+                      onClick={() => navigate(`/browse/${ws.sentence.id}`)}
                     >
                       <div className="size-8 rounded-md bg-destructive/10 flex items-center justify-center shrink-0 mt-0.5">
                         <span className="text-xs font-bold text-destructive tabular-nums">{ws.rate}%</span>

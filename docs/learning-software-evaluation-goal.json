@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "title": "数据中心英语培训学习软件评估与改进",
+  "outcome": "按成熟学习软件标准评估现有网站，修复最高优先级的学习闭环与数据可信度问题，并发布验证后的线上版本。",
+  "truth_policy": "线上观察为source_exact；产品评价与改进为engineering_explanation；不能由现有数据证明的语言能力标记unknown，不作能力结论。",
+  "created_at": "2026-08-25T03:35:24+00:00",
+  "updated_at": "2026-08-25T03:35:54+00:00",
+  "acceptance_criteria": [
+    {
+      "id": "coverage",
+      "description": "评估报告覆盖内容、学习路径、练习、复习、数据、语音、移动端和性能",
+      "status": "verified",
+      "evidence": [
+        "learning-software-evaluation-2026-08-25.md"
+      ],
+      "notes": []
+    },
+    {
+      "id": "implementation",
+      "description": "已发现的高优先级学习闭环问题已实现并有自动测试",
+      "status": "verified",
+      "evidence": [
+        "../src/hooks/useStudyProgress.test.ts"
+      ],
+      "notes": []
+    },
+    {
+      "id": "quality",
+      "description": "静态检查、测试、TypeScript和生产构建通过",
+      "status": "verified",
+      "evidence": [
+        "learning-software-evaluation-2026-08-25.md"
+      ],
+      "notes": []
+    },
+    {
+      "id": "release",
+      "description": "GitHub Pages发布后在线验证关键界面",
+      "status": "in_progress",
+      "evidence": [],
+      "notes": [
+        "待线上验证。"
+      ]
+    }
+  ],
+  "work_units": [
+    {
+      "id": "assessment",
+      "description": "线上与源码评估",
+      "status": "verified",
+      "evidence": [
+        "learning-software-evaluation-2026-08-25.md"
+      ],
+      "notes": []
+    },
+    {
+      "id": "daily-loop",
+      "description": "每日学习计划与复习入口",
+      "status": "verified",
+      "evidence": [
+        "../src/pages/HomePage/HomePage.tsx",
+        "../src/hooks/useStudyProgress.test.ts"
+      ],
+      "notes": []
+    },
+    {
+      "id": "progress-trust",
+      "description": "学习记录可信度与精确跳转",
+      "status": "verified",
+      "evidence": [
+        "../src/pages/ProgressPage/ProgressPage.tsx"
+      ],
+      "notes": []
+    },
+    {
+      "id": "validation",
+      "description": "质量验证",
+      "status": "verified",
+      "evidence": [
+        "learning-software-evaluation-2026-08-25.md"
+      ],
+      "notes": [
+        "5个测试文件15项测试、TypeScript与生产构建通过。"
+      ]
+    },
+    {
+      "id": "deployment",
+      "description": "发布与在线验证",
+      "status": "in_progress",
+      "evidence": [],
+      "notes": [
+        "待推送GitHub并验证Pages。"
+      ]
+    }
+  ],
+  "checkpoints": [
+    {
+      "at": "2026-08-25T03:35:54+00:00",
+      "summary": "完成线上与源码评估；实现每日学习闭环、可信学习指标、精确跳转和跟读标签修正；所有本地验证通过。",
+      "next_action": "提交并推送GitHub，等待Pages部署后在线验证。"
+    }
+  ],
+  "risks_and_unknowns": []
+}

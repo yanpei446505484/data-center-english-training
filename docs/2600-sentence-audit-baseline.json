@@ -1,0 +1,445 @@
+{
+  "generatedAt": "2026-08-25T03:28:08.366Z",
+  "scope": "All 2,600 normalized sentence records",
+  "structural": {
+    "sentenceCount": 2600,
+    "uniqueIds": 2600,
+    "firstId": 1,
+    "lastId": 2600,
+    "sectionCount": 81,
+    "uniqueEnglish": 2533,
+    "uniqueChinese": 2543,
+    "emptyEnglish": [],
+    "emptyChinese": []
+  },
+  "duplicateGroups": [
+    {
+      "text": "Good morning, everyone.",
+      "ids": [
+        1,
+        1641,
+        1661
+      ]
+    },
+    {
+      "text": "There are ten active alarms in the BMS.",
+      "ids": [
+        31,
+        1086,
+        1126
+      ]
+    },
+    {
+      "text": "The root cause is still under investigation.",
+      "ids": [
+        37,
+        512
+      ]
+    },
+    {
+      "text": "Please open the DCIM dashboard.",
+      "ids": [
+        67,
+        1081
+      ]
+    },
+    {
+      "text": "Please check the room humidity.",
+      "ids": [
+        78,
+        853
+      ]
+    },
+    {
+      "text": "There are twelve open event tickets.",
+      "ids": [
+        91,
+        1131
+      ]
+    },
+    {
+      "text": "Corrective actions have been completed.",
+      "ids": [
+        136,
+        526,
+        1249
+      ]
+    },
+    {
+      "text": "One engineer is on annual leave today.",
+      "ids": [
+        214,
+        1148,
+        1267
+      ]
+    },
+    {
+      "text": "One engineer is on medical leave today.",
+      "ids": [
+        215,
+        1149
+      ]
+    },
+    {
+      "text": "One engineer is on personal leave today.",
+      "ids": [
+        216,
+        1150
+      ]
+    },
+    {
+      "text": "One engineer is attending training today.",
+      "ids": [
+        217,
+        1268
+      ]
+    },
+    {
+      "text": "Please redistribute today's workload.",
+      "ids": [
+        228,
+        1269
+      ]
+    },
+    {
+      "text": "The sump pit water level is normal.",
+      "ids": [
+        252,
+        1154
+      ]
+    },
+    {
+      "text": "All medium-voltage switchgear is operating normally.",
+      "ids": [
+        271,
+        722
+      ]
+    },
+    {
+      "text": "All CRAC units are operating normally.",
+      "ids": [
+        281,
+        842
+      ]
+    },
+    {
+      "text": "The humidity is within the acceptable range.",
+      "ids": [
+        285,
+        854
+      ]
+    },
+    {
+      "text": "Filter the critical alarms only.",
+      "ids": [
+        321,
+        326
+      ]
+    },
+    {
+      "text": "Show all active alarms.",
+      "ids": [
+        322,
+        327
+      ]
+    },
+    {
+      "text": "Show today's alarms.",
+      "ids": [
+        323,
+        328
+      ]
+    },
+    {
+      "text": "Show acknowledged alarms.",
+      "ids": [
+        324,
+        329
+      ]
+    },
+    {
+      "text": "Show unacknowledged alarms.",
+      "ids": [
+        325,
+        330
+      ]
+    },
+    {
+      "text": "Please verify the switching sequence.",
+      "ids": [
+        404,
+        603
+      ]
+    },
+    {
+      "text": "Please record the operation time.",
+      "ids": [
+        408,
+        628
+      ]
+    },
+    {
+      "text": "Can everyone hear me clearly?",
+      "ids": [
+        503,
+        1812
+      ]
+    },
+    {
+      "text": "Please mute your microphone when you are not speaking.",
+      "ids": [
+        504,
+        1815
+      ]
+    },
+    {
+      "text": "All critical systems are operating normally.",
+      "ids": [
+        506,
+        1125
+      ]
+    },
+    {
+      "text": "We apologize for the inconvenience.",
+      "ids": [
+        521,
+        1546
+      ]
+    },
+    {
+      "text": "Thank you for attending today's meeting.",
+      "ids": [
+        529,
+        1242
+      ]
+    },
+    {
+      "text": "Have a great day, everyone.",
+      "ids": [
+        560,
+        1680
+      ]
+    },
+    {
+      "text": "Has everyone signed the attendance sheet?",
+      "ids": [
+        570,
+        2123
+      ]
+    },
+    {
+      "text": "Please open the circuit breaker.",
+      "ids": [
+        611,
+        733
+      ]
+    },
+    {
+      "text": "Please close the grounding switch.",
+      "ids": [
+        615,
+        742
+      ]
+    },
+    {
+      "text": "Please verify the grounding switch position.",
+      "ids": [
+        616,
+        743
+      ]
+    },
+    {
+      "text": "The circuit breaker has been closed successfully.",
+      "ids": [
+        621,
+        736
+      ]
+    },
+    {
+      "text": "Please activate the emergency response procedure.",
+      "ids": [
+        637,
+        1522
+      ]
+    },
+    {
+      "text": "Please check the battery temperature.",
+      "ids": [
+        663,
+        689
+      ]
+    },
+    {
+      "text": "Please acknowledge the alarm.",
+      "ids": [
+        673,
+        1091
+      ]
+    },
+    {
+      "text": "Please investigate the alarm immediately.",
+      "ids": [
+        674,
+        873,
+        914,
+        955,
+        1035,
+        1092
+      ]
+    },
+    {
+      "text": "No abnormal conditions have been found.",
+      "ids": [
+        795,
+        909
+      ]
+    },
+    {
+      "text": "The cooling capacity has returned to normal.",
+      "ids": [
+        876,
+        917
+      ]
+    },
+    {
+      "text": "Please record the inspection results.",
+      "ids": [
+        910,
+        996
+      ]
+    },
+    {
+      "text": "There are five active alarms in the DCIM.",
+      "ids": [
+        1087,
+        1129
+      ]
+    },
+    {
+      "text": "Photography is not allowed inside the data hall.",
+      "ids": [
+        1170,
+        2488
+      ]
+    },
+    {
+      "text": "Safety is our highest priority.",
+      "ids": [
+        1208,
+        1529
+      ]
+    },
+    {
+      "text": "We have identified the root cause.",
+      "ids": [
+        1473,
+        1491
+      ]
+    },
+    {
+      "text": "How was your weekend?",
+      "ids": [
+        1646,
+        1662,
+        1921
+      ]
+    },
+    {
+      "text": "Have you had breakfast yet?",
+      "ids": [
+        1649,
+        1663,
+        1961
+      ]
+    },
+    {
+      "text": "Did you sleep well last night?",
+      "ids": [
+        1668,
+        1885
+      ]
+    },
+    {
+      "text": "Let me know if you need anything.",
+      "ids": [
+        1671,
+        1877
+      ]
+    },
+    {
+      "text": "Please scan this document.",
+      "ids": [
+        1698,
+        1701
+      ]
+    },
+    {
+      "text": "Please scan it as a PDF.",
+      "ids": [
+        1699,
+        1702
+      ]
+    },
+    {
+      "text": "Please email the scanned file to me.",
+      "ids": [
+        1700,
+        1703
+      ]
+    },
+    {
+      "text": "It looks like it's going to rain soon.",
+      "ids": [
+        1912,
+        1987
+      ]
+    },
+    {
+      "text": "PTW means Permit To Work.",
+      "ids": [
+        2301,
+        2554
+      ]
+    },
+    {
+      "text": "VMS means Visitor Management System.",
+      "ids": [
+        2310,
+        2544
+      ]
+    },
+    {
+      "text": "EHS means Environment, Health and Safety.",
+      "ids": [
+        2314,
+        2462
+      ]
+    },
+    {
+      "text": "CCTV means Closed-Circuit Television.",
+      "ids": [
+        2376,
+        2576
+      ]
+    }
+  ],
+  "ruleCandidates": [
+    {
+      "id": 470,
+      "sourceId": 470,
+      "rule": "monitor-continuously",
+      "en": "Monitor the situation continuously.",
+      "cn": "持续监控现场情况。",
+      "reason": "通常用 continue to monitor 更自然"
+    },
+    {
+      "id": 705,
+      "sourceId": 1425,
+      "rule": "monitor-continuously",
+      "en": "Please monitor the battery temperature continuously.",
+      "cn": "请持续监测电池温度。",
+      "reason": "通常用 continue to monitor 更自然"
+    }
+  ],
+  "caveat": "Rule candidates are triage only. Native/professional quality requires manual sentence-by-sentence review."
+}

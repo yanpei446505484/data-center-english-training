@@ -849,11 +849,11 @@ export const MOCK_SENTENCES_PART9B: ISentence[] = [
   },
   {
     id: 268,
-    en: "Everything is operating normally after the rain.",
-    cn: "雨后所有设施运行正常。",
-    ipa: "/ˈɛv.ri.θɪŋ ɪz ˈɒp.ə.reɪ.tɪŋ ˈnɔːr.mə.li æf.tər ðə reɪn/",
+    en: "All systems are operating normally after the rain.",
+    cn: "雨后所有系统均运行正常。",
+    ipa: "/ɔːl ˈsɪs.təmz ɑː ˈɒp.ə.reɪ.tɪŋ ˈnɔː.mə.li ˈɑːf.tə ðə reɪn/",
     tags: ["第268句", "排水系统", "★★★★"],
-    when: "室外排水检查完成后，总结报告，确认雨后所有设施运行正常。",
+    when: "室外排水检查完成后，总结报告，确认雨后所有系统运行正常。",
     words: [
       {
         w: "operating",
@@ -901,17 +901,17 @@ export const MOCK_SENTENCES_PART9B: ISentence[] = [
     grammar: [
       {
         q: "operating normally 和 working fine 有什么区别？",
-        a: "operating normally = 正常运行（正式用语，强调符合标准）\nworking fine = 工作良好（口语，更随意）\n✅ Everything is operating normally.（一切正常运行 → 正式报告）\n✅ Everything is working fine.（一切都好 → 口语表达）\n交接用 operating normally，更专业。"
+        a: "operating normally = 正常运行（正式用语，强调符合标准）\nworking fine = 工作良好（口语，更随意）\n✅ All systems are operating normally.（所有系统均正常运行 → 正式报告）\n✅ Everything is working fine.（一切都好 → 口语表达）\n交接用 operating normally 更专业。"
       }
     ],
-    pattern: "Everything is + 动词-ing + normally + 时间/条件",
+    pattern: "All systems are + 动词-ing + normally + 时间/条件",
     patternExamples: [
       { en: "Everything is functioning normally after maintenance.", cn: "维护后一切正常运作。", words: [{ w: "normally", ipa: "/ˈnɔːrməl/", cn: "正常", phonics: "nor 读 /nɔːr/，mal 读 /məl/" }, { w: "maintenance", ipa: "/ˈmeɪntɪnəns/", cn: "维护", phonics: "main 读 /meɪn/，tenance 读 /tɪnəns/" }] },
       { en: "All systems are operating normally after the test.", cn: "测试后所有系统正常运行。", words: [{ w: "systems", ipa: "/ˈsɪstəm/", cn: "系统", phonics: "sys 读 /sɪs/，tem 读 /təm/" }, { w: "operating", ipa: "/ˈɒpəreɪtɪŋ/", cn: "运行中", phonics: "op 读 /ɒp/，erating 读 /əreɪtɪŋ/" }, { w: "normally", ipa: "/ˈnɔːrməl/", cn: "正常", phonics: "nor 读 /nɔːr/，mal 读 /məl/" }] },
       { en: "The equipment is running normally after repair.", cn: "维修后设备正常运行。", words: [{ w: "equipment", ipa: "/ɪˈkwɪpmənt/", cn: "设备", phonics: "e 读 /ɪ/，quipment 读 /kwɪpmənt/" }, { w: "normally", ipa: "/ˈnɔːrməl/", cn: "正常", phonics: "nor 读 /nɔːr/，mal 读 /məl/" }, { w: "repair", ipa: "/rɪˈpeər/", cn: "维修", phonics: "re 读 /rɪ/，pair 读 /peər/" }] }
     ],
-    thinking: "雨后检查是数据中心的重要巡检项目。\n雨后检查要点：① 屋顶是否渗漏 ② 排水系统是否畅通 ③ 电缆沟是否积水 ④ 室外设备是否正常。\n交接时报告 Everything is operating normally after the rain，确认雨后无异常。\n这是排水系统检查的总结性汇报。",
-    pronunciation: "operating 重音在第一音节：/ˈɒp.ə.reɪ.tɪŋ/。\nnormally 重音在第一音节：/ˈnɔːr.mə.li/。\n节奏：EV-ery-thing ｜ is OP-er-a-ting ｜ NOR-mal-ly ｜ af-ter the RAIN.",
+    thinking: "雨后检查是数据中心的重要巡检项目。\n雨后检查要点：① 屋顶是否渗漏 ② 排水系统是否畅通 ③ 电缆沟是否积水 ④ 室外设备是否正常。\n交接时报告 All systems are operating normally after the rain，确认雨后无异常。\n用 systems 作主语与 operating normally 搭配更准确。",
+    pronunciation: "systems 重音在第一音节：/ˈsɪs.təmz/。\noperating 重音在第一音节：/ˈɒp.ə.reɪ.tɪŋ/。\nnormally 重音在第一音节：/ˈnɔː.mə.li/。\n节奏：ALL SYS-tems ｜ are OP-er-a-ting NOR-mal-ly ｜ af-ter the RAIN.",
     quiz: [
       {
         q: "维护后一切正常运作，怎么说？",
@@ -919,7 +919,7 @@ export const MOCK_SENTENCES_PART9B: ISentence[] = [
       },
       {
         q: "operating normally 和 working fine 哪个更正式？",
-        a: "operating normally 更正式。operating normally = 正常运行（正式术语）；working fine = 工作良好（口语）。交接时说 Everything is operating normally（一切正常运行），用正式用语更专业。"
+        a: "operating normally 更正式。operating normally = 正常运行（正式术语）；working fine = 工作良好（口语）。交接时可说 All systems are operating normally（所有系统均正常运行）。"
       }
     ]
   },

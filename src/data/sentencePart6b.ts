@@ -334,9 +334,9 @@ export const MOCK_SENTENCES_PART6B: ISentence[] = [
   },
   {
     id: 177,
-    en: "Is the EOP ready if an emergency occurs?",
+    en: "Is the EOP ready in case of an emergency?",
     cn: "如果发生紧急情况，应急操作程序准备好了吗？",
-    ipa: "/ɪz ðə ˌiː.oʊˈpiː ˈrɛd.i ɪf ən ɪˈmɜːr.dʒən.si əˈkɜːrz/",
+    ipa: "/ɪz ðə ˌiː.oʊˈpiː ˈred.i ɪn keɪs əv ən ɪˈmɜː.dʒən.si/",
     tags: ["第177句", "PTW/MOP/SOP/EOP", "★★★★★"],
     when: "确认应急操作程序（EOP）已准备就绪。EOP是紧急情况下的操作指南，必须随时可用。",
     words: [
@@ -345,19 +345,19 @@ export const MOCK_SENTENCES_PART6B: ISentence[] = [
       { w: "occurs", ipa: "/əˈkɜːrz/", pos: "动词(第三人称单数)", cn: "发生", memory: "① oc- = 朝向（拉丁前缀 ob- 变体）；② cur = 跑（拉丁词根）；③ -s = 第三人称单数。\noccur = 跑向 → 发生（比 happen 更正式）。\n名词形式：occurrence（发生/事件）。\n注意拼写：occur → occurred → occurring（双写 c 和 r）。", phonics: "oc 读 /ə/，curs 读 /kɜːrz/，重音在第二音节。", collocations: [["if an emergency occurs", "如果发生紧急情况"], ["when an error occurs", "当错误发生时"], ["frequently occurring", "频繁发生的"]], examples: [["If a fire occurs, activate the EOP.", "如果发生火灾，启动EOP。"], ["Power outages rarely occur here.", "这里很少发生停电。"]] },
     ],
     phrases: [
-      { p: "if an emergency occurs", ipa: "/ɪf ən ɪˈmɜːr.dʒən.si əˈkɜːrz/", cn: "如果发生紧急情况", why: "if 引导条件从句：如果……发生。occurs 用第三人称单数，因为主语 an emergency 是单数。数据中心 EOP 就是为'如果发生紧急情况'而准备的。" },
+      { p: "in case of an emergency", ipa: "/ɪn keɪs əv ən ɪˈmɜː.dʒən.si/", cn: "以防发生紧急情况；在紧急情况下", why: "in case of + 名词，表示为可能发生的情况提前做好准备，特别适合询问EOP是否就绪。" },
     ],
     grammar: [
-      { q: "if 条件句用什么时态？", a: "真实条件句（可能发生的情况）：\nif + 一般现在时, 主句用一般现在时/将来时\n✅ Is the EOP ready if an emergency occurs?（如果紧急情况发生，EOP准备好了吗？）\n✅ If a fire occurs, we activate the EOP.（如果发生火灾，我们启动EOP。）\n✅ If power fails, the generator will start.（如果停电，发电机会启动。）\n交接时用 if 条件句确认应急预案的就绪状态。" },
+      { q: "in case of 和 if 有什么区别？", a: "in case of + 名词，强调为可能发生的情况提前准备；if + 从句，强调条件发生后采取什么行动。\n✅ Is the EOP ready in case of an emergency?（EOP是否已为紧急情况做好准备？）\n✅ If a fire occurs, activate the EOP.（如果发生火灾，启动EOP。）" },
     ],
-    pattern: "Is the + 文件/设备 + ready + if + 条件?",
+    pattern: "Is the + 文件/设备 + ready + in case of + 风险?",
     patternExamples: [
       { en: "Is the backup generator ready if power fails?", cn: "如果停电，备用发电机准备好了吗？", words: [{ w: "backup", ipa: "/ˈbækʌp/", cn: "备份", phonics: "back 读 /bæk/，up 读 /ʌp/" }, { w: "generator", ipa: "/ˈdʒɛnəreɪtər/", cn: "发电机", phonics: "gen 读 /dʒɛn/，erator 读 /əreɪtər/" }, { w: "power", ipa: "/ˈpaʊər/", cn: "电力", phonics: "pow 读 /paʊ/，er 读 /ər/" }] },
       { en: "Is the fire suppression system ready if a fire occurs?", cn: "如果发生火灾，灭火系统准备好了吗？", words: [{ w: "fire", ipa: "/faɪər/", cn: "消防", phonics: "fire 读 /faɪər/" }, { w: "system", ipa: "/ˈsɪstəm/", cn: "系统", phonics: "sys 读 /sɪs/，tem 读 /təm/" }] },
       { en: "Is the escalation list ready if we need support?", cn: "如果需要支持，升级联系人清单准备好了吗？", words: [{ w: "support", ipa: "/səˈpɔːrt/", cn: "支持", phonics: "sup 读 /sə/，port 读 /pɔːrt/" }] },
     ],
     thinking: "EOP准备就绪检查清单：\n1. EOP文件是否在现场可用（纸质+电子版）\n2. 所有操作人员是否已培训并签字\n3. 应急联系人清单是否最新\n4. 应急物资是否就位（手电筒、对讲机、急救包）\n5. 最近一次EOP演练是什么时候\n交接时逐一确认，确保紧急情况下能立即响应。",
-    pronunciation: "EOP 逐字母读：E-O-P。\nemergency 重音在第二音节：e-MER-gen-cy /ɪˈmɜːr.dʒən.si/。\noccurs 重音在第二音节：oc-CURS /əˈkɜːrz/。\n节奏：IS the E-O-P ｜ READ-y ｜ if an E-mer-gen-cy ｜ oc-CURS?",
+    pronunciation: "EOP 逐字母读：E-O-P。\nin case of 连读为 /ɪn keɪs əv/。\nemergency 重音在第二音节：e-MER-gen-cy。\n节奏：IS the E-O-P ｜ READ-y ｜ in CASE of an e-MER-gen-cy?",
     quiz: [
       { q: "如果停电，备用发电机准备好了吗？怎么说？", a: "Is the backup generator ready if power fails?" },
       { q: "数据中心常见EOP场景有哪些？", a: "常见EOP场景：市电全停（total power failure）、火灾（fire）、水灾/漏水（flooding/water leak）、制冷系统全停（total cooling failure）、安全入侵（security breach）、自然灾害（natural disaster）。" },

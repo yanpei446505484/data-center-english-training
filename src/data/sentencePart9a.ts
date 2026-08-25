@@ -183,20 +183,20 @@ export const MOCK_SENTENCES_PART9A: ISentence[] = [
   },
   {
     id: 247,
-    en: "No water leakage was found on the roof.",
+    en: "No water leaks were found on the roof.",
     cn: "屋顶没有发现漏水。",
-    ipa: "/noʊ ˈwɔː.tər ˈliː.kɪdʒ wɒz faʊnd ɒn ðə ruːf/",
+    ipa: "/nəʊ ˈwɔː.tə liːks wə faʊnd ɒn ðə ruːf/",
     tags: ["第247句", "检查结果", "★★★★★"],
     when: "汇报屋顶检查结果。如果没有发现漏水，这是好消息，可以进入下一项巡检。",
     words: [
-      { w: "leakage", ipa: "/ˈliː.kɪdʒ/", pos: "名词", cn: "泄漏；渗漏", memory: "① leak = 漏水（动词/名词）；② leakage = 泄漏（名词，更正式）。\nleakage 强调'泄漏的现象/过程'，leak 强调'具体的泄漏点'。\n对比：a water leak = 一处漏水点；water leakage = 漏水现象（泛指）。", phonics: "leak 读 /liːk/，age 读 /ɪdʒ/，重音在第一音节。", collocations: [["water leakage", "漏水"], ["gas leakage", "漏气"], ["no leakage", "无泄漏"]], examples: [["No leakage was detected.", "未检测到泄漏。"], ["Water leakage can damage equipment.", "漏水可能损坏设备。"]] },
-      { w: "found", ipa: "/faʊnd/", pos: "动词(过去分词)", cn: "被发现", memory: "① find = 发现/找到；② found = 被发现（被动语态）。\nwas found = 被发现（过去被动）。\nNo ... was found = 没有发现…（标准检查报告用语）。", phonics: "f 读 /f/，ou 读 /aʊ/，nd 读 /nd/。", collocations: [["no issues found", "未发现问题"], ["damage found", "发现损坏"], ["leak found", "发现漏水"]], examples: [["No problems were found.", "未发现问题。"], ["A crack was found on the wall.", "墙上发现了裂缝。"]] },
+      { w: "water leak", ipa: "/ˈwɔː.tə liːk/", pos: "名词", cn: "漏水点；渗漏", memory: "water leak 指具体的漏水点；复数 water leaks 表示一处或多处可能的漏水。water leakage 更偏向泛指漏水现象。", phonics: "water 重音在第一音节；leak 的 ea 读 /iː/。", collocations: [["water leak", "漏水点"], ["detect a leak", "检测到渗漏"], ["repair a leak", "修复漏点"]], examples: [["No water leaks were detected.", "未检测到漏水点。"], ["A water leak can damage equipment.", "漏水可能损坏设备。"]] },
+      { w: "found", ipa: "/faʊnd/", pos: "动词(过去分词)", cn: "被发现", memory: "find 的过去分词是 found。被动结构要与主语单复数一致：a leak was found；leaks were found。", phonics: "f 读 /f/，ou 读 /aʊ/，nd 读 /nd/。", collocations: [["no issues found", "未发现问题"], ["damage found", "发现损坏"], ["leaks found", "发现漏水点"]], examples: [["No problems were found.", "未发现问题。"], ["A crack was found on the wall.", "墙上发现了裂缝。"]] },
     ],
     phrases: [
-      { p: "No ... was found", ipa: "/noʊ ... wɒz faʊnd/", cn: "没有发现…", why: "No + 名词 + was found = 没有发现…（标准检查报告用语）。被动语态强调'结果'，不关心'谁检查的'。" },
+      { p: "No ... was/were found", ipa: "/nəʊ ... wɒz, wə faʊnd/", cn: "没有发现…", why: "单数或不可数名词用 was found，复数名词用 were found。被动语态强调检查结果。" },
     ],
     grammar: [
-      { q: "为什么用 was found 而不是 did not find？", a: "was found = 被发现（被动语态，强调结果）\ndid not find = 没有发现（主动语态，强调动作）\n✅ No water leakage was found on the roof.（屋顶没有发现漏水 → 强调结果，正式报告用语）\n✅ We did not find any water leakage on the roof.（我们没有在屋顶发现漏水 → 强调'我们'的动作）\n交接报告用被动语态 was found，因为关心的是'有没有发现'，不是'谁发现的'。" },
+      { q: "为什么用 were found？", a: "water leaks 是复数，所以被动语态用 were found。\n✅ No water leaks were found on the roof.（屋面未发现漏水点。）\n正式报告也可写 No evidence of water leakage was found on the roof.，但口头交接用 water leaks 更自然。" },
     ],
     pattern: "No + 问题 + was/were found + 地点",
     patternExamples: [
@@ -204,8 +204,8 @@ export const MOCK_SENTENCES_PART9A: ISentence[] = [
       { en: "No cracks were found on the walls.", cn: "墙壁上未发现裂缝。", words: [] },
       { en: "No blockage was found in the pipes.", cn: "管道中未发现堵塞。", words: [{ w: "pipes", ipa: "/paɪp/", cn: "管道", phonics: "pipe 读 /paɪp/" }] },
     ],
-    thinking: "检查报告标准句式：\n① No + 问题 + was found = 没有发现…（正常）\n② A + 问题 + was found = 发现了…（异常）\n③ Multiple + 问题 + were found = 发现了多处…（严重）\n本句是第①种：正常结果。如果发现问题，用 248 句的句式。",
-    pronunciation: "leakage 的 ea 读 /iː/，age 读 /ɪdʒ/：/ˈliː.kɪdʒ/。\nfound 的 ou 读 /aʊ/，不是 /uː/。\n节奏：No WA-ter LEAK-age ｜ was FOUND ｜ on the ROOF.",
+    thinking: "检查报告常用句式：\n① No + 复数问题 + were found = 没有发现…\n② A + 单数问题 + was found = 发现一处…\n③ Multiple + 复数问题 + were found = 发现多处…\n本句汇报正常结果；若发现问题，可用第248句的句式。",
+    pronunciation: "leaks 的 ea 读 /iː/，词尾读 /ks/。\nfound 的 ou 读 /aʊ/。\n节奏：No WA-ter LEAKS ｜ were FOUND ｜ on the ROOF.",
     quiz: [
       { q: "设备上未发现损坏，怎么说？", a: "No damage was found on the equipment." },
       { q: "was found 和 did not find 有什么区别？", a: "was found = 被发现（被动语态，强调结果，正式报告用语）；did not find = 没有发现（主动语态，强调动作）。交接报告用 was found，关心的是'有没有发现'，不是'谁发现的'。" },
@@ -243,20 +243,20 @@ export const MOCK_SENTENCES_PART9A: ISentence[] = [
   },
   {
     id: 249,
-    en: "Temporary protection has been installed.",
-    cn: "已经安装了临时防护措施。",
-    ipa: "/ˈtɛm.pər.ər.i prəˈtɛk.ʃən hæz biːn ɪnˈstɔːld/",
+    en: "Temporary protective measures have been put in place.",
+    cn: "临时防护措施已经落实。",
+    ipa: "/ˈtem.pər.ər.i prəˈtek.tɪv ˈmeʒ.əz hæv biːn pʊt ɪn pleɪs/",
     tags: ["第249句", "应急处理", "★★★★★"],
     when: "发现漏水后，需要立即安装临时防护措施（如防水布、沙袋、接水桶），防止漏水扩大损坏设备。",
     words: [
-      { w: "temporary", ipa: "/ˈtɛm.pər.ər.i/", pos: "形容词", cn: "临时的；暂时的", memory: "① tempor = 时间（拉丁语 tempus）；② temporary = 临时的/暂时的。\ntemporary 与 permanent（永久的）相对。\n数据中心漏水处理：先 temporary protection（临时防护），再 permanent repair（永久修复）。", phonics: "tem 读 /tɛm/，po 读 /pə/，rary 读 /rər.i/，重音在第一音节。", collocations: [["temporary protection", "临时防护"], ["temporary solution", "临时方案"], ["temporary repair", "临时修复"]], examples: [["We installed temporary protection.", "我们安装了临时防护。"], ["This is a temporary solution.", "这是一个临时方案。"]] },
-      { w: "protection", ipa: "/prəˈtɛk.ʃən/", pos: "名词", cn: "防护；保护", memory: "① protect = 保护（动词）；② protection = 防护/保护（名词）。\nprotection 强调'防护措施/保护手段'。\n对比：protect = 保护（动作），protection = 防护（措施/状态）。", phonics: "pro 读 /prə/，tec 读 /tɛk/，tion 读 /ʃən/，重音在第二音节。", collocations: [["water protection", "防水"], ["fire protection", "防火"], ["surge protection", "浪涌保护"]], examples: [["The equipment needs protection from water.", "设备需要防水保护。"], ["Fire protection is critical.", "防火至关重要。"]] },
+      { w: "temporary", ipa: "/ˈtem.pər.ər.i/", pos: "形容词", cn: "临时的；暂时的", memory: "temporary 与 permanent（永久的）相对。漏水处理通常先采取临时防护措施，再安排永久修复。", phonics: "tem 读 /tem/，重音在第一音节。", collocations: [["temporary measures", "临时措施"], ["temporary solution", "临时方案"], ["temporary repair", "临时修复"]], examples: [["We put temporary measures in place.", "我们落实了临时措施。"], ["This is a temporary solution.", "这是一个临时方案。"]] },
+      { w: "protective measures", ipa: "/prəˈtek.tɪv ˈmeʒ.əz/", pos: "名词短语", cn: "防护措施", memory: "protective 是形容词，修饰 measures。put measures in place 表示采取或落实措施。", phonics: "protective 重音在第二音节；measures 的 s 读 /ʒ/。", collocations: [["protective measures", "防护措施"], ["put measures in place", "落实措施"], ["temporary measures", "临时措施"]], examples: [["Protective measures are required.", "需要采取防护措施。"], ["The measures are now in place.", "措施现已落实。"]] },
     ],
     phrases: [
-      { p: "temporary protection", ipa: "/ˈtɛm.pər.ər.i prəˈtɛk.ʃən/", cn: "临时防护措施", why: "temporary + protection = 临时防护。数据中心漏水处理分两步：① temporary protection（临时防护，如防水布、沙袋）→ ② permanent repair（永久修复，如重新密封、更换管道）。" },
+      { p: "put protective measures in place", ipa: "/pʊt prəˈtek.tɪv ˈmeʒ.əz ɪn pleɪs/", cn: "落实防护措施", why: "put measures in place 是工作场景中表示采取、落实措施的自然表达。" },
     ],
     grammar: [
-      { q: "为什么用 has been installed 而不是 was installed？", a: "has been installed = 已经安装（现在完成时，强调'已经完成，现在有效'）\nwas installed = 安装了（一般过去时，强调'过去的动作'）\n✅ Temporary protection has been installed.（临时防护已经安装好了 → 强调现在状态：防护已就位）\n✅ Temporary protection was installed yesterday.（昨天安装了临时防护 → 强调过去的动作）\n交接时用 has been installed，因为关心的是'现在防护是否就位'，不是'什么时候安装的'。" },
+      { q: "put in place 是什么意思？", a: "put measures in place 表示落实、采取措施。\n✅ Temporary protective measures have been put in place.（临时防护措施已经落实。）\n如果明确安装的是防水布或挡水板，才使用 installed。" },
     ],
     pattern: "Temporary + 措施 + has/have been + 过去分词",
     patternExamples: [
@@ -265,10 +265,10 @@ export const MOCK_SENTENCES_PART9A: ISentence[] = [
       { en: "Temporary seals have been applied.", cn: "临时密封已施加。", words: [] },
     ],
     thinking: "漏水处理两步走：\n① Temporary protection（临时防护）：\n   - 防水布覆盖漏水点\n   - 沙袋围堵水流\n   - 接水桶收集漏水\n   - 警示标识提醒人员\n② Permanent repair（永久修复）：\n   - 重新密封电缆入口\n   - 更换老化管道\n   - 修复屋顶防水层\n   - 安排专业承包商施工\n交接时先报临时防护（本句），再报永久修复计划（下句）。",
-    pronunciation: "temporary 重音在第一音节：/ˈtɛm.pər.ər.i/，不是 /tɛmˈpɔː.rər.i/。\nprotection 的 o 读 /ə/，不是 /oʊ/。\n节奏：TEM-po-rar-y ｜ pro-TEC-tion ｜ has been in-STALED.",
+    pronunciation: "temporary 重音在第一音节：/ˈtem.pər.ər.i/。\nprotective 重音在第二音节：/prəˈtek.tɪv/。\n节奏：TEM-po-rar-y pro-TEC-tive MEAS-ures ｜ have been PUT in PLACE.",
     quiz: [
       { q: "临时屏障已安装，怎么说？", a: "Temporary barriers have been installed." },
-      { q: "has been installed 和 was installed 有什么区别？", a: "has been installed = 已经安装（现在完成时，强调'已经完成，现在有效'）；was installed = 安装了（一般过去时，强调'过去的动作'）。交接时用 has been installed，关心的是'现在防护是否就位'。" },
+      { q: "put measures in place 是什么意思？", a: "表示采取或落实措施，强调这些措施现在已经就位并生效。" },
     ],
   },
   {

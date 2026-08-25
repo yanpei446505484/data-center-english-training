@@ -399,22 +399,22 @@ export const MOCK_SENTENCES_PART1A: ISentence[] = [
   },
   {
     id: 14,
-    en: "Let's review today's operation status.",
+    en: "Let's review today's operational status.",
     cn: "我们来看一下今天的运行状态。",
-    ipa: "/lɛts rɪˈvjuː təˈdeɪz ˌɒp.əˈreɪ.ʃən ˈstæt.əs/",
+    ipa: "/lɛts rɪˈvjuː təˈdeɪz ˌɒp.əˈreɪ.ʃən.əl ˈstæt.əs/",
     tags: ["第14句", "流程引导", "★★★★★"],
     when: "打开交班记录后，宣布开始逐项回顾今天的运行状态。这是交接正式内容的总启动句。",
     words: [
       { w: "review", ipa: "/rɪˈvjuː/", pos: "动词", cn: "回顾；检查；审查", memory: "① re = 再次；② view = 看；③ review = 再看一遍 = 回顾/审查。\n交接中的 review = 逐项检查确认。", phonics: "re 读 /rɪ/，view 读 /vjuː/，重音在第二音节。", collocations: [["review the status", "检查状态"], ["review the alarms", "审查告警"], ["review the report", "回顾报告"]], examples: [["Let's review the alarms.", "我们来审查告警。"], ["Please review this ticket.", "请检查这个工单。"]] },
-      { w: "operation", ipa: "/ˌɒp.əˈreɪ.ʃən/", pos: "名词", cn: "运行；操作", memory: "① operate = 运行/操作（动词）；② operation = 运行/操作（名词）。\noperation status = 运行状态。", phonics: "op 读 /ɒp/，er 读 /ə/，a 读 /eɪ/，tion 读 /ʃən/，重音在第三音节。共4个音节。", collocations: [["operation status", "运行状态"], ["operation log", "运行日志"], ["normal operation", "正常运行"]], examples: [["The system is in normal operation.", "系统运行正常。"], ["Check the operation log.", "检查运行日志。"]] },
-      { w: "status", ipa: "/ˈstæt.əs/", pos: "名词", cn: "状态；状况", memory: "① status = 状态（来自拉丁语 stare = 站立）；② status quo = 现状。\noperation status = 运行状态。", phonics: "stat 读 /stæt/，us 读 /əs/，重音在第一音节。注意不读 /ˈsteɪ.təs/。", collocations: [["system status", "系统状态"], ["alarm status", "告警状态"], ["status update", "状态更新"]], examples: [["What's the system status?", "系统状态是什么？"], ["The alarm status is active.", "告警状态是活动的。"]] },
+      { w: "operational", ipa: "/ˌɒp.əˈreɪ.ʃən.əl/", pos: "形容词", cn: "运行的；运营的", memory: "operate = 运行；operational = 与运行有关的。\noperational status = 运行状态，是交接班中更自然、正式的搭配。", phonics: "op-er-A-tion-al，重音在 A。", collocations: [["operational status", "运行状态"], ["operational issue", "运行问题"], ["fully operational", "全面正常运行"]], examples: [["All systems are fully operational.", "所有系统均正常运行。"], ["Please confirm the operational status.", "请确认运行状态。"]] },
+      { w: "status", ipa: "/ˈstæt.əs/", pos: "名词", cn: "状态；状况", memory: "status 表示某一时刻的状态。\noperational status = 运行状态。", phonics: "stat 读 /stæt/，us 读 /əs/，重音在第一音节。", collocations: [["system status", "系统状态"], ["alarm status", "告警状态"], ["status update", "状态更新"]], examples: [["What's the system status?", "系统状态怎么样？"], ["The alarm is still active.", "告警仍处于活动状态。"]] },
     ],
     phrases: [
-      { p: "operation status", ipa: "/ˌɒp.əˈreɪ.ʃən ˈstæt.əs/", cn: "运行状态", why: "operation = 运行，status = 状态。交接时需要全面了解数据中心各系统的运行状态。" },
+      { p: "operational status", ipa: "/ˌɒp.əˈreɪ.ʃən.əl ˈstæt.əs/", cn: "运行状态", why: "operational 是形容词，直接修饰 status；这是描述系统总体运行情况时更自然的搭配。" },
       { p: "Let's review", ipa: "/lɛts rɪˈvjuː/", cn: "我们来检查/回顾", why: "Let's = 让我们，review = 回顾检查。交接中用 Let's review 宣布开始逐项审查。" },
     ],
     grammar: [
-      { q: "review 和 check 有什么区别？", a: "review = 系统性回顾/审查（全面、仔细地看一遍）。\ncheck = 快速检查/核实（确认某个具体点）。\n✅ Let's review the operation status.（全面回顾运行状态）\n✅ Please check this alarm.（快速核实这条告警）\n交接中：大范围的用 review，具体项的用 check。" },
+      { q: "review 和 check 有什么区别？", a: "review = 系统性回顾/审查（全面、仔细地看一遍）。\ncheck = 快速检查/核实（确认某个具体点）。\n✅ Let's review the operational status.（全面回顾运行状态。）\n✅ Please check this alarm.（快速核实这条告警。）\n交接中：大范围用 review，具体项用 check。" },
     ],
     pattern: "Let's review + 范围/主题",
     patternExamples: [
@@ -424,7 +424,7 @@ export const MOCK_SENTENCES_PART1A: ISentence[] = [
       { en: "Let's review today's incidents.", cn: "我们回顾今天的事件。", words: [{ w: "review", ipa: "/rɪˈvjuː/", cn: "审查", phonics: "re 读 /rɪ/，view 读 /vjuː/" }] },
     ],
     thinking: "英语回顾指令：Let's review + 审查范围。\n中文说「看一下今天的运行状态」，用「看一下」比较随意。\n英语用 review 表示正式的「系统性回顾」，比 look at 更专业。\n交接场景用 review 体现专业性和严谨性。",
-    pronunciation: "review 重音在第二音节：re-VIEW /rɪˈvjuː/。\noperation 四个音节：op-er-A-tion /ˌɒp.əˈreɪ.ʃən/。\nstatus 重音在第一音节：STA-tus /ˈstæt.əs/。\n节奏：Let's re-VIEW ｜ to-DAY'S ｜ op-er-A-tion ｜ STA-tus.",
+    pronunciation: "review 重音在第二音节：re-VIEW /rɪˈvjuː/。\noperational 五个音节：op-er-A-tion-al /ˌɒp.əˈreɪ.ʃən.əl/。\nstatus 重音在第一音节：STA-tus /ˈstæt.əs/。\n节奏：Let's re-VIEW ｜ to-DAY'S ｜ op-er-A-tion-al STA-tus.",
     quiz: [
       { q: "「我们检查供电系统状态」怎么说？", a: "Let's review the power system status." },
       { q: "review 和 check 在交接中怎么选用？", a: "review 用于系统性全面回顾（大范围），check 用于快速核实具体项（小范围）。" },

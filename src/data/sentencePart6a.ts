@@ -272,9 +272,9 @@ export const MOCK_SENTENCES_PART6A: ISentence[] = [
   },
   {
     id: 160,
-    en: "We will review the maintenance schedule now.",
+    en: "Now let's review today's maintenance schedule.",
     cn: "现在我们开始检查今天的维护计划。",
-    ipa: "/wiː wɪl rɪˈvjuː ðə ˈmeɪn.tə.nəns ˈʃɛd.juːl naʊ/",
+    ipa: "/naʊ lɛts rɪˈvjuː təˈdeɪz ˈmeɪn.tə.nəns ˈʃɛd.juːl/",
     tags: ["第160句", "转场句", "★★★★★"],
     when: "SLA检查完成后，转入下一个交接板块——今天的维护/施工计划。这是转场句，标志话题切换。",
     words: [
@@ -285,16 +285,16 @@ export const MOCK_SENTENCES_PART6A: ISentence[] = [
       { p: "review the maintenance schedule", ipa: "/rɪˈvjuː ðə ˈmeɪn.tə.nəns ˈʃɛd.juːl/", cn: "检查维护计划", why: "review = 检查/审查，schedule = 计划。review the schedule = 逐项检查今天的计划安排。" },
     ],
     grammar: [
-      { q: "will review 和 let's review 在转场时有什么区别？", a: "We will review... = 我们将要检查（陈述句，正式宣告下一个板块）\nLet's review... = 我们来检查（祈使句，更有参与感）\n✅ We will review the maintenance schedule now.（正式转场）\n✅ Now let's review the maintenance schedule.（更有互动感）\n两者都可以做转场句，will review 更正式，let's review 更亲切。" },
+      { q: "为什么这里用 Now let's review？", a: "Now 表示转入下一个交接板块；let's review 表示邀请团队一起逐项检查。\n✅ Now let's review today's maintenance schedule.（现在我们来检查今天的维护计划。）\n这种表达比把 now 放在句末更自然，也与中文含义完全对应。" },
     ],
-    pattern: "We will review + 对象 + now",
+    pattern: "Now let's review + 今天的计划/状态",
     patternExamples: [
       { en: "We will review the SLA status now.", cn: "现在我们开始检查SLA状态。", words: [{ w: "review", ipa: "/rɪˈvjuː/", cn: "审查", phonics: "re 读 /rɪ/，view 读 /vjuː/" }, { w: "status", ipa: "/ˈstætəs/", cn: "状态", phonics: "sta 读 /ˈstæ/，tus 读 /təs/" }] },
       { en: "We will review the site supervision plan now.", cn: "现在我们开始检查随工监督安排。", words: [{ w: "review", ipa: "/rɪˈvjuː/", cn: "审查", phonics: "re 读 /rɪ/，view 读 /vjuː/" }, { w: "site", ipa: "/saɪt/", cn: "场地", phonics: "site 读 /saɪt/" }] },
       { en: "We will review the emergency contacts now.", cn: "现在我们开始检查紧急联系人。", words: [{ w: "review", ipa: "/rɪˈvjuː/", cn: "审查", phonics: "re 读 /rɪ/，view 读 /vjuː/" }, { w: "emergency", ipa: "/ɪˈmɜːrdʒənsi/", cn: "紧急", phonics: "e 读 /ɪ/，mergency 读 /mɜːrdʒənsi/" }, { w: "contacts", ipa: "/ˈkɒntækt/", cn: "联系", phonics: "con 读 /kɒn/，tact 读 /tækt/" }] },
     ],
-    thinking: "交接板块转场句的统一模式：\n① Now let's review... / We will review... now\n② 后面接板块名称\n之前的转场：\n- Now let's review the fault tickets.（120句 → 故障单）\n- Now let's review the SLA status.（150句 → SLA）\n现在的转场：\n- We will review the maintenance schedule now.（160句 → 施工计划）",
-    pronunciation: "maintenance 三个音节：MAIN-te-nance，重音在第一音节。\nschedule 英式 /ˈʃɛd.juːl/，美式 /ˈskɛd.juːl/。\n节奏：We will re-VIEW ｜ the MAIN-te-nance SCHED-ule ｜ NOW.",
+    thinking: "交接板块转场常用 Now let's review...，先说明开始新板块，再说检查对象。\n这里加 today's，使英文与中文的“今天的维护计划”完全对应。",
+    pronunciation: "today's 重音在第二音节：to-DAY'S。\nmaintenance 重音在第一音节：MAIN-te-nance。\nschedule 英式 /ˈʃed.juːl/，美式 /ˈskedʒ.uːl/。\n节奏：NOW let's re-VIEW ｜ to-DAY'S MAIN-te-nance SCHED-ule.",
     quiz: [
       { q: "现在我们开始检查SLA状态，怎么说？", a: "We will review the SLA status now." },
       { q: "转场句用 We will review 和 Now let's review 哪个好？", a: "都可以。We will review 更正式（宣告式），Now let's review 更亲切（邀请式）。交接中两者交替使用避免单调。" },

@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useRef, useEffect, memo } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -9,18 +9,23 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import {
   Search, BookOpen, Mic, Volume2, Flame, Trophy, Target,
-  ArrowRight, Star, Play, Square, X, Sparkles, ChevronRight, RotateCcw,
-  Loader2, Send, Bot, Bookmark, BookmarkCheck, Clapperboard, Plus,
-  ImagePlus, Camera,
+  ArrowRight, Star, Play, Square, X, ChevronRight, RotateCcw,
+  Loader2, Send, Bot, Bookmark, BookmarkCheck, Clapperboard,
+  ImagePlus, Camera, CheckCircle2, Clock3,
 } from 'lucide-react';
-import { SENTENCE_SECTIONS, MOCK_SENTENCES, type ISentence } from '@/data/sentenceLearning';
+import { SENTENCE_SECTIONS, MOCK_SENTENCES } from '@/data/sentenceLearning';
 import { aiTranslate, detectTranslationDirection } from '@/lib/ai-gateway';
 import { speakWithPlugin, stopAllSpeech, warmupAudio, preloadTTS } from '@/lib/ttsPlugin';
 import { speakChinese } from '@/lib/speakChinese';
 import { toast } from 'sonner';
 import { useFavorites, extractSentencesFromResponse } from '@/hooks/useFavorites';
 import { useHiddenScenarios } from '@/hooks/useHiddenScenarios';
-import { loadStudyProgress } from '@/hooks/useStudyProgress';
+import {
+  buildLearningPlan,
+  loadStudyProgress,
+  loadStudyProgressAsync,
+  type IStudyProgress,
+} from '@/hooks/useStudyProgress';
 import { Image } from '@/components/ui/image';
 
 /* ─── Stats Card ─── */
@@ -71,47 +76,6 @@ function SentenceSearchSection() {
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const translationSpeechStopRef = useRef<(() => void) | null>(null);
   const [playingTranslationVoice, setPlayingTranslationVoice] = useState<string | null>(null);
-
-  // ─── Voice Input (Web Speech API) ───
-  const [isListening, setIsListening] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const voiceRecogRef = useRef<any>(null);
-
-  const toggleVoiceInput = useCallback(() => {
-    if (isListening && voiceRecogRef.current) {
-      voiceRecogRef.current.stop();
-      setIsListening(false);
-      return;
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SR) {
-      toast.error('当前浏览器不支持语音输入');
-      return;
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const rec = new SR() as any;
-    rec.lang = /[\u3400-\u9fff]/u.test(inputValue) ? 'zh-CN' : 'en-US';
-    rec.interimResults = false;
-    rec.continuous = false;
-    rec.maxAlternatives = 1;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    rec.onresult = (event: any) => {
-      const text = event.results[0]?.[0]?.transcript ?? '';
-      if (text) {
-        setInputValue(prev => (prev ? prev + ' ' : '') + text);
-      }
-    };
-    rec.onerror = () => {
-      setIsListening(false);
-    };
-    rec.onend = () => {
-      setIsListening(false);
-    };
-    voiceRecogRef.current = rec;
-    rec.start();
-    setIsListening(true);
-  }, [isListening, inputValue]);
 
   /** 处理图片选择 */
   const handleImageSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -654,10 +618,10 @@ function ReadAloudSection() {
           <div>
             <CardTitle className="text-sm flex items-center gap-2">
               <Mic className="size-4 text-primary" />
-              跟读打分
+              跟读匹配度
             </CardTitle>
             <CardDescription className="text-xs mt-1">
-              听发音 → 跟读 → AI 评分（{currentIdx + 1}/{practiceSentences.length}）
+              听英音 → 跟读 → 语音识别匹配（{currentIdx + 1}/{practiceSentences.length}）
             </CardDescription>
           </div>
           <Button variant="outline" size="sm" onClick={nextSentence}>
@@ -710,7 +674,7 @@ function ReadAloudSection() {
           <div className="space-y-3 p-4 rounded-lg border border-border/30">
             {recognized && (
               <div>
-                <div className="text-xs text-muted-foreground mb-1">你的发音：</div>
+                <div className="text-xs text-muted-foreground mb-1">语音识别结果：</div>
                 <div className="text-sm text-foreground">{recognized}</div>
               </div>
             )}
@@ -720,9 +684,14 @@ function ReadAloudSection() {
                   <Progress value={score} className="h-2" />
                 </div>
                 <div className={`text-lg font-bold tabular-nums shrink-0 ${score >= 80 ? 'text-primary' : score >= 60 ? 'text-warning' : 'text-destructive'}`}>
-                  {score}分
+                  {score}%匹配
                 </div>
               </div>
+            )}
+            {score !== null && (
+              <p className="text-xs text-muted-foreground">
+                此结果比较识别文本与目标句是否一致，不代表专业音素或口音评分。
+              </p>
             )}
           </div>
         )}
@@ -938,9 +907,93 @@ function QuickActionsSection() {
   );
 }
 
+function DailyLearningPlan({ progress }: { progress: IStudyProgress }) {
+  const navigate = useNavigate();
+  const plan = useMemo(
+    () => buildLearningPlan(progress, MOCK_SENTENCES.length, 20),
+    [progress],
+  );
+  const goalReached = plan.todayActivities >= plan.dailyGoal;
+
+  return (
+    <Card className="overflow-hidden border-primary/30 bg-gradient-to-br from-primary/10 via-card to-card">
+      <CardContent className="p-5">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="min-w-0 flex-1 space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="flex size-9 items-center justify-center rounded-lg bg-primary/15 text-primary">
+                {goalReached ? <CheckCircle2 className="size-5" /> : <Clock3 className="size-5" />}
+              </div>
+              <div>
+                <h2 className="text-base font-semibold text-foreground">今日学习计划</h2>
+                <p className="text-xs text-muted-foreground">
+                  {goalReached ? '今日目标已完成，可以复习薄弱句子' : `再完成 ${Math.max(0, plan.dailyGoal - plan.todayActivities)} 次学习活动即可达标`}
+                </p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">今日进度</span>
+                <span className="font-semibold tabular-nums text-foreground">
+                  {plan.todayActivities}/{plan.dailyGoal}
+                </span>
+              </div>
+              <Progress value={plan.dailyPercent} className="h-2" />
+            </div>
+            <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+              <Badge variant="outline">下一句 #{plan.nextSentenceId}</Badge>
+              <Badge variant="outline">待巩固 {plan.reinforcementCount} 句</Badge>
+              <span>学习、闪卡或测验都会自动计入</span>
+            </div>
+          </div>
+          <div className="grid shrink-0 grid-cols-1 gap-2 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+            <Button onClick={() => navigate(`/browse/${plan.nextSentenceId}`)} className="gap-1.5">
+              <Play className="size-4" />
+              继续学习
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => navigate(plan.reinforcementIds[0] ? `/browse/${plan.reinforcementIds[0]}` : '/flashcard')}
+              className="gap-1.5"
+            >
+              <RotateCcw className="size-4" />
+              巩固薄弱项
+            </Button>
+            <Button variant="outline" onClick={() => navigate('/quiz')} className="gap-1.5">
+              <Target className="size-4" />
+              开始测验
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 /* ─── Main Page ─── */
 export default function HomePage() {
-  const progress = useMemo(() => loadStudyProgress(), []);
+  const [progress, setProgress] = useState<IStudyProgress>(loadStudyProgress);
+  useEffect(() => {
+    let active = true;
+    const refresh = () => {
+      loadStudyProgressAsync().then(latest => {
+        if (active) setProgress(latest);
+      });
+    };
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') refresh();
+    };
+    refresh();
+    window.addEventListener('focus', refresh);
+    window.addEventListener('storage', refresh);
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => {
+      active = false;
+      window.removeEventListener('focus', refresh);
+      window.removeEventListener('storage', refresh);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, []);
   const streak = progress.streak;
   const totalSentences = MOCK_SENTENCES.length;
   const studied = progress.studiedIds.length;
@@ -969,6 +1022,9 @@ export default function HomePage() {
         <StatCard icon={Trophy} label="已掌握" value={mastered} />
         <StatCard icon={Target} label="正确率" value={`${accuracy}%`} />
       </div>
+
+      {/* Actionable daily learning loop */}
+      <DailyLearningPlan progress={progress} />
 
       {/* Quick actions */}
       <QuickActionsSection />

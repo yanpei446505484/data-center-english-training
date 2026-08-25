@@ -155,20 +155,20 @@ export const MOCK_SENTENCES_PART7B: ISentence[] = [
   },
   {
     id: 201,
-    en: "Has the toolbox meeting been completed?",
-    cn: "班前安全会议完成了吗？",
-    ipa: "/hæz ðə ˈtuːl.bɒks ˈmiː.tɪŋ biːn kəmˈpliː.tɪd/",
+    en: "Has the toolbox talk been completed?",
+    cn: "班前安全交底完成了吗？",
+    ipa: "/hæz ðə ˈtuːl.bɒks tɔːk biːn kəmˈpliː.tɪd/",
     tags: ["第201句", "安全检查", "★★★★★"],
-    when: "随工监督安排确认后，进入安全检查环节。第一项：班前安全会议（toolbox meeting）是否已召开。",
+    when: "随工监督安排确认后，进入安全检查环节。第一项：班前安全交底（toolbox talk）是否已完成。",
     words: [
-      { w: "toolbox meeting", ipa: "/ˈtuːl.bɒks ˈmiː.tɪŋ/", pos: "名词", cn: "班前安全会议", memory: "① toolbox = 工具箱；② toolbox meeting = 开工前的安全会议（也叫 toolbox talk）。\n起源于工人围着工具箱开安全会议，现在泛指任何开工前的安全交底会。\n内容包括：今日作业风险、安全措施、应急程序。", phonics: "tool 读 /tuːl/，box 读 /bɒks/，meeting 读 /miːtɪŋ/。", collocations: [["toolbox meeting", "班前安全会议"], ["toolbox talk", "班前安全会议（英式）"], ["hold a toolbox meeting", "召开班前安全会议"]], examples: [["We held the toolbox meeting at 8 AM.", "我们上午8点召开了班前安全会议。"], ["All workers must attend the toolbox meeting.", "所有工人必须参加班前安全会议。"]] },
+      { w: "toolbox talk", ipa: "/ˈtuːl.bɒks tɔːk/", pos: "名词", cn: "班前安全交底", memory: "toolbox talk 是施工和运维现场的固定说法，指开工前围绕当日风险、安全措施和应急程序进行的简短安全交底。", phonics: "tool 读 /tuːl/，box 读 /bɒks/，talk 读 /tɔːk/。", collocations: [["toolbox talk", "班前安全交底"], ["give a toolbox talk", "进行班前安全交底"], ["attend a toolbox talk", "参加班前安全交底"]], examples: [["We gave the toolbox talk at 8 AM.", "我们上午8点进行了班前安全交底。"], ["All workers must attend the toolbox talk.", "所有工人必须参加班前安全交底。"]] },
       { w: "completed", ipa: "/kəmˈpliː.tɪd/", pos: "动词(过去分词)", cn: "已完成", memory: "① complete = 完成（动词/形容词）；② completed = 已完成的。\n安全检查中常用 has ... been completed? 确认某项检查是否完成。\n比 finished 更正式，更常用于流程和程序。", phonics: "com 读 /kəm/，ple 读 /pliː/，ted 读 /tɪd/，重音在第二音节。", collocations: [["task completed", "任务完成"], ["inspection completed", "检查完成"], ["form completed", "表格填完"]], examples: [["Has the form been completed?", "表格填完了吗？"], ["The inspection was completed on time.", "检查按时完成。"]] },
     ],
     phrases: [
       { p: "has ... been completed", ipa: "/hæz ... biːn kəmˈpliː.tɪd/", cn: "…已经完成了吗", why: "Has + 名词 + been + completed = 现在完成被动疑问句。安全检查时逐项确认的标准句型。比 Did you complete 更客观——关注结果，不追究谁做的。" },
     ],
     grammar: [
-      { q: "Has the toolbox meeting been completed 和 Did you do the toolbox meeting 有什么区别？", a: "Has ... been completed = 完成了吗（关注结果，客观）\nDid you do = 你做了吗（关注行为，指向具体人）\n安全检查用 has ... been completed，因为：\n① 关注的是'这件事做完没有'，不是'谁做的'\n② 更正式，符合检查流程语气\n③ 回答是 yes/no，清晰明确" },
+      { q: "toolbox talk 和 toolbox meeting 有什么区别？", a: "toolbox talk 是施工和运维现场最常用的固定说法，指开工前简短的安全交底；toolbox meeting 能理解，但不如 toolbox talk 地道。\n✅ Has the toolbox talk been completed?（班前安全交底完成了吗？）" },
     ],
     pattern: "Has + the + 检查项 + been completed?",
     patternExamples: [
@@ -176,11 +176,11 @@ export const MOCK_SENTENCES_PART7B: ISentence[] = [
       { en: "Has the equipment test been completed?", cn: "设备测试完成了吗？", words: [{ w: "equipment", ipa: "/ɪˈkwɪpmənt/", cn: "设备", phonics: "e 读 /ɪ/，quipment 读 /kwɪpmənt/" }, { w: "test", ipa: "/tɛst/", cn: "测试", phonics: "test 读 /tɛst/" }] },
       { en: "Has the safety inspection been completed?", cn: "安全检查完成了吗？", words: [{ w: "safety", ipa: "/ˈseɪfti/", cn: "安全", phonics: "safe 读 /seɪf/，ty 读 /ti/" }] },
     ],
-    thinking: "Toolbox meeting 是施工前的最后一道安全关口：\n① 告知作业人员今日风险点\n② 确认个人防护装备（PPE）\n③ 明确应急程序\n交接时确认 toolbox meeting 已完成，是安全检查的第一步。",
-    pronunciation: "toolbox 的 oo 读长音 /uː/：/tuːlbɒks/。\ncompleted 重音在第二音节：/kəmˈpliːtɪd/。\n节奏：HAS the TOOL-box MEET-ing ｜ been com-PLE-ted?",
+    thinking: "Toolbox talk 是施工前的重要安全关口：\n① 告知作业人员当日风险点\n② 确认个人防护装备（PPE）\n③ 明确应急程序\n交接时确认 toolbox talk 已完成，是安全检查的第一步。",
+    pronunciation: "toolbox 的 oo 读长音 /uː/：/ˈtuːl.bɒks/。\ntalk 的 al 读 /ɔː/：/tɔːk/。\ncompleted 重音在第二音节：/kəmˈpliː.tɪd/。\n节奏：HAS the TOOL-box TALK ｜ been com-PLE-ted?",
     quiz: [
       { q: "风险评估完成了吗？", a: "Has the risk assessment been completed?" },
-      { q: "toolbox meeting 是什么？", a: "班前安全会议，开工前对所有作业人员的安全交底。内容包括：今日风险、安全措施、应急程序。也叫 toolbox talk（英式用法）。" },
+      { q: "toolbox talk 是什么？", a: "班前安全交底，即开工前向作业人员说明当日风险、安全措施和应急程序。" },
     ],
   },
   {
@@ -189,15 +189,15 @@ export const MOCK_SENTENCES_PART7B: ISentence[] = [
     cn: "安全交底完成了吗？",
     ipa: "/hæz ðə ˈseɪf.ti ˈbriː.fɪŋ biːn kəmˈpliː.tɪd/",
     tags: ["第202句", "安全检查", "★★★★★"],
-    when: "toolbox meeting 确认后，继续确认安全交底（safety briefing）是否完成。两者有区别：toolbox meeting 是班前会，safety briefing 是更详细的安全说明。",
+    when: "toolbox talk 确认后，继续确认安全说明（safety briefing）是否完成。前者是简短的班前安全交底，后者通常针对具体作业提供更详细的信息。",
     words: [
-      { w: "safety briefing", ipa: "/ˈseɪf.ti ˈbriː.fɪŋ/", pos: "名词", cn: "安全交底", memory: "① safety = 安全；② briefing = 说明会/交底（来自 brief = 简报）。\n③ safety briefing = 详细的安全交底，比 toolbox meeting 更正式、更全面。\n通常包含：作业许可条件、隔离措施、应急联系人、逃生路线。", phonics: "safe 读 /seɪf/，ty 读 /ti/；brief 读 /briːf/，ing 读 /ɪŋ/。", collocations: [["safety briefing", "安全交底"], ["pre-work briefing", "工前说明"], ["briefing session", "交底会议"]], examples: [["The safety briefing takes 15 minutes.", "安全交底需要15分钟。"], ["All contractors must attend the safety briefing.", "所有承包商必须参加安全交底。"]] },
+      { w: "safety briefing", ipa: "/ˈseɪf.ti ˈbriː.fɪŋ/", pos: "名词", cn: "安全说明；安全交底", memory: "safety briefing 指针对具体工作提供的安全说明，通常涵盖作业许可条件、隔离措施、应急联系人和逃生路线。", phonics: "safe 读 /seɪf/，ty 读 /ti/；brief 读 /briːf/，ing 读 /ɪŋ/。", collocations: [["safety briefing", "安全说明"], ["pre-work briefing", "工前说明"], ["briefing session", "说明会"]], examples: [["The safety briefing takes 15 minutes.", "安全说明需要15分钟。"], ["All contractors must attend the safety briefing.", "所有承包商必须参加安全说明会。"]] },
     ],
     phrases: [
-      { p: "safety briefing", ipa: "/ˈseɪf.ti ˈbriː.fɪŋ/", cn: "安全交底", why: "briefing 来自 brief（简报），加 -ing 变成名词。safety briefing 是施工前对作业人员的详细安全说明，比 toolbox meeting 更全面。" },
+      { p: "safety briefing", ipa: "/ˈseɪf.ti ˈbriː.fɪŋ/", cn: "安全说明；安全交底", why: "briefing 来自 brief。safety briefing 是施工前针对具体作业提供的安全说明。" },
     ],
     grammar: [
-      { q: "toolbox meeting 和 safety briefing 有什么区别？", a: "toolbox meeting = 班前安全会议（简短、每日例行、5-10分钟）\nsafety briefing = 安全交底（详细、针对性强、15-30分钟）\n关系：\n① toolbox meeting 每天开工前都开\n② safety briefing 针对特定作业（如高压作业、高空作业）\n交接时两者都要确认。\n简单作业可能只需要 toolbox meeting，复杂作业两者都需要。" },
+      { q: "toolbox talk 和 safety briefing 有什么区别？", a: "toolbox talk = 简短的班前安全交底，重点说明当日风险。\nsafety briefing = 针对具体作业的安全说明，内容通常更详细。\n现场名称和流程可能不同，应以本项目的安全程序为准。" },
     ],
     pattern: "Has the + safety + 名词 + been completed?",
     patternExamples: [
@@ -205,11 +205,11 @@ export const MOCK_SENTENCES_PART7B: ISentence[] = [
       { en: "Has the safety training been completed?", cn: "安全培训完成了吗？", words: [{ w: "safety", ipa: "/ˈseɪfti/", cn: "安全", phonics: "safe 读 /seɪf/，ty 读 /ti/" }] },
       { en: "Has the safety audit been completed?", cn: "安全审计完成了吗？", words: [{ w: "safety", ipa: "/ˈseɪfti/", cn: "安全", phonics: "safe 读 /seɪf/，ty 读 /ti/" }] },
     ],
-    thinking: "安全检查的前两步：\n① toolbox meeting（班前会）→ 简短告知今日风险\n② safety briefing（安全交底）→ 详细说明安全措施\n两者确认完成后，才能进入 PPE 检查环节。",
+    thinking: "安全检查的前两步：\n① toolbox talk（班前安全交底）→ 简短告知当日风险\n② safety briefing（安全说明）→ 详细说明具体作业的安全措施\n两者确认完成后，再进入 PPE 检查环节。",
     pronunciation: "briefing 的 ie 读长音 /iː/：/briːfɪŋ/。\n节奏：HAS the SAFE-ty BRIEF-ing ｜ been com-PLE-ted?",
     quiz: [
       { q: "安全培训完成了吗？", a: "Has the safety training been completed?" },
-      { q: "toolbox meeting 和 safety briefing 的区别？", a: "toolbox meeting = 班前安全会议（简短，每日例行，5-10分钟）；safety briefing = 安全交底（详细，针对特定作业，15-30分钟）。简单作业只需 toolbox meeting，复杂作业两者都需要。" },
+      { q: "toolbox talk 和 safety briefing 的区别？", a: "toolbox talk 是简短的班前安全交底；safety briefing 是针对具体作业的较详细安全说明。" },
     ],
   },
   {

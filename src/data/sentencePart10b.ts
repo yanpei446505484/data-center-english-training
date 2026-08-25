@@ -363,31 +363,31 @@ export const MOCK_SENTENCES_PART10B: ISentence[] = [
   },
   {
     id: 298,
-    en: "Thank you everyone for today's work.",
+    en: "Thank you, everyone, for today's work.",
     cn: "感谢大家今天的工作。",
     ipa: "/θæŋk juː ˈɛv.ri.wʌn fər təˈdeɪz wɜːrk/",
     tags: ["第298句", "感谢", "★★★★"],
     when: "所有确认和后续指令完成后，表达感谢。团队认可和感谢是良好交接文化的一部分。",
     words: [
-      { w: "everyone", ipa: "/ˈɛv.ri.wʌn/", pos: "代词", cn: "所有人；大家", memory: "① every = 每个；② one = 一个 → everyone = 每一个人/大家。\neveryone 是单数代词，语法上谓语用单数：Everyone is here.\n但在 Thank you everyone 中，everyone 是呼语（直接称呼），不影响谓语。", phonics: "ev 读 /ɛv/，ry 读 /ri/，one 读 /wʌn/，重音在第一音节。", collocations: [["thank you everyone", "感谢大家"], ["everyone is here", "所有人都在"], ["everyone understands", "所有人都理解"]], examples: [["Thank you everyone for your hard work.", "感谢大家的辛勤工作。"], ["Is everyone ready?", "大家都准备好了吗？"]] },
+      { w: "everyone", ipa: "/ˈɛv.ri.wʌn/", pos: "代词", cn: "所有人；大家", memory: "everyone 是单数代词，作主语时谓语用单数：Everyone is here. 在 Thank you, everyone, ... 中，everyone 是呼语，书写时用逗号隔开。", phonics: "ev 读 /ɛv/，ry 读 /ri/，one 读 /wʌn/，重音在第一音节。", collocations: [["thank you, everyone", "感谢大家"], ["everyone is here", "所有人都在"], ["everyone understands", "所有人都理解"]], examples: [["Thank you, everyone, for your hard work.", "感谢大家的辛勤工作。"], ["Is everyone ready?", "大家都准备好了吗？"]] },
     ],
     phrases: [
-      { p: "Thank you everyone for + 名词", ipa: "/θæŋk juː ˈɛv.ri.wʌn fər/", cn: "感谢大家…", why: "Thank you + 称呼 + for + 感谢原因。交接结束时表达对团队工作的认可和感谢。" },
+      { p: "Thank you, everyone, for + 名词", ipa: "/θæŋk juː ˈɛv.ri.wʌn fər/", cn: "感谢大家…", why: "everyone 是直接称呼对象，规范书写时用逗号隔开：Thank you, everyone, for ...。" },
     ],
     grammar: [
-      { q: "Thank you everyone 和 Thank you all 有什么区别？", a: "两者意思相同，都是'感谢大家'。\nThank you everyone = 感谢大家（everyone 更正式、更强调'每一个人'）\nThank you all = 感谢大家（all 更简洁）\n✅ Thank you everyone for today's work.（感谢大家今天的工作 → 正式）\n✅ Thank you all for your help.（感谢大家的帮助 → 简洁）\n交接场景两者都可以用。" },
+      { q: "Thank you, everyone 和 Thank you all 有什么区别？", a: "两者都表示‘感谢大家’。everyone 是呼语，规范书写时前后用逗号隔开；all 更简洁。\n✅ Thank you, everyone, for today's work.\n✅ Thank you all for your help." },
     ],
-    pattern: "Thank you everyone for + 原因",
+    pattern: "Thank you, everyone, for + 原因",
     patternExamples: [
-      { en: "Thank you everyone for your cooperation.", cn: "感谢大家的配合。", words: [{ w: "thank", ipa: "/θæŋk/", cn: "感谢", phonics: "th 读 /θ/，ank 读 /æŋk/" }, { w: "everyone", ipa: "/ˈɛvriwʌn/", cn: "大家", phonics: "every 读 /ɛvri/，one 读 /wʌn/" }] },
-      { en: "Thank you everyone for your patience.", cn: "感谢大家的耐心。", words: [{ w: "thank", ipa: "/θæŋk/", cn: "感谢", phonics: "th 读 /θ/，ank 读 /æŋk/" }, { w: "everyone", ipa: "/ˈɛvriwʌn/", cn: "大家", phonics: "every 读 /ɛvri/，one 读 /wʌn/" }] },
-      { en: "Thank you everyone for the great teamwork.", cn: "感谢大家的出色团队合作。", words: [{ w: "thank", ipa: "/θæŋk/", cn: "感谢", phonics: "th 读 /θ/，ank 读 /æŋk/" }, { w: "everyone", ipa: "/ˈɛvriwʌn/", cn: "大家", phonics: "every 读 /ɛvri/，one 读 /wʌn/" }] },
+      { en: "Thank you, everyone, for your cooperation.", cn: "感谢大家的配合。", words: [{ w: "thank", ipa: "/θæŋk/", cn: "感谢", phonics: "th 读 /θ/，ank 读 /æŋk/" }, { w: "everyone", ipa: "/ˈɛvriwʌn/", cn: "大家", phonics: "every 读 /ɛvri/，one 读 /wʌn/" }] },
+      { en: "Thank you, everyone, for your patience.", cn: "感谢大家的耐心。", words: [{ w: "thank", ipa: "/θæŋk/", cn: "感谢", phonics: "th 读 /θ/，ank 读 /æŋk/" }, { w: "everyone", ipa: "/ˈɛvriwʌn/", cn: "大家", phonics: "every 读 /ɛvri/，one 读 /wʌn/" }] },
+      { en: "Thank you, everyone, for the great teamwork.", cn: "感谢大家的出色团队合作。", words: [{ w: "thank", ipa: "/θæŋk/", cn: "感谢", phonics: "th 读 /θ/，ank 读 /æŋk/" }, { w: "everyone", ipa: "/ˈɛvriwʌn/", cn: "大家", phonics: "every 读 /ɛvri/，one 读 /wʌn/" }] },
     ],
     thinking: "团队认可是运维管理的重要组成部分。\n交接结束时表达感谢：\n① 认可团队的努力和贡献\n② 营造积极的工作氛围\n③ 鼓励下一班保持良好的工作状态\n一句简单的 Thank you 可以大大提升团队凝聚力。",
     pronunciation: "thank 的 th 咬舌尖：/θæŋk/。\neveryone 重音在第一音节：/ˈɛv.ri.wʌn/。\n节奏：THANK you ｜ EV-ery-one ｜ for to-DAY'S WORK.",
     quiz: [
-      { q: "感谢大家的配合。", a: "Thank you everyone for your cooperation." },
-      { q: "Thank you everyone 和 Thank you all 在交接时有什么区别？", a: "两者意思相同。Thank you everyone 更正式、更强调'每一个人'；Thank you all 更简洁。交接场景都可以用。" },
+      { q: "感谢大家的配合。", a: "Thank you, everyone, for your cooperation." },
+      { q: "Thank you, everyone 和 Thank you all 在交接时有什么区别？", a: "两者意思相同；everyone 是呼语，书写时用逗号隔开，all 更简洁。" },
     ],
   },
   {
@@ -422,9 +422,9 @@ export const MOCK_SENTENCES_PART10B: ISentence[] = [
   },
   {
     id: 300,
-    en: "Have a safe shift and have a good day.",
+    en: "Have a safe shift and a good day.",
     cn: "祝大家值班顺利，今天工作愉快。",
-    ipa: "/hæv ə seɪf ʃɪft ænd hæv ə ɡʊd deɪ/",
+    ipa: "/hæv ə seɪf ʃɪft ænd ə ɡʊd deɪ/",
     tags: ["第300句", "祝福", "★★★★★"],
     when: "交接的最后一句话，表达对下一班的祝福。安全祝福（safe shift）体现数据中心对安全的高度重视。",
     words: [
@@ -444,7 +444,7 @@ export const MOCK_SENTENCES_PART10B: ISentence[] = [
       { en: "Have a productive day!", cn: "祝你今天高效！", words: [] },
     ],
     thinking: "这是300句交接班英语的最后一句。\n整个交接流程总结：\n① 开始交班（1-30）→ ② 告警状态（31-60）→ ③ DCIM交接（61-90）→ ④ 事件单（91-120）→ ⑤ 故障单（121-150）→ ⑥ SLA与施工（151-180）→ ⑦ 供应商与随工（181-210）→ ⑧ 人员与培训（211-240）→ ⑨ 天气与巡检（241-270）→ ⑩ 电气暖通+结束（271-300）。\n最后一句以安全祝福收尾，呼应数据中心'Safety First'的核心文化。",
-    pronunciation: "safe 的 a 读 /eɪ/：/seɪf/。\nshift 的 sh 读 /ʃ/：/ʃɪft/。\n节奏：Have a SAFE SHIFT ｜ and have a GOOD DAY.",
+    pronunciation: "safe 的 a 读 /eɪ/：/seɪf/。\nshift 的 sh 读 /ʃ/：/ʃɪft/。\n并列结构中第二个 have 可省略。\n节奏：Have a SAFE SHIFT ｜ and a GOOD DAY.",
     quiz: [
       { q: "祝你旅途平安！", a: "Have a safe trip!" },
       { q: "为什么交接祝福先说 safe 再说 good？", a: "安全是第一位的（Safety First）。safe shift = 安全值班（首要）；good day = 愉快（次要）。顺序体现优先级，呼应数据中心安全文化。" },

@@ -36,31 +36,31 @@ export const MOCK_SENTENCES_PART8B: ISentence[] = [
   },
   {
     id: 227,
-    en: "We are short of one engineer today.",
+    en: "We are one engineer short today.",
     cn: "今天少一名工程师。",
-    ipa: "/wi ɑːr ʃɔːrt əv wʌn ˈɛn.dʒɪ.nər təˈdeɪ/",
+    ipa: "/wiː ɑː wʌn ˌen.dʒɪˈnɪə ʃɔːt təˈdeɪ/",
     tags: ["第227句", "人员安排", "★★★★★"],
     when: "安排完替班后，向接班人说明今天的人员缺口情况，让接班人知道今天人手紧张。",
     words: [
-      { w: "short of", ipa: "/ʃɔːrt əv/", pos: "介词短语", cn: "缺少；不足", memory: "① short = 短的/缺少的；② of = …的 → 缺少…的。\nshort of 表示数量不足，比 lack 更口语化。", phonics: "short 读 /ʃɔːrt/，of 读 /əv/（弱读）。", collocations: [["short of staff", "人手不足"], ["short of time", "时间不够"], ["short of money", "缺钱"]], examples: [["We are short of two engineers.", "我们少两名工程师。"], ["I'm short of time today.", "我今天时间不够。"]] },
+      { w: "one engineer short", ipa: "/wʌn ˌen.dʒɪˈnɪə ʃɔːt/", pos: "形容词短语", cn: "少一名工程师", memory: "be + 数量 + 人/物 + short 表示人员或数量不足。描述具体缺少几个人时，这一结构自然、简洁。", phonics: "engineer 重音在最后一个音节；short 读 /ʃɔːt/。", collocations: [["one engineer short", "少一名工程师"], ["two technicians short", "少两名技术员"], ["one person short", "少一个人"]], examples: [["We are two engineers short.", "我们少两名工程师。"], ["The night shift is one person short.", "夜班少一个人。"]] },
     ],
     phrases: [
-      { p: "short of one engineer", ipa: "/ʃɔːrt əv wʌn ˈɛn.dʒɪ.nər/", cn: "少一名工程师", why: "short of + 数量 + 名词 = 缺少多少个某物/某人。交接时用此表达让接班人知道今天的人力缺口。" },
+      { p: "one engineer short", ipa: "/wʌn ˌen.dʒɪˈnɪə ʃɔːt/", cn: "少一名工程师", why: "数量 + 人/物 + short 表示具体缺少多少人员或物品。" },
     ],
     grammar: [
-      { q: "short of 和 lack 有什么区别？", a: "short of = 缺少（口语化，常用于人数/数量）\nlack = 缺乏（更正式，可用于抽象概念）\n✅ We are short of one engineer.（口语化，常用）\n✅ We lack one engineer.（更正式，较少用）\n交接时用 short of，更自然口语化。" },
+      { q: "为什么说 one engineer short？", a: "be + 数量 + 人/物 + short 是表示人员或数量不足的自然结构。\n✅ We are one engineer short today.（今天少一名工程师。）\n✅ We are two technicians short this week.（本周少两名技术员。）\nshort of 常用于 be short of staff/resources，不宜说 short of one engineer。" },
     ],
-    pattern: "We are short of + 数量 + 名词 + 时间",
+    pattern: "We are + 数量 + 人员 + short + 时间",
     patternExamples: [
-      { en: "We are short of two engineers this week.", cn: "本周我们少两名工程师。", words: [{ w: "engineers", ipa: "/ˌɛndʒɪˈnɪər/", cn: "工程师", phonics: "en 读 /ɛn/，gineer 读 /dʒɪˈnɪər/" }] },
-      { en: "We are short of one person for the night shift.", cn: "夜班我们少一个人。", words: [{ w: "shift", ipa: "/ʃɪft/", cn: "班次", phonics: "shift 读 /ʃɪft/" }] },
-      { en: "We are not short of anyone today.", cn: "今天我们不缺人。", words: [] },
+      { en: "We are two engineers short this week.", cn: "本周我们少两名工程师。", words: [{ w: "engineers", ipa: "/ˌen.dʒɪˈnɪəz/", cn: "工程师", phonics: "en 读 /en/，gineers 重音在最后一个音节" }] },
+      { en: "The night shift is one person short.", cn: "夜班少一个人。", words: [{ w: "shift", ipa: "/ʃɪft/", cn: "班次", phonics: "shift 读 /ʃɪft/" }] },
+      { en: "We are fully staffed today.", cn: "今天人员配备齐全。", words: [] },
     ],
     thinking: "人员缺口汇报是交接的重要信息：\n① 说明缺口（本句）→ ② 说明影响（需要重新分配工作）→ ③ 说明应对（已安排替班或需要调整）。\n让接班人提前知道人手紧张，做好心理准备。",
-    pronunciation: "short 的 or 读 /ɔːr/，不是 /ɑːr/。\nof 弱读为 /əv/，不是 /ɒv/。\n节奏：We are SHORT ｜ of ONE EN-gi-neer ｜ to-DAY.",
+    pronunciation: "engineer 重音在最后一个音节：/ˌen.dʒɪˈnɪə/。\nshort 读 /ʃɔːt/。\n节奏：We are ONE en-gi-NEER SHORT ｜ to-DAY.",
     quiz: [
-      { q: "今天我们少两名工程师，怎么说？", a: "We are short of two engineers today." },
-      { q: "short of 和 lack 哪个更口语化？", a: "short of 更口语化，常用于人数/数量的缺少；lack 更正式，可用于抽象概念（如 lack of experience）。交接时用 short of。" },
+      { q: "今天我们少两名工程师，怎么说？", a: "We are two engineers short today." },
+      { q: "怎样自然表达具体少几名人员？", a: "使用 be + 数量 + 人员 + short，例如 We are one engineer short today." },
     ],
   },
   {
@@ -369,7 +369,7 @@ export const MOCK_SENTENCES_PART8B: ISentence[] = [
     tags: ["第238句", "培训安排", "★★★★★"],
     when: "提醒完线上培训后，继续提醒证书到期情况，确保证书及时更新，避免过期。",
     words: [
-      { w: "certification", ipa: "/ˌsɜːr.tɪ.fɪˈkeɪ.ʃən/", pos: "名词", cn: "证书；认证", memory: "① certify = 证明/认证；② -ication = 名词后缀 → 认证的过程或结果 → 证书。\ncertification 指正式的资格证书，如电工证、消防证等。", phonics: "cer 读 /sɜːr/，ti 读 /tɪ/，fi 读 /fɪ/，ca 读 /keɪ/，tion 读 /ʃən/，重音在第四音节。", collocations: [["professional certification", "专业证书"], ["certification renewal", "证书更新"], ["certification expiration", "证书到期"]], examples: [["Your certification is valid.", "你的证书有效。"], ["Please renew your certification.", "请更新你的证书。"]] },
+      { w: "certification", ipa: "/ˌsɜːr.tɪ.fɪˈkeɪ.ʃən/", pos: "名词", cn: "资格认证；资格证书", memory: "certification 指正式资格认证或相应证书，如电工证、消防证。证书到期前需要 renew（办理续期）。", phonics: "cer-ti-fi-CA-tion，重音在第四音节。", collocations: [["professional certification", "专业资格认证"], ["certification renewal", "证书续期"], ["certification expiration", "证书到期"]], examples: [["Your certification is valid.", "你的证书仍然有效。"], ["Please renew your certification.", "请办理资格证书续期。"]] },
       { w: "expire", ipa: "/ɪkˈspaɪər/", pos: "动词", cn: "到期；过期", memory: "① ex- = 出/离开；② spire = 呼吸 → 呼出最后一口气 → 到期。\nexpire 用于证书、合同、工单等到期，与 renew（更新）相对。", phonics: "ex 读 /ɪk/，pire 读 /ˈspaɪər/，重音在第二音节。", collocations: [["expire next month", "下月到期"], ["expire soon", "即将到期"], ["certification expires", "证书到期"]], examples: [["The contract expires in June.", "合同六月到期。"], ["Your license will expire soon.", "你的执照即将到期。"]] },
     ],
     phrases: [
@@ -384,7 +384,7 @@ export const MOCK_SENTENCES_PART8B: ISentence[] = [
       { en: "The contract will expire next year.", cn: "合同明年到期。", words: [] },
       { en: "Your certification will expire soon.", cn: "你的证书即将到期。", words: [] },
     ],
-    thinking: "证书到期的提醒：\n① 线上培训截止日期（237句）→ ② 证书到期提醒（本句）→ ③ 更新证书建议（239句）。\n证书到期会影响工作资格，需要及时提醒并督促更新。",
+    thinking: "证书到期的提醒：\n① 线上培训截止日期（237句）→ ② 证书到期提醒（本句）→ ③ 证书续期建议（239句）。\n证书到期会影响工作资格，需要及时提醒并督促续期。",
     pronunciation: "certification 重音在第四音节：/ˌsɜːr.tɪ.fɪˈkeɪ.ʃən/。\nexpire 重音在第二音节：/ɪkˈspaɪər/。\n节奏：Your CER-ti-fi-CA-tion ｜ will ex-PIRE ｜ NEXT MONTH.",
     quiz: [
       { q: "你的执照三月到期，怎么说？", a: "Your license will expire in March." },
@@ -394,30 +394,30 @@ export const MOCK_SENTENCES_PART8B: ISentence[] = [
   {
     id: 239,
     en: "Please renew your certification as soon as possible.",
-    cn: "请尽快更新你的证书。",
+    cn: "请尽快办理资格证书续期。",
     ipa: "/pliːz rɪˈnjuː jɔːr ˌsɜːr.tɪ.fɪˈkeɪ.ʃən æz suːn æz ˈpɒs.ə.bəl/",
     tags: ["第239句", "培训安排", "★★★★★"],
-    when: "提醒证书到期后，给出明确建议——尽快更新证书，确保不影响工作资格。",
+    when: "提醒证书到期后，给出明确建议——尽快办理资格证书续期，确保不影响工作资格。",
     words: [
-      { w: "renew", ipa: "/rɪˈnjuː/", pos: "动词", cn: "更新；续期", memory: "① re- = 再次；② new = 新的 → 再次变新 → 更新/续期。\nrenew 用于证书、合同、订阅等到期后的更新。", phonics: "re 读 /rɪ/，new 读 /ˈnjuː/，重音在第二音节。", collocations: [["renew certification", "更新证书"], ["renew contract", "续订合同"], ["renew subscription", "续订订阅"]], examples: [["Please renew your license.", "请更新你的执照。"], ["I need to renew my passport.", "我需要更新我的护照。"]] },
+      { w: "renew", ipa: "/rɪˈnjuː/", pos: "动词", cn: "续期；续办", memory: "renew 用于证书、执照、合同、订阅等到期后的续期或续办。", phonics: "re 读 /rɪ/，new 读 /ˈnjuː/，重音在第二音节。", collocations: [["renew certification", "办理认证续期"], ["renew a contract", "续签合同"], ["renew a subscription", "续订服务"]], examples: [["Please renew your license.", "请办理执照续期。"], ["I need to renew my passport.", "我需要续办护照。"]] },
       { w: "as soon as possible", ipa: "/æz suːn æz ˈpɒs.ə.bəl/", pos: "副词短语", cn: "尽快", memory: "① as...as = 和…一样；② soon = 快；③ possible = 可能的 → 和可能的一样快 → 尽快。\n常缩写为 ASAP，但口语中用完整表达更正式。", phonics: "as 读 /æz/，soon 读 /suːn/，possible 读 /ˈpɒs.ə.bəl/。", collocations: [["as soon as possible", "尽快"], ["complete ASAP", "尽快完成"], ["reply ASAP", "尽快回复"]], examples: [["Please reply as soon as possible.", "请尽快回复。"], ["Complete the task as soon as possible.", "尽快完成任务。"]] },
     ],
     phrases: [
-      { p: "renew your certification as soon as possible", ipa: "/rɪˈnjuː jɔːr ˌsɜːr.tɪ.fɪˈkeɪ.ʃən æz suːn æz ˈpɒs.ə.bəl/", cn: "尽快更新你的证书", why: "renew = 更新；as soon as possible = 尽快。交接时用此表达强调紧迫性，督促及时更新。" },
+      { p: "renew your certification as soon as possible", ipa: "/rɪˈnjuː jɔːr ˌsɜːr.tɪ.fɪˈkeɪ.ʃən æz suːn æz ˈpɒs.ə.bəl/", cn: "尽快办理资格证书续期", why: "renew 在证书语境中表示办理续期，不只是一般的信息更新。" },
     ],
     grammar: [
-      { q: "renew 和 update 有什么区别？", a: "renew = 更新/续期（到期后重新申请）\nupdate = 更新（内容或版本的更新）\n✅ Renew your certification.（更新证书——到期后续期）\n✅ Update your information.（更新信息——内容更新）\n证书到期用 renew，不是 update。" },
+      { q: "renew 和 update 有什么区别？", a: "renew = 续期或续办（有效期届满前后延长有效性）\nupdate = 更新内容或版本\n✅ Renew your certification.（办理资格认证续期。）\n✅ Update your information.（更新信息。）\n证书到期用 renew，不用 update。" },
     ],
     pattern: "Please renew + 名词 + as soon as possible",
     patternExamples: [
-      { en: "Please renew your license as soon as possible.", cn: "请尽快更新你的执照。", words: [] },
+      { en: "Please renew your license as soon as possible.", cn: "请尽快办理执照续期。", words: [] },
       { en: "Please renew the contract as soon as possible.", cn: "请尽快续订合同。", words: [] },
       { en: "Please renew your subscription as soon as possible.", cn: "请尽快续订订阅。", words: [] },
     ],
-    thinking: "证书更新的建议：\n① 提醒证书到期（238句）→ ② 建议尽快更新（本句）。\n证书过期会影响工作资格，需要及时更新，交接时要明确提醒。",
+    thinking: "证书续期的建议：\n① 提醒证书到期（238句）→ ② 建议尽快续期（本句）。\n证书过期会影响工作资格，需要及时办理续期，交接时要明确提醒。",
     pronunciation: "renew 重音在第二音节：/rɪˈnjuː/。\nas soon as possible 连读：/æz suːn æz ˈpɒs.ə.bəl/。\n节奏：Please re-NEW ｜ your CER-ti-fi-CA-tion ｜ as SOON ｜ as POS-si-ble.",
     quiz: [
-      { q: "请尽快更新你的执照，怎么说？", a: "Please renew your license as soon as possible." },
+      { q: "请尽快办理执照续期，怎么说？", a: "Please renew your license as soon as possible." },
       { q: "renew 和 update 有什么区别？", a: "renew = 续期（到期后重新申请）；update = 更新（内容更新）。证书到期用 renew。" },
     ],
   },

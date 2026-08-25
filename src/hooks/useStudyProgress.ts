@@ -34,6 +34,15 @@ export interface ISentenceQuizAttempt {
   correct: boolean;
 }
 
+export interface ILearningPlan {
+  todayActivities: number;
+  dailyGoal: number;
+  dailyPercent: number;
+  nextSentenceId: number;
+  reinforcementIds: number[];
+  reinforcementCount: number;
+}
+
 export function createEmptyStudyProgress(): IStudyProgress {
   return {
     studiedIds: [],
@@ -53,6 +62,43 @@ export function getLocalDateKey(date = new Date()): string {
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+/** Build an honest, actionable daily plan from recorded learning behaviour. */
+export function buildLearningPlan(
+  progress: IStudyProgress,
+  totalSentences: number,
+  dailyGoal = 20,
+  date = new Date(),
+): ILearningPlan {
+  const safeTotal = Math.max(1, Math.floor(totalSentences));
+  const safeGoal = Math.max(1, Math.floor(dailyGoal));
+  const studied = new Set(normalizeIds(progress.studiedIds).filter(id => id <= safeTotal));
+  const mastered = new Set(normalizeIds(progress.masteredIds).filter(id => id <= safeTotal));
+  let nextSentenceId = 1;
+  while (nextSentenceId <= safeTotal && studied.has(nextSentenceId)) nextSentenceId++;
+  if (nextSentenceId > safeTotal) nextSentenceId = 1;
+
+  const reinforcement = [...studied]
+    .filter(id => !mastered.has(id) || (progress.sentenceResults[id]?.wrong ?? 0) > 0)
+    .sort((a, b) => {
+      const aResult = progress.sentenceResults[a] ?? { correct: 0, wrong: 0, lastReview: '' };
+      const bResult = progress.sentenceResults[b] ?? { correct: 0, wrong: 0, lastReview: '' };
+      const aRate = aResult.wrong / Math.max(1, aResult.correct + aResult.wrong);
+      const bRate = bResult.wrong / Math.max(1, bResult.correct + bResult.wrong);
+      if (aRate !== bRate) return bRate - aRate;
+      return (aResult.lastReview || '').localeCompare(bResult.lastReview || '');
+    });
+  const todayActivities = Math.max(0, progress.dailyLog[getLocalDateKey(date)] || 0);
+
+  return {
+    todayActivities,
+    dailyGoal: safeGoal,
+    dailyPercent: Math.min(100, Math.round((todayActivities / safeGoal) * 100)),
+    nextSentenceId,
+    reinforcementIds: reinforcement.slice(0, 10),
+    reinforcementCount: reinforcement.length,
+  };
 }
 
 function asNonNegativeInt(value: unknown): number {

@@ -154,9 +154,9 @@ export const MOCK_SENTENCES_PART4B: ISentence[] = [
   },
   {
     id: 111,
-    en: "Please update the latest progress in every ticket.",
+    en: "Please update each ticket with the latest progress.",
     cn: "请更新每张工单的最新处理进展。",
-    ipa: "/pliːz ˌʌpˈdeɪt ðə ˈleɪ.tɪst ˈprɒɡ.rɛs ɪn ˈɛv.ri ˈtɪk.ɪt/",
+    ipa: "/pliːz ˌʌpˈdeɪt iːtʃ ˈtɪk.ɪt wɪð ðə ˈleɪ.tɪst ˈprɒɡ.rɛs/",
     tags: ["第111句", "工单更新", "★★★★★"],
     when: "交班前最重要的动作之一——确保每张工单都有最新的处理进展记录。这是交接质量的关键，下一班需要通过工单记录了解当前状态。",
     words: [
@@ -165,20 +165,20 @@ export const MOCK_SENTENCES_PART4B: ISentence[] = [
       { w: "progress", ipa: "/ˈprɒɡ.rɛs/", pos: "名词", cn: "进展；进度", memory: "① pro = 向前；② gress = 走（= grade/step）。\nprogress = 向前走 → 进展/进度。", phonics: "prog 读 /prɒɡ/，ress 读 /rɛs/，重音在第一音节。注意英式读 /ˈprɒɡ.rɛs/，美式读 /ˈprɑː.ɡrɛs/。", collocations: [["make progress", "取得进展"], ["progress report", "进度报告"], ["work in progress", "进行中的工作"]], examples: [["What's the progress?", "进展如何？"], ["No progress yet.", "还没有进展。"]] },
     ],
     phrases: [
-      { p: "update the latest progress", ipa: "/ˌʌpˈdeɪt ðə ˈleɪ.tɪst ˈprɒɡ.rɛs/", cn: "更新最新进展", why: "update = 更新，latest = 最新的，progress = 进展。交接前必须确保每张工单都写入了本班次的处理进展。" },
-      { p: "in every ticket", ipa: "/ɪn ˈɛv.ri ˈtɪk.ɪt/", cn: "在每张工单中", why: "every = 每一张，ticket = 工单。强调「所有工单都要更新」，不能遗漏。" },
+      { p: "update each ticket with", ipa: "/ˌʌpˈdeɪt iːtʃ ˈtɪk.ɪt wɪð/", cn: "把……更新到每张工单中", why: "update + 对象 + with + 新内容，是表达“用最新信息更新某个记录”的自然结构。" },
+      { p: "the latest progress", ipa: "/ðə ˈleɪ.tɪst ˈprɒɡ.rɛs/", cn: "最新进展", why: "指截至交班时的最新处理状态和已完成行动。" },
     ],
     grammar: [
       { q: "update 后面接什么？", a: "update + 名词（直接宾语）：\n✅ update the ticket（更新工单）\n✅ update the progress（更新进展）\n✅ update the status（更新状态）\n\nupdate + 名词 + in/on + 位置：\n✅ update the progress in the ticket（在工单中更新进展）\n✅ update the information on the dashboard（在仪表盘上更新信息）" },
     ],
-    pattern: "Please update + 内容 + in/on + 位置",
+    pattern: "Please update + 记录/系统 + with + 最新内容",
     patternExamples: [
       { en: "Please update the status in DCIM.", cn: "请在DCIM中更新状态。", words: [{ w: "update", ipa: "/ʌpˈdeɪt/", cn: "更新", phonics: "up 读 /ʌp/，date 读 /deɪt/" }, { w: "status", ipa: "/ˈstætəs/", cn: "状态", phonics: "sta 读 /ˈstæ/，tus 读 /təs/" }] },
       { en: "Please update the notes in the log.", cn: "请在日志中更新备注。", words: [{ w: "update", ipa: "/ʌpˈdeɪt/", cn: "更新", phonics: "up 读 /ʌp/，date 读 /deɪt/" }] },
       { en: "Please update the contact info on the board.", cn: "请在看板上更新联系人信息。", words: [{ w: "update", ipa: "/ʌpˈdeɪt/", cn: "更新", phonics: "up 读 /ʌp/，date 读 /deɪt/" }, { w: "contact", ipa: "/ˈkɒntækt/", cn: "联系", phonics: "con 读 /kɒn/，tact 读 /tækt/" }] },
     ],
-    thinking: "工单更新是交班前最重要的动作之一。\n下一班值班人员通过工单记录了解当前状态，如果工单没更新 = 下一班不知道发生了什么。\n交接时提醒 update the latest progress = 确保信息传递完整，不留盲区。",
-    pronunciation: "update 第二音节重读：up-DATE /ˌʌpˈdeɪt/。\nlatest 第一音节重读：LA-test /ˈleɪ.tɪst/。\nprogress 第一音节重读：PROG-ress /ˈprɒɡ.rɛs/。\n节奏：Please UP-DATE ｜ the LA-test ｜ PROG-ress ｜ in EV-ery TICK-et.",
+    thinking: "工单更新是交班前最重要的动作之一。\n下一班通过工单记录了解当前状态、已完成行动和下一步计划。\nupdate each ticket with the latest progress 明确表示每张工单都要写入最新进展，不能遗漏。",
+    pronunciation: "update 第二音节重读：up-DATE /ˌʌpˈdeɪt/。\neach ticket 连读时注意清楚发出 /tʃ/ 和 /t/。\nprogress 第一音节重读：PROG-ress。\n节奏：Please UP-DATE ｜ each TICK-et ｜ with the LA-test PROG-ress.",
     quiz: [
       { q: "「请在DCIM中更新状态」怎么说？", a: "Please update the status in DCIM." },
       { q: "为什么交班前必须更新工单？", a: "因为工单是值班记录的载体。下一班人员通过工单了解当前状态、已采取的措施和待办事项。如果工单没更新，信息链断裂，可能导致处理延误或重复操作。" },

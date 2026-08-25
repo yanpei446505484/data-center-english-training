@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+  buildLearningPlan,
+  createEmptyStudyProgress,
   loadStudyProgress,
   recordFlashcardResult,
   recordQuizResult,
@@ -58,5 +60,23 @@ describe('unified study progress', () => {
     expect(progress.dailyLog['2026-08-24']).toBe(1);
     expect(progress.dailyLog['2026-08-25']).toBe(1);
     expect(progress.streak).toBe(2);
+  });
+
+  it('builds a daily plan with the next new sentence and weak-item priority', () => {
+    const progress = createEmptyStudyProgress();
+    progress.studiedIds = [1, 2, 4];
+    progress.masteredIds = [1];
+    progress.dailyLog['2026-08-25'] = 6;
+    progress.sentenceResults = {
+      2: { correct: 1, wrong: 3, lastReview: '2026-08-25T08:00:00.000Z' },
+      4: { correct: 2, wrong: 1, lastReview: '2026-08-24T08:00:00.000Z' },
+    };
+
+    const plan = buildLearningPlan(progress, 10, 20, new Date(2026, 7, 25, 9, 30));
+    expect(plan.nextSentenceId).toBe(3);
+    expect(plan.todayActivities).toBe(6);
+    expect(plan.dailyPercent).toBe(30);
+    expect(plan.reinforcementIds).toEqual([2, 4]);
+    expect(plan.reinforcementCount).toBe(2);
   });
 });

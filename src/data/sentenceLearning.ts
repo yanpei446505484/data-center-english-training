@@ -367,25 +367,25 @@ const RAW_MOCK_SENTENCES: any[] = [
     thinking: "这句和上一句（32）结构完全一样：数字 + of them + are + 分类。\n掌握了这个句型，你可以快速报出任何分类的数量。这是交接班中最高频的句式之一。",
     pronunciation: "warning 重音在第一音节：WAR-ning。\nalarms 的 s 读 /z/。\n节奏：FIVE of them ｜ are WAR-ning ｜ ALARMS.",
     quiz: [
-      { q: "其中8条是信息告警，怎么说？", a: "Eight of them are information alarms." },
+      { q: "其中8条是信息告警，怎么说？", a: "Eight of them are informational alarms." },
       { q: "warn 和 warning 分别是什么词性？", a: "warn 是动词（警告），warning 是名词或形容词（警告/警告的）。" },
     ],
   },
   {
     id: 34,
-    en: "Three of them are information alarms.",
+    en: "Three of them are informational alarms.",
     cn: "其中3条是信息提示告警。",
-    ipa: "/θriː ɒv ðɛm ɑːr ˌɪn.fəˈmeɪ.ʃən əˈlɑːmz/",
+    ipa: "/θriː ɒv ðɛm ɑːr ˌɪn.fəˈmeɪ.ʃən.əl əˈlɑːmz/",
     tags: ["第34句", "信息级别", "★★★★"],
     when: "完成告警分类汇报的最后一条。Info 是最低级别，通常只是系统提示，不需要立即处理。",
     words: [
-      { w: "information", ipa: "/ˌɪn.fəˈmeɪ.ʃən/", pos: "名词", cn: "信息；资讯", memory: "① inform = 通知/告知；② inform + ation = 被通知的内容 → information。\n缩写 info 更口语化。", phonics: "in 读 /ɪn/，for 读 /fə/，ma 读 /meɪ/，tion 读 /ʃən/，重音在第三音节。", collocations: [["information alarm", "信息告警"], ["for your information", "供你参考"], ["information desk", "问询处"]], examples: [["This is just information.", "这只是提示信息。"], ["For your information, the UPS is fine.", "告诉你一下，UPS没问题。"]] },
+      { w: "informational", ipa: "/ˌɪn.fəˈmeɪ.ʃən.əl/", pos: "形容词", cn: "信息性的；提示性的", memory: "information 是名词；informational 是形容词。\ninformational alarm = 信息提示类告警。界面标签也常简写为 info alarm。", phonics: "in-for-MA-tion-al，重音在 MA。", collocations: [["informational alarm", "信息提示告警"], ["informational message", "提示信息"], ["informational notice", "提示性通知"]], examples: [["This is only an informational alarm.", "这只是一条信息提示告警。"], ["No action is required for this informational message.", "这条提示信息无需处理。"]] },
     ],
     phrases: [
-      { p: "information alarms", ipa: "/ˌɪn.fəˈmeɪ.ʃən əˈlɑːmz/", cn: "信息提示告警", why: "information 级别是告警分类中最低的一级，只是系统通知，通常无需操作。" },
+      { p: "informational alarms", ipa: "/ˌɪn.fəˈmeɪ.ʃən.əl əˈlɑːmz/", cn: "信息提示告警", why: "informational 是形容词，用于说明告警属于信息提示级别；系统界面上也常写作 info alarms。" },
     ],
     grammar: [
-      { q: "information 可以数吗？", a: "information 是不可数名词，不能加 s。\n✅ This is useful information.（这是有用的信息。）\n❌ These are informations.（错）\n但 information alarms 可以数，因为 alarms 是可数的。" },
+      { q: "information 和 informational 有什么区别？", a: "information 是不可数名词，表示“信息”；informational 是形容词，表示“信息性的、提示性的”。\n✅ This is useful information.（这是有用的信息。）\n✅ This is an informational alarm.（这是一条信息提示告警。）" },
     ],
     pattern: "数字 + of them + are + 类型 + 名词",
     patternExamples: [
@@ -394,10 +394,10 @@ const RAW_MOCK_SENTENCES: any[] = [
       { en: "One of them is a network alert.", cn: "其中1个是网络告警。", words: [{ w: "network", ipa: "/ˈnɛtwɜːrk/", cn: "网络", phonics: "net 读 /nɛt/，work 读 /wɜːrk/" }] },
     ],
     thinking: "三句话（32、33、34）合在一起就是完整的告警分类汇报：\nCritical: 2 → Warning: 5 → Info: 3 → 总计 10。\n交接时按严重→警告→信息的顺序汇报，体现优先级思维。",
-    pronunciation: "information 很长（5个音节），重音在 ma：in-for-MA-tion。\nthree 的 th 读 /θ/，舌尖轻触上齿。\n节奏：THREE of them ｜ are in-for-MA-tion ｜ ALARMS.",
+    pronunciation: "informational 有5个音节，重音在 MA：in-for-MA-tion-al。\nthree 的 th 读 /θ/，舌尖轻触上齿。\n节奏：THREE of them ｜ are in-for-MA-tion-al ｜ ALARMS.",
     quiz: [
       { q: "如何用英语完整汇报10条告警的分类？", a: "There are ten active alarms. Two of them are critical. Five of them are warning. Three of them are information." },
-      { q: "information 能加 s 吗？", a: "不能，information 是不可数名词。但 information alarms 可以数，因为 alarms 可数。" },
+      { q: "为什么这里用 informational？", a: "因为 alarms 前需要形容词作定语。informational 表示“信息提示级别的”；系统界面上也常简写为 info。" },
     ],
   },
   // ── Section 2: 严重告警处理 (35-40) ──
@@ -1012,20 +1012,20 @@ const RAW_MOCK_SENTENCES: any[] = [
   },
   {
     id: 55,
-    en: "The alarm disappeared automatically.",
+    en: "The alarm cleared automatically.",
     cn: "这个告警自动恢复了。",
-    ipa: "/ði əˈlɑːm ˌdɪs.əˈpɪəd ˌɔː.təˈmæt.ɪk.li/",
+    ipa: "/ði əˈlɑːm klɪəd ˌɔː.təˈmæt.ɪk.li/",
     tags: ["第55句", "告警恢复", "★★★★"],
     when: "描述告警的恢复方式——没有人手动操作，告警自己消失了。",
     words: [
-      { w: "disappeared", ipa: "/ˌdɪs.əˈpɪəd/", pos: "动词过去式", cn: "消失了", memory: "① dis = 不/消失；② appear = 出现；③ disappear = 消失。\n告警 disappeared = 告警不见了/自动恢复了。", phonics: "dis 读 /dɪs/，ap 读 /ə/，pear 读 /pɪə/。", collocations: [["disappeared automatically", "自动消失了"], ["alarm disappeared", "告警消失了"], ["suddenly disappeared", "突然消失了"]], examples: [["The alarm disappeared at 9 AM.", "告警在9点消失了。"], ["The error disappeared after restart.", "重启后错误消失了。"]] },
+      { w: "cleared", ipa: "/klɪəd/", pos: "动词过去式", cn: "恢复了；清除了", memory: "在告警语境中，clear 表示触发条件消失、告警恢复。\nThe alarm cleared = 告警恢复了。", phonics: "clear 读 /klɪə/，过去式结尾读 /d/。", collocations: [["alarm cleared", "告警恢复"], ["cleared automatically", "自动恢复"], ["fault cleared", "故障消除"]], examples: [["The alarm cleared at 9 AM.", "告警在上午9点恢复。"], ["The fault cleared after the restart.", "重启后故障消除了。"]] },
       { w: "automatically", ipa: "/ˌɔː.təˈmæt.ɪk.li/", pos: "副词", cn: "自动地", memory: "① auto = 自动；② automatic = 自动的（形容词）；③ automatically = 自动地（副词）。", phonics: "au-to-MAT-i-cal-ly，重音在第三音节。", collocations: [["automatically recovered", "自动恢复了"], ["automatically cleared", "自动清除了"], ["restart automatically", "自动重启"]], examples: [["The system recovered automatically.", "系统自动恢复了。"], ["The alarm cleared automatically.", "告警自动清除了。"]] },
     ],
     phrases: [
-      { p: "disappeared automatically", ipa: "/ˌdɪs.əˈpɪəd ˌɔː.təˈmæt.ɪk.li/", cn: "自动消失了", why: "automatically 修饰 disappeared，说明告警恢复的方式是自动的，不是人工操作的。" },
+      { p: "cleared automatically", ipa: "/klɪəd ˌɔː.təˈmæt.ɪk.li/", cn: "自动恢复", why: "clear 是告警场景中的专业动词；automatically 表示未经过人工操作，触发条件自行恢复正常。" },
     ],
     grammar: [
-      { q: "为什么用过去式 disappeared 而不是 has disappeared？", a: "这里用过去式是因为在描述一个过去发生的具体事件（告警消失了那一刻）。\n如果要强调对现在的影响（现在不响了），用 has disappeared。\n✅ The alarm disappeared at 9 AM.（过去式——9点消失的。）\n✅ The alarm has disappeared.（现在完成时——现在不响了。）" },
+      { q: "The alarm cleared 和 was cleared 有什么区别？", a: "The alarm cleared 表示告警触发条件自行消失，强调状态恢复。The alarm was cleared 表示告警被人员或系统执行了清除操作。\n✅ The alarm cleared automatically.（告警自动恢复。）\n✅ The alarm was cleared by the operator.（告警由操作员清除。）" },
     ],
     pattern: "主语 + 动词过去式 + 副词",
     patternExamples: [
@@ -1033,41 +1033,40 @@ const RAW_MOCK_SENTENCES: any[] = [
       { en: "The alarm cleared immediately.", cn: "告警立即清除了。", words: [{ w: "alarm", ipa: "/əˈlɑːrm/", cn: "告警", phonics: "a 读 /ə/，larm 读 /lɑːrm/" }, { w: "cleared", ipa: "/klɪər/", cn: "恢复", phonics: "clear 读 /klɪər/" }, { w: "immediately", ipa: "/ɪˈmiːdiətli/", cn: "立即", phonics: "im 读 /ɪ/，mediately 读 /miːdiətli/" }] },
       { en: "The UPS switched automatically.", cn: "UPS自动切换了。", words: [{ w: "ups", ipa: "/ˌjuːˈpiːˈɛs/", cn: "不间断电源", phonics: "U-P-S 逐字母读" }, { w: "switched", ipa: "/swɪtʃ/", cn: "开关", phonics: "switch 读 /swɪtʃ/" }] },
     ],
-    thinking: "automatically disappeared 说明告警是「自愈」的——没有人工干预。\n这在交接中是一个重要信号：自动恢复的告警可能会再次出现（不像手动修复那样稳定）。",
-    pronunciation: "disappeared 重音在第三音节：dis-a-PEARED。\nautomatically 重音在 MAT：au-to-MAT-i-cal-ly。\n节奏：The alarm ｜ dis-a-PEARED ｜ au-to-MAT-i-cal-ly.",
+    thinking: "cleared automatically 表示告警触发条件自行恢复，没有人工干预。\n这在交接中是一个重要信号：告警虽然恢复，但根因可能仍然存在，因此仍要观察是否复发。",
+    pronunciation: "cleared 读 /klɪəd/，结尾是 /d/，不要读成两个音节。\nautomatically 重音在 MAT：au-to-MAT-i-cal-ly。\n节奏：The ALARM ｜ CLEARED ｜ au-to-MAT-i-cal-ly.",
     quiz: [
       { q: "系统自动恢复了，怎么说？", a: "The system recovered automatically." },
-      { q: "disappeared 和 has disappeared 的区别？", a: "disappeared 是过去式，描述过去发生的事件；has disappeared 是现在完成时，强调对现在的影响。" },
+      { q: "告警自动恢复，怎么说？", a: "The alarm cleared automatically." },
     ],
   },
   {
     id: 56,
-    en: "The alarm came back again.",
-    cn: "这个告警又再次出现了。",
-    ipa: "/ði əˈlɑːm keɪm bæk əˈɡɛn/",
+    en: "The alarm came back.",
+    cn: "这个告警又出现了。",
+    ipa: "/ði əˈlɑːm keɪm bæk/",
     tags: ["第56句", "告警复发", "★★★★★"],
     when: "描述告警恢复后又重新触发，说明问题没有根本解决，是反复性问题。",
     words: [
-      { w: "came back", ipa: "/keɪm bæk/", pos: "动词短语", cn: "回来了；再次出现", memory: "① come = 来；② back = 回来；③ come back = 回来。\ncame 是 come 的过去式。came back again = 又回来了。", phonics: "came 读 /keɪm/，back 读 /bæk/。", collocations: [["came back again", "又回来了"], ["alarm came back", "告警又出现了"], ["problem came back", "问题又出现了"]], examples: [["The alarm came back after 10 minutes.", "告警10分钟后又出现了。"], ["The issue came back again.", "问题又再次出现了。"]] },
-      { w: "again", ipa: "/əˈɡɛn/", pos: "副词", cn: "再次", memory: "① again = 再次/又。\ncame back again = 又回来了（强调重复）。", phonics: "a 读 /ə/，gain 读 /ɡɛn/。", collocations: [["came back again", "又回来了"], ["try again", "再试一次"], ["once again", "再一次"]], examples: [["It happened again.", "又发生了。"], ["Please check again.", "请再检查一次。"]] },
+      { w: "came back", ipa: "/keɪm bæk/", pos: "动词短语", cn: "又出现了；恢复后再次发生", memory: "come back 表示回来。用于告警或故障时，表示恢复后再次出现。came 是 come 的过去式。", phonics: "came 读 /keɪm/，back 读 /bæk/。", collocations: [["alarm came back", "告警又出现了"], ["problem came back", "问题又出现了"], ["came back after the reset", "复位后又出现了"]], examples: [["The alarm came back after 10 minutes.", "告警10分钟后又出现了。"], ["The issue came back after the restart.", "问题在重启后又出现了。"]] },
     ],
     phrases: [
-      { p: "came back again", ipa: "/keɪm bæk əˈɡɛn/", cn: "又再次出现", why: "came back 已经表示「回来」，再加 again 强调「又一次」，突出反复性。" },
+      { p: "came back", ipa: "/keɪm bæk/", cn: "又出现了", why: "用于告警或问题时，came back 自身已经包含“恢复后再次出现”的意思，口语中自然简洁。" },
     ],
     grammar: [
-      { q: "came back again 不是重复表达吗？", a: "语法上 came back 已经表示「回来」，again 看起来多余。但在口语中 again 加强语气，强调「不止一次」。\n✅ The alarm came back.（告警回来了。）\n✅ The alarm came back again.（告警又回来了！——强调又发生。）\n正式报告中可以只用 came back。" },
+      { q: "came back 和 recurred 有什么区别？", a: "came back 是自然口语，适合交接班对话；recurred 更正式，常用于事件报告或RCA。\n✅ The alarm came back.（告警又出现了。）\n✅ The alarm recurred at 2 PM.（告警在下午2点复发。）" },
     ],
-    pattern: "主语 + came back + again + 时间",
+    pattern: "主语 + came back + 时间",
     patternExamples: [
       { en: "The error came back after the restart.", cn: "重启后错误又出现了。", words: [{ w: "restart", ipa: "/riːˈstɑːrt/", cn: "重启", phonics: "re 读 /riː/，start 读 /stɑːrt/" }] },
-      { en: "The alarm came back again at 2 PM.", cn: "告警下午2点又出现了。", words: [{ w: "alarm", ipa: "/əˈlɑːrm/", cn: "告警", phonics: "a 读 /ə/，larm 读 /lɑːrm/" }] },
+      { en: "The alarm came back at 2 PM.", cn: "告警下午2点又出现了。", words: [{ w: "alarm", ipa: "/əˈlɑːrm/", cn: "告警", phonics: "a 读 /ə/，larm 读 /lɑːrm/" }] },
       { en: "The issue came back the next day.", cn: "问题第二天又出现了。", words: [{ w: "issue", ipa: "/ˈɪʃuː/", cn: "问题", phonics: "is 读 /ɪ/，sue 读 /ʃuː/" }] },
     ],
-    thinking: "告警「消失又出现」是交接中非常关键的信息——说明问题没有根本解决。\n55 和 56 句连在一起：The alarm disappeared automatically. The alarm came back again.\n自动消失 → 又出现 = 反复性问题 → 需要更深入排查。",
-    pronunciation: "came back 的 e 不发音，读 /keɪm/。\nagain 读 /əˈɡɛn/（英式）或 /əˈɡeɪn/（美式）。\n节奏：The alarm ｜ CAME BACK ｜ a-GAIN.",
+    thinking: "告警恢复后又出现，是交接中非常关键的信息，说明根因可能没有消除。\n第55和56句连起来：The alarm cleared automatically. The alarm came back.\n自动恢复 → 再次出现 = 反复性问题 → 需要进一步排查。",
+    pronunciation: "came 的 e 不发音，读 /keɪm/；back 读 /bæk/。\n节奏：The ALARM ｜ CAME BACK.",
     quiz: [
       { q: "问题重启后又出现了，怎么说？", a: "The issue came back after the restart." },
-      { q: "came back 和 came back again 有区别吗？", a: "came back = 回来了；came back again = 又回来了（again 加强语气，强调反复性）。" },
+      { q: "正式报告中如何表达“告警复发”？", a: "The alarm recurred. 口头交接时可说 The alarm came back." },
     ],
   },
   {
